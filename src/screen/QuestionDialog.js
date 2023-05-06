@@ -55,6 +55,13 @@ export const QuestionDialog = (props) => {
     }
 
     const onAddButtonClicked = () => {
+
+        if (textAreaValue === "" || textAreaValue === undefined) {
+            alert("내용을 입력해주세요.")
+            return;
+        }
+
+
         createQuestionReply(id,textAreaValue)
             .then(()=> {
                 alert("답변이 추가되었습니다.")
@@ -67,6 +74,10 @@ export const QuestionDialog = (props) => {
 
     const onUpdateModeButtonClicked = () => {
         if(mode === "EDIT"){
+            if(textAreaValue === data.questionReplyResponse.replyContent){
+                alert("내용을 변경해주세요.")
+                return;
+            }
 
             updateQuestionReply(data.questionReplyResponse.replyId,textAreaValue)
                 .then(() => {

@@ -46,6 +46,4 @@ export const deleteQuestionReply = (id) => {
             "X-Role": "ADMIN"
         }
     })
-        .then(r => alert("삭제되었습니다."))
-        .catch(err => console.error(err));
 }
