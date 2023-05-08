@@ -1,19 +1,32 @@
-import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
+import {Box, Container, Unstable_Grid2 as Grid} from "@mui/material";
 import SideNav from "./component/common/side-nav/SideNav";
-import { subDays, subHours } from "date-fns";
-import { MainContainer } from "./component/main/MainComponent";
-import { OverviewBudget } from "./component/main/section/OverviewBudget";
-import { OverviewTotalCustomers } from "./component/main/section/OverviewTotalCustomers";
-import { OverviewTotalProfit } from "./component/main/section/OverviewTotalProfit";
-import { OverviewTasksProgress } from "./component/main/section/OverviewTasksProgress";
-import { OverviewSales } from "./component/main/section/OverviewSales";
-import { OverviewTraffic } from "./component/main/section/OverviewTraffic";
-import { OverviewLatestProducts } from "./component/main/section/OverviewLatestProducts";
-import { OverviewLatestOrders } from "./component/main/section/OverviewLatestOrders";
+import {subDays, subHours} from "date-fns";
+import {MainContainer} from "./component/main/MainComponent";
+import {OverviewBudget} from "./component/main/section/OverviewBudget";
+import {OverviewTotalCustomers} from "./component/main/section/OverviewTotalCustomers";
+import {OverviewTotalProfit} from "./component/main/section/OverviewTotalProfit";
+import {OverviewTasksProgress} from "./component/main/section/OverviewTasksProgress";
+import {OverviewSales} from "./component/main/section/OverviewSales";
+import {OverviewTraffic} from "./component/main/section/OverviewTraffic";
+import {OverviewLatestProducts} from "./component/main/section/OverviewLatestProducts";
+import {OverviewLatestOrders} from "./component/main/section/OverviewLatestOrders";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../constants/token";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {refresh} from "../axios/login";
 
 const now = new Date();
 
 const Main = () => {
+    let navigate = useNavigate();
+    useEffect(() => {
+        if(sessionStorage.getItem(ACCESS_TOKEN) == null && localStorage.getItem(REFRESH_TOKEN) != null){
+            refresh()
+        }else if(sessionStorage.getItem(ACCESS_TOKEN) == null && localStorage.getItem(REFRESH_TOKEN) == null){
+            navigate('/login');
+        }
+    },[])
+
   return (
     <MainContainer>
       <SideNav />
