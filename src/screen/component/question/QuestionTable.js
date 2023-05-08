@@ -1,14 +1,14 @@
 import {Box, Button, Card, Stack, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 import styled from 'styled-components';
 import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/20/solid";
-import {convertQuestionStatus} from "../utils";
+import {convertQuestionStatus} from "../../../utils";
 import {
     MediumTableCell, PointeredRow,
     QuestionTableCell,
     QuestionTableHeader,
     QuestionTableWrapper,
     SmallTableCell
-} from "./component/question";
+} from "./index";
 
 
 export const QuestionTable = (props) => {
