@@ -1,49 +1,47 @@
 import axios from "axios";
+import request from "./axios";
 
 export const getQuestionList = async (page) => {
-    return axios.get(`http://localhost:8080/all-questions?page=${page}&size=10`,{
+    return request.get(`/admin/questions?page=${page}&size=10`,{
         headers : {
-            "X_Role" : "ADMIN"
+            "Authorization": sessionStorage.getItem("ACCESS_TOKEN")
         }
     })
 }
 export const getQuestionDetail = async (id) => {
-    return axios.get(`http://localhost:8080/questions/${id}`, {
+    return request.get(`/admin/questions/${id}`, {
         headers: {
-            "Authorization": localStorage.getItem("ACCESS_TOKEN")
+            "Authorization": sessionStorage.getItem("ACCESS_TOKEN")
         }
     })
 }
 
 
 export const createQuestionReply = (id,content) => {
-    return axios.post(`http://localhost:8080/questionReplies`, {
+    return request.post(`/admin/questionReplies`, {
         questionId: id,
         content
     }, {
         headers: {
-            Authorization: "ADMIN-001",
-            "X-Role": "ADMIN"
+            "Authorization": sessionStorage.getItem("ACCESS_TOKEN")
         }
     })
 }
 
 export const updateQuestionReply  = (id, content) => {
-    return axios.put(`http://localhost:8080/questionReplies/${id}`,{
+    return request.put(`/admin/questionReplies/${id}`,{
         content
     }, {
         headers: {
-            Authorization: "ADMIN-001",
-            "X_Role": "ADMIN"
+            "Authorization": sessionStorage.getItem("ACCESS_TOKEN")
         }
     })
 }
 
 export const deleteQuestionReply = (id) => {
-    return axios.delete(`http://localhost:8080/questionReplies/${id}`,{
+    return request.delete(`/admin/questionReplies/${id}`,{
         headers: {
-            Authorization: "ADMIN-001",
-            "X-Role": "ADMIN"
+            "Authorization": sessionStorage.getItem("ACCESS_TOKEN")
         }
     })
 }
