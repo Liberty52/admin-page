@@ -1,9 +1,9 @@
 import {MainContainer} from "./component/main/MainComponent";
 import SideNav from "./component/common/side-nav/SideNav";
 import {Box, Container, Stack, Typography} from "@mui/material";
-import {QuestionTable} from "./component/question/QuestionTable";
+import {QuestionTable} from "../component/question/QuestionTable";
 import {useCallback, useEffect, useState} from "react";
-import {QuestionDialog} from "./component/question/QuestionDialog";
+import {QuestionDialog} from "../component/question/QuestionDialog";
 import {getQuestionList} from "../axios/Question";
 
 export default function Question() {

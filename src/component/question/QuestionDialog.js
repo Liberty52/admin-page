@@ -1,9 +1,9 @@
 import {Button, Card, Dialog, DialogActions, DialogTitle, Stack} from "@mui/material";
 import {useEffect, useState} from "react";
-import {createQuestionReply, deleteQuestionReply, getQuestionDetail, updateQuestionReply} from "../../../axios/Question";
+import {createQuestionReply, deleteQuestionReply, getQuestionDetail, updateQuestionReply} from "../../axios/Question";
 import {Editor} from "@toast-ui/editor";
 import styled from "styled-components";
-import {convertQuestionStatus} from "../../../utils";
+import {convertQuestionStatus} from "../../utils";
 import {Textarea} from "@mui/joy";
 import {QuestionDetailTitle, QuestionDialogTitle} from "./index";
 
