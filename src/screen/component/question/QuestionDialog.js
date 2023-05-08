@@ -60,6 +60,10 @@ export const QuestionDialog = (props) => {
             alert("내용을 입력해주세요.")
             return;
         }
+        if(textAreaValue.length > 1000){
+            alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)")
+            return;
+        }
 
 
         createQuestionReply(id,textAreaValue)
@@ -76,6 +80,11 @@ export const QuestionDialog = (props) => {
         if(mode === "EDIT"){
             if(textAreaValue === data.questionReplyResponse.replyContent){
                 alert("내용을 변경해주세요.")
+                return;
+            }
+
+            if(textAreaValue.length > 1000){
+                alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)")
                 return;
             }
 
