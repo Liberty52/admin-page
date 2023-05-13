@@ -1,10 +1,10 @@
 import request from "./axios";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../constants/token";
-import {TOKEN_REFRESH} from "../constants/api";
+import {LOGIN, TOKEN_REFRESH} from "../constants/api";
 
 export function post(dto, checked) {
     request
-        .post('/auth/login', JSON.stringify(dto), {
+        .post(LOGIN(), JSON.stringify(dto), {
             headers: {
                 'Content-Type': `application/json`,
             },
@@ -35,6 +35,9 @@ export function refresh(){
     ).then(res => {
         sessionStorage.setItem(ACCESS_TOKEN, res.headers.access);
         localStorage.setItem(REFRESH_TOKEN, res.headers.refresh)
+    }).catch(() => {
+        sessionStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN)
     })
 
 

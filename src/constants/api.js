@@ -6,3 +6,4 @@ export const UPDATE_QUESTION_REPLY = (id) => `/admin/questionReplies/${id}`
 export const UPLOAD_IMAGE = ()=>`/auth/questions/img`;
 
 export const TOKEN_REFRESH = () => `/auth/refresh`;
+export const LOGIN = () => `/admin/login`

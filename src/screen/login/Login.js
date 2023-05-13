@@ -27,7 +27,7 @@ function LoginForm() {
                 const password = event.target.password.value;
                 const checked = event.target.checkbox.checked;
                 const dto = {
-                    email: email,
+                    id: email,
                     password: password,
                 };
                 post(dto, checked);
