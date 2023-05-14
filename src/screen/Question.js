@@ -15,6 +15,7 @@ export default function Question() {
     const [isChanged, setIsChanged] = useState(false);
 
     function retrieveQuestionList() {
+        
         getQuestionList(page)
             .then(res => {
                 setData(res.data)
