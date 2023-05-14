@@ -18,21 +18,25 @@ request.interceptors.response.use(
                     alert("인증 토큰이 만료되었습니다. 다시 로그인 후 이용해주세요.")
                     return Promise.reject(error);
                 }
-                // token refresh 요청
-                const  response  = await request.get(
-                    TOKEN_REFRESH(), // token refresh api
-                    {
-                        headers : {
-                            "LB-RefreshToken" : refreshToken
-                        },
-                    }
-                );
-                sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
-                localStorage.setItem(REFRESH_TOKEN, response.headers.refresh)
-
-                originalRequest.headers.Authorization = `${response.headers.access}`;
-                // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
-                return request(originalRequest);
+                try{
+                    const  response  = await request.get(
+                        TOKEN_REFRESH(), // token refresh api
+                        {
+                            headers : {
+                                "LB-RefreshToken" : refreshToken
+                            },
+                        }
+                    );
+                    sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
+                    localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
+                    originalRequest.headers.Authorization = `${response.headers.access}`;
+                    // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
+                    return request(originalRequest);
+                }catch (e){
+                    sessionStorage.removeItem(ACCESS_TOKEN);
+                    localStorage.removeItem(REFRESH_TOKEN)
+                    alert("다시 로그인해주세요")
+                }
             }
         }
         return Promise.reject(error);

@@ -4,6 +4,7 @@ import Question from "./screen/Question";
 import Orders from "./screen/orders/Orders";
 import OrderDetail from "./screen/orders/OrderDetail";
 import "./App.css";
+import Login from "./screen/login/Login";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<Main />} />
+          <Route path={"/login"} element={<Login />} />
         <Route path={"/question"} element={<Question />} />
         <Route path={"/orders"} element={<Orders />} />
         <Route path={"/orders/order"} element={<OrderDetail />} />
