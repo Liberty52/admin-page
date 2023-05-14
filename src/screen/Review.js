@@ -2,7 +2,8 @@ import SideNav from "./component/common/side-nav/SideNav";
 import { MainContainer } from "./component/main/MainComponent";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import ReviewTable from "./ReviewTable";
+import ReviewTable from "../component/review/ReviewTable";
+import ReviewDialog from "../component/review/ReviewDialog";
 import { getReviewList } from "../axios/Review";
 
 export default function Review() {
@@ -65,6 +66,7 @@ export default function Review() {
           </Stack>
         </Container>
       </Box>
+      {/* <ReviewDialog isChanged={setIsChanged}  open={open} /> */}
     </MainContainer>
   );
 }
