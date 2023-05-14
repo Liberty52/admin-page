@@ -2,14 +2,14 @@ import { MainContainer } from "../component/main/MainComponent";
 import SideNav from "../component/common/side-nav/SideNav";
 import './Orders.css';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchOrders } from '../../axios/Orders';
+
 
 ////////////////////////////
 function Border(){
-  return <div className="border"></div>;
+  return <div className="OrderBorder"></div>;
 }
-
-
 ///////////////////////////
 
 function OrderTop() {
@@ -40,6 +40,7 @@ function OrderBotton() {
   );
 }
 /////////////////////
+
 function OrderInquiry() {
   return (
     <div className="Order-Inquiry-wrapper">
@@ -65,40 +66,42 @@ function OrderSelect() {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalLastPage, setTotalLastPage] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchOrders(currentPage, 10);
       if (data) {
         setOrders(data.orders);
-        setCurrentPage(data.currentPage);
         setTotalLastPage(data.totalLastPage);
       }
     };
 
     fetchData();
   }, [currentPage]);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handleOrderClick = (orderId) => {
+    navigate(`/order/${orderId}`);
   };
+
+
   return (
     <div className="order-select">
       {orders.length > 0 ? (
         orders.map((order) => (
-          <div key={order.orderId}>
-            <h2>{order.productName}</h2>
-            <p>{order.customerName}</p>
+          <button className="order-select-detail" key={order.orderId} onClick={() => handleOrderClick(order.orderId)}>
+            <p>{order.orderNumber}</p>
             <p>{order.orderDate}</p>
+            <p>{order.productName}</p>
             <p>{order.orderStatus}</p>
-          </div>
+            <p>{order.customerName}</p>
+          </button>
         ))
       ) : (
         <p>데이터가 없습니다.</p>
       )}
-      <div>
+      <div className="pagination">
         {[...Array(totalLastPage)].map((_, i) => (
-          <button key={i} onClick={() => handlePageChange(i)}>
+          <button className="paginationBT" key={i} onClick={() => setCurrentPage(i)}>
             {i + 1}
           </button>
         ))}

@@ -14,8 +14,8 @@ function App() {
         <Route path={"/"} element={<Main />} />
           <Route path={"/login"} element={<Login />} />
         <Route path={"/question"} element={<Question />} />
-        <Route path={"/orders"} element={<Orders />} />
-        <Route path={"/orders/order"} element={<OrderDetail />} />
+        <Route path={"/order"} element={<Orders />} />
+        <Route path="/order/:orderId" element={<OrderDetail />} />
       </Routes>
     </BrowserRouter>
   );

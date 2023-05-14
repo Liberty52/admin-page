@@ -1,12 +1,14 @@
 import { MainContainer } from "../component/main/MainComponent";
 import SideNav from "../component/common/side-nav/SideNav";
 import './OrderDetail.css';
+import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { getOrderDetail } from './OrderDetail';
+import { fetchOrderDetail } from '../../axios/Orders';
+
+
 ////////////////////////////
 function Border(){
-  return <div className="border"></div>;
+  return <div className="OrderBorder"></div>;
 }
 
 
@@ -33,29 +35,33 @@ function OrderInquiry() {
       </div>
     );
   }
-function OrderInquiryDetail(){
-  return (
-    <div className="Inquiry-Delivery-wrapper">
-      <div>사진</div>
-      <div>상품명</div>
-      <div>상품금액</div>
-      <div>배송비</div>
-      <div>수량</div>
-      <div>상품합계금액</div>
-    </div>
-  );
-}
-function OrderInquiryDelivery(){
+  function OrderInquiryDetail({ order }){
+    return (
+      <>
+        {order.products.map((product, index) => (
+          <div key={index} className="Inquiry-Delivery-wrapper">
+            <div><img src={product.productUrl} alt={product.name} /></div>
+            <div>{product.name}</div>
+            <div>{product.price}원</div>
+            <div>{order.deliveryFee}원</div>
+            <div>{product.quantity}</div>
+            <div>{product.price * product.quantity}원</div>
+          </div>
+        ))}
+      </>
+    );
+  }
+function OrderInquiryDelivery({ order }){
   return (
     <div className="Inquiry-Delivery-small-wrapper">
-      <div>상품합계금액 : {}원</div>
-      <div>배송비 : {}원</div>
-      <div>결제금액 : {}원</div>
+      <div>상품합계금액 : {order.totalProductPrice}원</div>
+      <div>배송비 : {order.deliveryFee}원</div>
+      <div>결제금액 : {order.totalPrice}원</div>
     </div>
   );
 }
 
-function OrderInquiryDelivery2(){
+function OrderInquiryDelivery2({ order }){
   return (
     <table className="Inquiry-Delivery">
 
@@ -66,82 +72,161 @@ function OrderInquiryDelivery2(){
         <th className="cell-top">총결제금액</th>
       </tr>
       <tr className="Inquiry-Delivery-bottom">
-        <td className="cell-bottom">{}원</td>
-        <td className="cell-bottom" >{}원</td>
-        <td className="cell-bottom">{}원</td>
-        <td className="cell-bottom">{}원</td>
+        <td className="cell-bottom">{order.totalProductPrice}원</td>
+        <td className="cell-bottom" >{order.deliveryFee}원</td>
+        <td className="cell-bottom">0원</td>
+        <td className="cell-bottom">{order.totalPrice}원</td>
     </tr>
   </table>
   );
 }
 
-function OrderPerson() {
+function OrderPerson({order}) {
   return (
       <>
       <h2>주문자 정보</h2>
       <Border/>
       <div className="grid">
         <div className="Order-common">주문자명</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.customerName}</div>
       </div>
       <div className="grid">
         <div className="Order-common">휴대폰번호</div>
-        <div className="Order-common">{}01012341234</div>
+        <div className="Order-common">{order.receiverPhoneNumber}</div>
       </div>
       <div className="grid">
       <div className="Order-common">메일</div>
-      <div className="Order-common">{}선정@네이버</div>
+      <div className="Order-common">{order.receiverEmail}</div>
     </div>
       </>
   );
 }
 
-function OrderDelivery() {
+function OrderDelivery({order}) {
   return (
       <>
       <h2>배송지 정보</h2>
       <Border/>
       <div className="grid">
         <div className="Order-common">주문자명</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.customerName}</div>
       </div>
       <div className="grid">
         <div className="Order-common">주소</div>
-        <div className="Order-common">{}주소임</div>
+        <div className="Order-common">{order.address}</div>
       </div>
       <div className="grid">
         <div className="Order-common">휴대폰번호</div>
-        <div className="Order-common">{}01012341234</div>
+        <div className="Order-common">{order.receiverPhoneNumber}</div>
       </div>
       </>
   );
 }
-function OrderPayment() {
+function OrderPayment({order}) {
+  let paymentDetail;
+
+  switch (order.paymentType) {
+    case '신용카드':
+      paymentDetail = (
+        <> <div className="grid">
+            <div className="Order-common">카드사 이름</div>
+            <div className="Order-common">{order.paymentInfo.cardName}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">카드 번호</div>
+            <div className="Order-common">{order.paymentInfo.cardNumber}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">할부 개월 수</div>
+            <div className="Order-common">{order.paymentInfo.cardQuota}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">결제 일자</div>
+            <div className="Order-common">{order.paymentInfo.paidAt}</div>
+          </div>
+        </>
+      );
+      break;
+    case '가상 계좌':
+      paymentDetail = (
+        <>
+          <div className="grid">
+            <div className="Order-common">가상계좌 정보</div>
+            <div className="Order-common">{order.paymentInfo.vbankInfo}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">입금자 은행</div>
+            <div className="Order-common">{order.paymentInfo.depositorBank}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">입금자 이름</div>
+            <div className="Order-common">{order.paymentInfo.depositorName}</div>
+          </div>
+
+          <div className="grid">
+            <div className="Order-common">입금자 계좌번호</div>
+            <div className="Order-common">{order.paymentInfo.depositorAccount}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">현금영수증 신청 여부</div>
+            <div className="Order-common">{order.paymentInfo.isApplyCashReceipt ? "신청됨" : "신청되지 않음"}</div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">결제 일자</div>
+            <div className="Order-common">{order.paymentInfo.paidAt}</div>
+          </div>
+        </>
+      );
+      break;
+    default:
+      paymentDetail = (
+        <div className="Order-common">결제정보를 불러올 수 없습니다.</div>
+      );
+  }
   return (
       <>
       <h2>결제 정보</h2>
       <Border/>
       <div className="grid">
         <div className="Order-common">상품합계금액</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.totalProductPrice}원</div>
       </div>
       <div className="grid">
         <div className="Order-common">배송비</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.deliveryFee}원</div>
       </div>
       <div className="grid">
         <div className="Order-common">총결제금액</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.totalPrice}원</div>
       </div>
       <div className="grid">
         <div className="Order-common">결제수단</div>
-        <div className="Order-common">{}김김김</div>
+        <div className="Order-common">{order.paymentType}</div>
       </div>
+      {paymentDetail}
       </>
   );
 }
 
-export default function Orders() {
+export default function OrderDetail() {
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchOrderDetail(orderId);
+      if (data) {
+        setOrder(data);
+      }
+    };
+
+    fetchData();
+  }, [orderId]);
+
+  if (!order) {
+    return <p>Loading...</p>;
+  }
+
 
   return (
     <div className="MainContainer">
@@ -153,14 +238,13 @@ export default function Orders() {
       <div className="OrderDetail">
             <OrderTitle/>
             <OrderInquiry/>
-            <OrderInquiryDetail/>
-            <OrderInquiryDelivery/>
-            <OrderInquiryDelivery2/>
-            <OrderPerson/>
-            <OrderDelivery/>
-            <OrderPayment/>
+            <OrderInquiryDetail order={order}/>
+            <OrderInquiryDelivery order={order}/>
+            <OrderInquiryDelivery2 order={order}/>
+            <OrderPerson order={order}/>
+            <OrderDelivery order={order}/>
+            <OrderPayment order={order}/>
         </div>
-
       </div>
     </div>
   );
