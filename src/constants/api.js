@@ -19,6 +19,3 @@ export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
 export const CUSTOMER_LIST = (size, page, name, sort) =>
   `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
 
-export const TOKEN_REFRESH = () => `/auth/refresh`;
-export const LOGIN = () => `/admin/login`;
-
