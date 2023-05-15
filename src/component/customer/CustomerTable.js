@@ -29,10 +29,13 @@ export const CustomerTable = (props) => {
             d.id,
             <Avatar
               alt="프로필 이미지"
-              src="https://lh3.googleusercontent.com/ogw/AOLn63GMGOXsvT3LBPDdibUY-sSZ8ado1OkSVKVY0mXaWw=s64-c-mo" // d.profileUrl
-            />,
+              src={d.profileUrl}
+              sx={{ width: 45, height: 45 }}
+            >
+              {d.name.charAt(0)}
+            </Avatar>,
             d.name,
-            "2hanbyeol1@naver.com", // d.email
+            d.email,
             d.phoneNumber,
             d.role,
             d.createdAt
