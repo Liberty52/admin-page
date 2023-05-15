@@ -16,7 +16,7 @@ import { getCustomerList } from "../../axios/Customer";
 export const CustomerTable = (props) => {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(1); // 현재 페이지
-  const rowsPerPage = 10; // 한 페이지 당 데이터
+  const rowsPerPage = 6; // 한 페이지 당 데이터
   const [hasPage, setHasPage] = useState({ hasPrev: false, hasNext: false });
 
   useEffect(() => {
@@ -115,8 +115,8 @@ export const CustomerTable = (props) => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 540 }}>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer>
+        <Table aria-label="customer table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
