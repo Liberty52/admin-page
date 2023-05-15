@@ -12,7 +12,7 @@ import {
   Button,
   SvgIcon,
 } from "@mui/material";
-export default function ReviewTable(props) {
+export const ReviewTable = (props) => {
   const {
     items = [],
     onPageChange,
@@ -37,12 +37,30 @@ export default function ReviewTable(props) {
           <TableBody>
             {items.map((review) => {
               return (
-                <TableRow key={review.id}>
+                <TableRow
+                  key={review.id}
+                  onClick={() => {
+                    handleDialogOn(review.reviewId);
+                  }}
+                >
                   <TableCell>{review.authorName}</TableCell>
                   <TableCell>{review.rating}</TableCell>
                   <TableCell>{review.content}</TableCell>
                   <TableCell>
-                    <img src={review.imageUrls} alt="리뷰 이미지" />
+                    {review.imageUrls.length > 0 ? (
+                      <div
+                        className="img-frame"
+                        style={{ width: "200px", height: "200px" }}
+                      >
+                        <img
+                          src={review.imageUrls}
+                          alt="리뷰 이미지"
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </div>
+                    ) : (
+                      <span>올린 이미지가 없습니다.</span>
+                    )}
                   </TableCell>
                 </TableRow>
               );
@@ -62,4 +80,4 @@ export default function ReviewTable(props) {
       </Stack> */}
     </Card>
   );
-}
+};

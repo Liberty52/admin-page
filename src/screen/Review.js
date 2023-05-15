@@ -2,13 +2,16 @@ import SideNav from "./component/common/side-nav/SideNav";
 import { MainContainer } from "./component/main/MainComponent";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import ReviewTable from "../component/review/ReviewTable";
-import ReviewDialog from "../component/review/ReviewDialog";
+import { ReviewTable } from "../component/review/ReviewTable";
+import { ReviewDialog } from "../component/review/ReviewDialog";
 import { getReviewList } from "../axios/Review";
 
 export default function Review() {
   const [data, setData] = useState();
   const [page, setPage] = useState(0);
+  const [isChanged, setIsChanged] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [reviewId, setReviewnId] = useState();
 
   function retrieveReviewList() {
     getReviewList(page)
@@ -26,7 +29,19 @@ export default function Review() {
   const onMinusPageButtonClicked = () => {};
   const onPlusPageButtonClicked = () => {};
   const pageNumberArray = () => {};
-  const handleDialogOn = () => {};
+  const handleDialogOn = (id) => {
+    setReviewnId(id);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setReviewnId(undefined);
+    if (isChanged) {
+      retrieveReviewList();
+      setIsChanged(false);
+    }
+  };
+
   return (
     <MainContainer>
       <SideNav />
@@ -66,7 +81,12 @@ export default function Review() {
           </Stack>
         </Container>
       </Box>
-      {/* <ReviewDialog isChanged={setIsChanged}  open={open} /> */}
+      <ReviewDialog
+        isChanged={setIsChanged}
+        open={open}
+        handleClose={handleClose}
+        id={reviewId}
+      />
     </MainContainer>
   );
 }
