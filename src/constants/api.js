@@ -6,8 +6,15 @@ export const CREATE_QUESTION_REPLY = () => `/admin/questionReplies`;
 export const UPDATE_QUESTION_REPLY = (id) => `/admin/questionReplies/${id}`;
 export const UPLOAD_IMAGE = () => `/auth/questions/img`;
 
-export const CUSTOMER_LIST = (size, page, name, sort) =>
-  `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
+export const CUSTOMER_LIST = (size, page, sort) => {
+  let sortParam = "";
+  for (const key in sort) {
+    const isDesc = sort[key];
+    sortParam += `&sort=${key}`;
+    if (isDesc) sortParam += `,desc`;
+  }
+  return `/admin/user-info?size=${size}&page=${page}${sortParam}`;
+};
 
 export const TOKEN_REFRESH = () => `/auth/refresh`;
 export const LOGIN = () => `/admin/login`;
