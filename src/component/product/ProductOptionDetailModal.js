@@ -2,6 +2,9 @@ import {Button, Input, Modal, ModalClose, Sheet, Stack, Typography} from "@mui/j
 import {ProductOptionModalMode} from "../../constants/mode";
 import {useEffect, useState} from "react";
 import {ProductOptionModalTitle} from "./styled/Product";
+import Swal from "sweetalert2";
+import {Toast} from "../../utils/Toast";
+
 
 export default function ProductOptionDetailModal({open, setOpen, mode, editProps, clearEditProps}) {
     const [value,setValue] = useState();
@@ -23,20 +26,30 @@ export default function ProductOptionDetailModal({open, setOpen, mode, editProps
         }
     }
     const addOptionDetail = () => {
-        alert("추가하겠읍니다.")
+        Toast.fire({
+            icon: 'success',
+            title: '옵션이 추가되었습니다.'
+        })
+        onCloseAction();
     }
     const editOptionDetail = () => {
         if(value === editProps.name){
-            alert("내용을 수정해주세요")
+            Toast.fire({
+                icon: 'warning',
+                title: '내용을 수정해주세요'
+            })
             return;
         }
-        alert("수정하겠읍ㄴ디ㅏ.")
     }
+
+
+
     return (
         <Modal
             aria-labelledby="modal-title"
             aria-describedby="modal-desc"
             open={open}
+            hideBackdrop={true}
             onClose={() => onCloseAction()}
             sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
         >
