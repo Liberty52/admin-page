@@ -15,7 +15,13 @@ export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
 
-
-export const CUSTOMER_LIST = (size, page, name, sort) =>
-  `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
-
+// 고객 조회 api
+export const CUSTOMER_LIST = (size, page, sort) => {
+  let sortParam = "";
+  for (const key in sort) {
+    const isDesc = sort[key];
+    sortParam += `&sort=${key}`;
+    if (isDesc) sortParam += `,desc`;
+  }
+  return `/admin/user-info?size=${size}&page=${page}${sortParam}`;
+};

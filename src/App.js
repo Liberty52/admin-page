@@ -8,7 +8,6 @@ import "./App.css";
 import Login from "./screen/login/Login";
 import Customer from "./screen/Customer";
 
-
 function App() {
   return (
     <BrowserRouter>
