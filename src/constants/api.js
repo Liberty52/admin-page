@@ -23,5 +23,5 @@ export const CUSTOMER_LIST = (size, page, sort) => {
     sortParam += `&sort=${key}`;
     if (isDesc) sortParam += `,desc`;
   }
-  return `/admin/user-info?size=${size}&page=${page}${sortParam}`;
+  return `/admin/customer-info?size=${size}&page=${page}${sortParam}`;
 };
