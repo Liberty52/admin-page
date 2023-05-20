@@ -65,9 +65,9 @@ export default function Review() {
                 </Typography>
               </Stack>
             </Stack>
-            {data?.contents !== undefined ? (
+            {data?.contents && (
               <ReviewTable
-                items={data.contents}
+                items={data?.contents}
                 onPageChange={handlePageChange}
                 page={page}
                 onMinusPageButtonClicked={onMinusPageButtonClicked}
@@ -75,8 +75,6 @@ export default function Review() {
                 pageNumberArray={pageNumberArray()}
                 handleDialogOn={handleDialogOn}
               />
-            ) : (
-              <></>
             )}
           </Stack>
         </Container>

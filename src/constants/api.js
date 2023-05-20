@@ -13,9 +13,9 @@ export const UPLOAD_IMAGE = () => `/auth/questions/img`;
 // 리뷰 api
 export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
+export const REVIEW_DETAIL = (id) => `/admin/reviews/${id}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
 
-
+// 고객 api
 export const CUSTOMER_LIST = (size, page, name, sort) =>
   `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
-
