@@ -23,7 +23,7 @@ export default function Customer() {
             <Typography sx={{ mb: "30px" }} variant="h4">
               고객 조회
             </Typography>
-            <CustomerSearch />
+            {/* <CustomerSearch /> */}
             <CustomerTable />
           </Stack>
         </Container>
