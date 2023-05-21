@@ -42,7 +42,10 @@
     margin-top: 5rem;
     margin-left: 10rem;
     margin-right: 10rem;
-    padding: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
 }
 
 .Inquiry-Detail-wrapper {
@@ -111,4 +114,37 @@ h2 {
 .Inquiry-Delivery-wrapper img {
     width: 100px;
     height: 100px;
+}
+
+.button {
+    width: 100%;
+    background-color: #000000;
+    border-radius: 3px;
+    color: white;
+    padding: 10px;
+    margin: 6px 0;
+
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button a {
+    color: white;
+}
+
+.button {
+    width: 100%;
+    background-color: #000000;
+    border-radius: 3px;
+    color: white;
+    padding: 10px;
+    margin: 6px 0;
+
+}
+
+.OrderIMG {
+    width: 200px;
+    margin-left: auto;
 }

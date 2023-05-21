@@ -2,26 +2,51 @@ import { MainContainer } from "../component/main/MainComponent";
 import SideNav from "../component/common/side-nav/SideNav";
 import './OrderDetail.css';
 import { useParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchOrderDetail } from '../../axios/Orders';
-
+import Button from '../../component/Button';
 
 ////////////////////////////
 function Border(){
   return <div className="OrderBorder"></div>;
 }
 
-
 ///////////////////////////
 
 
 function OrderTitle() {
     return (
-        <div>
-        <h1>주문 상세</h1>
+        <div className="OrderTitle-h1">
+        <h1>주문상세</h1>
         <Border/>
         </div>
     );
+}
+
+function downloadImage(url, filename) {
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+}
+
+function OrderImage({ order }) {
+  const handleDownload = () => {
+    downloadImage(order.productRepresentUrl, 'product-image.jpg');
+  }
+
+  return (
+    <div className="OrderIMG">
+      <Button text="이미지 다운로드" onClick={handleDownload} />
+    </div>
+  );
 }
 
 function OrderInquiry() {
@@ -207,6 +232,17 @@ function OrderPayment({order}) {
       </>
   );
 }
+function ReOrderDetail(){
+  const goBack = () => {
+    window.location.href = '/order';
+  }
+
+  return (
+    <div className="ReOrder">
+      <Button onClick={goBack} text ="되돌아가기"></Button>
+    </div>
+  );
+}
 
 export default function OrderDetail() {
   const { orderId } = useParams();
@@ -239,11 +275,13 @@ export default function OrderDetail() {
             <OrderTitle/>
             <OrderInquiry/>
             <OrderInquiryDetail order={order}/>
+            <OrderImage order={order}/>
             <OrderInquiryDelivery order={order}/>
             <OrderInquiryDelivery2 order={order}/>
             <OrderPerson order={order}/>
             <OrderDelivery order={order}/>
             <OrderPayment order={order}/>
+            <ReOrderDetail/>
         </div>
       </div>
     </div>
