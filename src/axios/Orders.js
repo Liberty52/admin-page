@@ -1,14 +1,17 @@
-
-import axios from './axios';
-import {ACCESS_TOKEN} from "../constants/token";
+import axios from "./axios";
+import { CANCELED_ORDERS, CANCELED_ORDER_DETAILS } from "../constants/api";
+import { ACCESS_TOKEN } from "../constants/token";
 
 export const fetchOrders = async (page, size) => {
   try {
-    const response = await axios.get(`/admin/orders?page=${page}&size=${size}`, {
-      headers: {
-        Authorization: sessionStorage.getItem(ACCESS_TOKEN)
+    const response = await axios.get(
+      `/admin/orders?page=${page}&size=${size}`,
+      {
+        headers: {
+          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+        },
       }
-    });
+    );
 
     if (response.status === 200) {
       return response.data;
@@ -22,14 +25,13 @@ export const fetchOrders = async (page, size) => {
   }
   return null;
 };
-
 
 export const fetchOrderDetail = async (orderId) => {
   try {
     const response = await axios.get(`/admin/orders/${orderId}`, {
       headers: {
-        Authorization: sessionStorage.getItem(ACCESS_TOKEN)
-      }
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
     });
 
     if (response.status === 200) {
@@ -45,3 +47,18 @@ export const fetchOrderDetail = async (orderId) => {
   return null;
 };
 
+export const getCanceledOrders = async (size, page, type) => {
+  return axios.get(CANCELED_ORDERS(size, page, type), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};
+
+export const getCanceledOrderDetails = async (orderId) => {
+  return axios.get(CANCELED_ORDER_DETAILS(orderId), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};

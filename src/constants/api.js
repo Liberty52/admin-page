@@ -25,3 +25,12 @@ export const CUSTOMER_LIST = (size, page, sort) => {
   }
   return `/admin/user-info?size=${size}&page=${page}${sortParam}`;
 };
+
+// 주문 조회 api
+export const CANCELED_ORDERS = (size, page, type) => {
+  return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
+};
+
+export const CANCELED_ORDER_DETAILS = (orderId) => {
+  return `/admin/orders/cancel/${orderId}`;
+};
