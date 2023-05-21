@@ -7,16 +7,20 @@ import {
   DialogActions,
 } from "@mui/material";
 import { Textarea } from "@mui/joy";
-import Editor from "@toast-ui/editor";
 import { useEffect, useState } from "react";
-import { getReviewDetail, createReviewReply } from "../../axios/Review";
+import {
+  getReviewDetail,
+  createReviewReply,
+  updateReviewReply,
+  deleteReviewReply,
+} from "../../axios/Review";
 
 export const ReviewDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
+  const adminId = "admin";
   const [data, setData] = useState();
   const [mode, setMode] = useState("VIEW");
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [img, setImg] = useState("");
 
   useEffect(() => {
     if (id === undefined) return;
@@ -25,23 +29,13 @@ export const ReviewDialog = (props) => {
 
   const retrieveDetail = (prevData, id) => {
     getReviewDetail(id).then((res) => {
-      console.log(res.data.content);
       prevData = res.data.content;
+      console.log(prevData);
       setData(prevData);
-      setMode(prevData?.replies === null ? "ADD" : "VIEW");
+      setMode("ADD");
       setTextAreaValue(prevData?.replies?.content);
-      setImg(prevData?.replies?.imageUrls);
-      const viewer = new Editor.factory({
-        el: document.querySelector("#viewer"),
-        height: "500px",
-        initialEditType: "wysiwyg",
-        initialValue: prevData.content,
-        language: "ko-KR",
-        viewer: true,
-      });
     });
   };
-
   function retrieveReviewDetailData() {
     let prevData;
     try {
@@ -66,9 +60,36 @@ export const ReviewDialog = (props) => {
       })
       .catch((err) => console.errer(err));
   };
-  const onUpdateModeButtonClicked = (e) => {};
-  const onDeleteButtonClicked = (e) => {};
-  const onCloseButtonClicked = (e) => {};
+  const onUpdateModeButtonClicked = () => {
+    if (mode === "EDIT") {
+      if (textAreaValue === data.replies.content) {
+        alert("내용을 변경해주세요.");
+        return;
+      }
+      updateReviewReply(data.reviewId, data.replies.replyId, textAreaValue)
+        .then(() => {
+          alert("수정했습니다.");
+          isChanged(true);
+          retrieveReviewDetailData();
+        })
+        .catch((err) => console.err(err));
+    } else {
+      setMode("EDIT");
+    }
+  };
+  const onDeleteButtonClicked = () => {
+    if (mode === "EDIT") {
+      setTextAreaValue(data?.replies?.content);
+      setMode("VIEW");
+    } else {
+      deleteReviewReply(data.replies.replyId);
+    }
+  };
+  const onCloseButtonClicked = () => {
+    handleClose();
+    setMode("VIEW");
+    setTextAreaValue("");
+  };
   return (
     <Dialog
       open={open}
@@ -85,7 +106,19 @@ export const ReviewDialog = (props) => {
             <div>{data?.reviewCreatedAt}</div>
           </Stack>
           <Card sx={{ marginTop: "10px", padding: "10px 25px" }}>
-            <div id={"viewer"}></div>
+            <span>{data?.content}</span>
+            <div
+              className="img-frame"
+              style={{ width: "200px", height: "200px" }}
+            >
+              {data?.imageUrls.length > 0 && (
+                <img
+                  src={data.imageUrls}
+                  alt="리뷰 사진"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              )}
+            </div>
           </Card>
           <hr />
           <div>

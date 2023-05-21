@@ -15,6 +15,9 @@ export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
 export const REVIEW_DETAIL = (id) => `/admin/reviews/${id}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
+export const UPDATE_REVIEW_REPLY = (reviewId, replyId) =>
+  `/admin/reviews/${reviewId}/replies/${replyId}`;
+export const DELETE_REVIEW_REPLY = (id) => `/admin/reviews/replies/${id}`;
 
 // 고객 api
 export const CUSTOMER_LIST = (size, page, name, sort) =>

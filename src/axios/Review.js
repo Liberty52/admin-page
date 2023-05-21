@@ -3,6 +3,8 @@ import {
   REVIEW_LIST,
   REVIEW_DETAIL,
   CREATE_REVIEW_REPLY,
+  DELETE_REVIEW_REPLY,
+  UPDATE_REVIEW_REPLY,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
 
@@ -34,4 +36,26 @@ export const createReviewReply = (id, content) => {
       },
     }
   );
+};
+
+export const updateReviewReply = (reviewId, replyId, content) => {
+  return request.put(
+    UPDATE_REVIEW_REPLY(reviewId, replyId),
+    {
+      content,
+    },
+    {
+      headers: {
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    }
+  );
+};
+
+export const deleteReviewReply = (id) => {
+  return request.delete(DELETE_REVIEW_REPLY(id), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
 };
