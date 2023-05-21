@@ -221,7 +221,7 @@ function OrderPayment({ order }) {
 function CancelInfo({ cancelInfo }) {
   return (
     <>
-      <h2>결제 정보</h2>
+      <h2>취소 정보</h2>
       <Border />
       <div className="grid">
         <div className="Order-common">취소사유</div>
