@@ -23,28 +23,29 @@ function OrderTitle() {
     );
 }
 
-function downloadImage(url, filename) {
-  fetch(url)
-    .then(response => response.blob())
-    .then(blob => {
-      const blobUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-}
 
 function OrderImage({ order }) {
-  const handleDownload = () => {
-    downloadImage(order.productRepresentUrl, 'product-image.jpg');
-  }
+  const handleImageDownload = async () => {
+    for (const product of order.products) {
+      try {
+        const response = await fetch(product.productUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', product.name + '.jpg');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div className="OrderIMG">
-      <Button text="이미지 다운로드" onClick={handleDownload} />
+      <Button text="이미지 다운로드" onClick={handleImageDownload} />
     </div>
   );
 }

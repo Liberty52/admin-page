@@ -3,14 +3,11 @@ import SideNav from "../component/common/side-nav/SideNav";
 import './Orders.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchOrders,updateOrder } from '../../axios/Orders';
+import { fetchOrders,updateOrder,updateOrderStatus } from '../../axios/Orders';
 import { Checkbox } from "@mui/material";
 import Modal from 'react-modal';
 import Button from '../../component/Button';
 import Input from '../../component/Input';
-
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 
 ////////////////////////////
 function Border(){
@@ -27,35 +24,38 @@ function OrderTop() {
 }
 
 
-function OrderMiddle({ selectedStatus, setSelectedStatus, handleStatusUpdate }) {
-  const statuses = ['MAKING', 'DELIVERING', 'COMPLETE '];
+function OrderMiddle({ selectedOrders, setSelectedOrders, newOrderStatus, setNewOrderStatus }) {
+  const handleStatusChange = async () => {
+    console.log('handleStatusChange');
+
+    console.log( selectedOrders);
+    console.log( newOrderStatus);
+
+    for (const orderId of selectedOrders) {
+      await updateOrderStatus(orderId, newOrderStatus);
+      console.log('아이디',orderId);
+      console.log('상태정보 ',  newOrderStatus);
+    }
+
+    setSelectedOrders([]);
+    setNewOrderStatus('');
+  };
 
   return (
-    <div className="Middle-Container">
-      <Select
-        value={selectedStatus}
-        onChange={e => setSelectedStatus(e.target.value)}
-        displayEmpty
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
-        {statuses.map((status, index) => (
-          <MenuItem key={index} value={status}>{status}</MenuItem>
-        ))}
-      </Select>
-      <Button onClick={handleStatusUpdate} text="변경"></Button>
-    </div>
+    <>
+      <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)}>
+        <option value="">주문 상태 선택</option>
+        <option value="MAKING">제작시작</option>
+        <option value="DELIVERING">배송시작</option>
+        <option value="COMPLETE ">배송완료 </option>
+      </select>
+      <button onClick={handleStatusChange}>변경</button>
+    </>
   );
 }
-function OrderBotton() {
-  return (
-    <div className="Bottom-Container">
-    <OrderCount/>
-    <Border/>
-    <OrderInquiry/>
-    <OrderSelect/>
-    </div>
-  );
-}
+
+
+
 /////////////////////
 
 function OrderInquiry() {
@@ -79,8 +79,8 @@ function OrderCount() {
   );
 }
 
-function OrderSelect() {
- const [orders, setOrders] = useState([]);
+function OrderSelect({ selectedOrders, setSelectedOrders }) {
+  const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalLastPage, setTotalLastPage] = useState(0);
   const navigate = useNavigate();
@@ -88,34 +88,24 @@ function OrderSelect() {
   const [depositorBank, setDepositorBank] = useState('');
   const [depositorName, setDepositorName] = useState('');
   const [depositorAccount, setDepositorAccount] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedOrders, setSelectedOrders] = useState([]);
 
-/*
-  const [orders, setOrders] = useState([
-    {
-      orderId: "1",
-      orderNumber: "1234",
-      orderDate: "2023-05-01",
-      productName: "Test Product 1",
-      orderStatus: "WAITING_DEPOSIT",
-      customerName: "John Doe"
-    },
-    {
-      orderId: "2",
-      orderNumber: "2345",
-      orderDate: "2023-05-02",
-      productName: "Test Product 2",
-      orderStatus: "Delivery",
-      customerName: "Jane Doe"
-    }
-  ]);*/
+  const [newOrderStatus, setNewOrderStatus] = useState('');
+
   useEffect(() => {
+    console.log('Selected Orders:', selectedOrders);
+
     const fetchData = async () => {
       const data = await fetchOrders(currentPage, 10);
       if (data) {
         setOrders(data.orders);
         setTotalLastPage(data.totalLastPage);
+      }
+      if (selectedOrders.length > 0) {
+        for (const orderId of selectedOrders) {
+          await updateOrderStatus(orderId, newOrderStatus);
+        }
+        setSelectedOrders([]);
+        setNewOrderStatus('');
       }
     };
 
@@ -123,6 +113,7 @@ function OrderSelect() {
   }, [currentPage]);
   const handleOrderClick = (orderId) => {
     navigate(`/order/${orderId}`);
+    console.log('Current Selected Orders:', selectedOrders);
   };
 
   const handleOpenModal = (orderId) => {
@@ -138,7 +129,6 @@ function OrderSelect() {
     handleCloseModal();
   };
 
-
    return (
     <>
       <div className="order-select">
@@ -152,20 +142,27 @@ function OrderSelect() {
             >
               <div className="order_select_checkbox">
               <Checkbox
-
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
                   e.stopPropagation();
-
+                  if (e.target.checked) {
+                    setSelectedOrders((prevSelectedOrders) => [...prevSelectedOrders, order.orderId]);
+                  } else {
+                    setSelectedOrders((prevSelectedOrders) =>
+                      prevSelectedOrders.filter((orderId) => orderId !== order.orderId)
+                    );
+                  }
                 }}
+                checked={selectedOrders.includes(order.orderId)}
               />
+
                 <p>{order.orderNumber}</p>
               </div>
               <p>{order.orderDate}</p>
               <p>{order.productName}</p>
               <div>
                 <p>{order.orderStatus}</p>
-                {order.orderStatus === 'WAITING_DEPOSIT' && (
+                {order.orderStatus === '입금대기' && (
                   <Button onClick={(e) => { e.stopPropagation(); handleOpenModal(order.orderId); }} text="입금 확인"></Button>
                 )}
               </div>
@@ -204,6 +201,9 @@ function OrderSelect() {
 }
 
 export default function Orders() {
+  const [selectedOrders, setSelectedOrders] = useState([]);
+  const [newOrderStatus, setNewOrderStatus] = useState('');
+
   return (
     <div className="MainContainer">
       <div className="left-Container">
@@ -212,8 +212,21 @@ export default function Orders() {
       </div>
       <div className="Right-Container">
         <OrderTop/>
-        <OrderMiddle/>
-        <OrderBotton/>
+        <OrderMiddle
+          selectedOrders={selectedOrders}
+          setSelectedOrders={setSelectedOrders}
+          newOrderStatus={newOrderStatus}
+          setNewOrderStatus={setNewOrderStatus}
+        />
+        <div className="Bottom-Container">
+          <OrderCount/>
+          <Border/>
+          <OrderInquiry/>
+          <OrderSelect
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+          />
+          </div>
       </div>
     </div>
   );

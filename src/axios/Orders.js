@@ -81,12 +81,14 @@ export async function updateOrderStatus(orderId, orderStatus) {
       }
     });
 
+    console.log('Response status:', response.status);
+
     if (response.status === 200) {
       console.log('200');
     } else if (response.status === 400) {
       console.log('400');
     }
   } catch (error) {
-    console.error('Error updating order status:', error);
+    console.error('Error:', error);
   }
 }
