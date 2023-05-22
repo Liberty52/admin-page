@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 
 export default function CancelTypeRadio({ onChange }) {
-  const [value, setValue] = useState("CANCELED");
+  const [value, setValue] = useState("");
 
   const handleChange = (e) => {
     const v = e.target.value;
@@ -24,15 +24,16 @@ export default function CancelTypeRadio({ onChange }) {
         value={value}
         onChange={handleChange}
       >
+        <FormControlLabel value="" control={<Radio />} label="전체 조회" />
         <FormControlLabel
           value="CANCELED"
           control={<Radio />}
-          label="CANCELED"
+          label="주문 취소"
         />
         <FormControlLabel
           value="REQUESTED"
           control={<Radio />}
-          label="REQUESTED"
+          label="환불 요청"
         />
       </RadioGroup>
     </FormControl>

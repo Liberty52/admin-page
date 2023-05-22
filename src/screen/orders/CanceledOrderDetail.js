@@ -1,9 +1,11 @@
 import { MainContainer } from "../component/main/MainComponent";
 import SideNav from "../component/common/side-nav/SideNav";
 import "./OrderDetail.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { getCanceledOrderDetails } from "../../axios/Orders";
+import { getCanceledOrderDetails, approveCancel } from "../../axios/Orders";
+
+import Button from "@mui/material/Button";
 
 function Border() {
   return <div className="OrderBorder"></div>;
@@ -50,16 +52,6 @@ function OrderInquiryDetail({ order }) {
 }
 
 function OrderInquiryDelivery({ order }) {
-  return (
-    <div className="Inquiry-Delivery-small-wrapper">
-      <div>상품합계금액 : {order.totalProductPrice}원</div>
-      <div>배송비 : {order.deliveryFee}원</div>
-      <div>결제금액 : {order.totalPrice}원</div>
-    </div>
-  );
-}
-
-function OrderInquiryDelivery2({ order }) {
   return (
     <table className="Inquiry-Delivery">
       <tr className="Inquiry-Delivery-top">
@@ -218,7 +210,8 @@ function OrderPayment({ order }) {
   );
 }
 
-function CancelInfo({ cancelInfo }) {
+function CancelInfo({ orderId, cancelInfo }) {
+  const navigate = useNavigate();
   return (
     <>
       <h2>취소 정보</h2>
@@ -242,10 +235,32 @@ function CancelInfo({ cancelInfo }) {
           {cancelInfo.fee.toLocaleString("ko-KR")}
         </div>
       </div>
-      <div className="grid">
-        <div className="Order-common">담당자명</div>
-        <div className="Order-common">{cancelInfo.approvedAdminName}</div>
-      </div>
+      {cancelInfo.approvedAdminName ? (
+        <div className="grid">
+          <div className="Order-common">담당자명</div>
+          <div className="Order-common">{cancelInfo.approvedAdminName}</div>
+        </div>
+      ) : (
+        <Button
+          sx={{ width: "100%", height: 50, fontWeight: "bold", fontSize: 17 }}
+          onClick={() => {
+            if (window.confirm("주문 취소 승인하시겠습니까?")) {
+              const dto = {
+                orderId: orderId,
+                fee: 0,
+              };
+              approveCancel(dto)
+                .then(() => {
+                  alert("주문 취소 완료");
+                  navigate("/order");
+                })
+                .catch((err) => alert(err.response.data.error_message));
+            }
+          }}
+        >
+          주문 취소 승인
+        </Button>
+      )}
     </>
   );
 }
@@ -280,11 +295,10 @@ export default function CanceledOrderDetail() {
           <OrderInquiry />
           <OrderInquiryDetail order={order} />
           <OrderInquiryDelivery order={order} />
-          <OrderInquiryDelivery2 order={order} />
           <OrderPerson order={order} />
           <OrderDelivery order={order} />
           <OrderPayment order={order} />
-          <CancelInfo cancelInfo={cancelInfo} />
+          <CancelInfo orderId={orderId} cancelInfo={cancelInfo} />
         </div>
       </div>
     </div>

@@ -1,5 +1,9 @@
 import axios from "./axios";
-import { CANCELED_ORDERS, CANCELED_ORDER_DETAILS } from "../constants/api";
+import {
+  CANCELED_ORDERS,
+  CANCELED_ORDER_DETAILS,
+  APPROVE_CANCEL,
+} from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
 
 export const fetchOrders = async (page, size) => {
@@ -58,6 +62,15 @@ export const getCanceledOrders = async (size, page, type) => {
 export const getCanceledOrderDetails = async (orderId) => {
   return axios.get(CANCELED_ORDER_DETAILS(orderId), {
     headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};
+
+export const approveCancel = async (dto) => {
+  return axios.post(APPROVE_CANCEL(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": `application/json`,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
