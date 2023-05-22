@@ -19,3 +19,10 @@ export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
 export const CUSTOMER_LIST = (size, page, name, sort) =>
   `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
 
+
+// 상품 관리
+export const PRODUCT_LIST = () => `/admin/productInfo`;
+export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
+export const PRODUCT_OPTION_LIST = (productId) => `/admin/productOptionInfo/${productId}`;
+export const ADD_PRODUCT_OPTION_DETAIL = (optionId) => `/admin/optionDetail/${optionId}`;
+export const DELETE_PRODUCT_OPTION_DETAIL = (optionDetailId) => `/admin/optionDetail/${optionDetailId}`;

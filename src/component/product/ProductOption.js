@@ -4,14 +4,23 @@ import {ProductOptionDetailAddButton, ProductOptionInput, ProductOptionTitle} fr
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 
-export default function ProductOption({onAddButtonClicked, onEditButtonClicked}){
+export default function ProductOption({option, onAddButtonClicked, onEditButtonClicked, actived}){
+
+    const mockId = '53d6db8d-94e9-400f-9c1e-4d7095577995';
+    const mockDetailId = 'OPT-004';
 
     return (
         <>
-            <Stack sx={{minWidth : 216}} spacing={2}>
-                <ProductOptionTitle>거치 방식</ProductOptionTitle>
-                <ProductOptionDetail id={1} name={"이젤거치형"} onEditButtonClicked={onEditButtonClicked}/>
-                <ProductOptionDetailAddButton onClick={onAddButtonClicked} >
+            <Stack sx={{minWidth : 216}} spacing={2} >
+                <ProductOptionTitle>{option.optionName}</ProductOptionTitle>
+                {option.optionDetailList.map(detail =>
+                    <ProductOptionDetail
+                        detail={detail}
+                                         actived={actived}
+                                         onEditButtonClicked={onEditButtonClicked}/>
+                )}
+
+                <ProductOptionDetailAddButton onClick={() => onAddButtonClicked(option.optionId)} >
                     <ControlPointIcon/>
                 </ProductOptionDetailAddButton >
             </Stack>

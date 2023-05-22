@@ -66,7 +66,8 @@ export const ProductOptionDetailAddButton = styled.div`
 `
 
 export const ProductOptionInput = styled(Input)`
-  text-align: center !important;
+  //padding: 0 30px;
+  //text-align: center !important;
 `
 export const ProductOptionDetailButton = styled.div`
   display: flex;
@@ -78,6 +79,7 @@ export const ProductOptionDetailButton = styled.div`
   width: calc(100% - 10px);
   height: 100%;
   padding: 0 5px;
+  opacity: 0.5;
 `
 
 export const ProductOptionDetailWrapper = styled.div`

@@ -7,8 +7,11 @@ import {
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {deleteOptionDetail} from "../../axios/Product";
+import Swal from "sweetalert2";
+import {Toast} from "../../utils/Toast";
 
-export default function ProductOptionDetail({onEditButtonClicked,id,name}){
+export default function ProductOptionDetail({onEditButtonClicked,detail, actived}){
     const [focused, setFocused] = useState();
 
 
@@ -19,6 +22,32 @@ export default function ProductOptionDetail({onEditButtonClicked,id,name}){
         setFocused(false)
     }
 
+    const onDeleteButtonClicked = () => {
+        Swal.fire({
+            title: '정말로 삭제하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '삭제하기',
+            cancelButtonText : '취소하기'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = {
+                    onSail : !detail.onSail
+                }
+                deleteOptionDetail(detail.optionDetailId,data).then(() => {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: '삭제가 완료되었습니다'
+                    })
+                    actived();
+                });
+            }
+        })
+
+    }
+
 
 
 
@@ -27,19 +56,22 @@ export default function ProductOptionDetail({onEditButtonClicked,id,name}){
             <ProductOptionDetailWrapper
                 onMouseEnter ={onMouseOn}
                 onMouseLeave ={onMouseOut}
+
             >
             <ProductOptionInput
-                                readOnly id={"text-align-center"}  value={"이젤 거치형"} />
+                                id={'product-option-input'}
+                                readOnly  value={detail.optionDetailName} />
                 <ProductOptionDetailButton focused={focused}>
-                    {/*TODO 삭제 클릭 시 삭제하시겠습니까? confirm 창 출력하기*/}
                     <ProductOptionDetailButtonWrapper
-                        onClick={() => onEditButtonClicked(id,name)}
-
+                        onClick={() => onEditButtonClicked(detail)}
                     >
                         <EditIcon />
                     </ProductOptionDetailButtonWrapper>
-
+                    <ProductOptionDetailButtonWrapper
+                        onClick={onDeleteButtonClicked}
+                    >
                    <DeleteIcon/>
+                    </ProductOptionDetailButtonWrapper>
                 </ProductOptionDetailButton>
             </ProductOptionDetailWrapper>
         </>
