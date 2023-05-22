@@ -13,13 +13,15 @@ import {
   createReviewReply,
   updateReviewReply,
   deleteReviewReply,
+  deleteCustomerReview,
 } from "../../axios/Review";
 
 export const ReviewDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
-  const adminId = "admin";
+  const ADMINID = "ADMIN-001";
   const [data, setData] = useState();
   const [mode, setMode] = useState("VIEW");
+  const [adminReply, setAdminReply] = useState([]);
   const [textAreaValue, setTextAreaValue] = useState("");
 
   useEffect(() => {
@@ -33,7 +35,13 @@ export const ReviewDialog = (props) => {
       console.log(prevData);
       setData(prevData);
       setMode("ADD");
-      setTextAreaValue(prevData?.replies?.content);
+      for (var i = 0; prevData?.replies.length; i++) {
+        if (prevData?.replies[i].authorId === ADMINID) {
+          setTextAreaValue(prevData?.replies[i]?.content);
+          setAdminReply(prevData?.replies[i]);
+        }
+        setMode("EDIT");
+      }
     });
   };
   function retrieveReviewDetailData() {
@@ -66,7 +74,7 @@ export const ReviewDialog = (props) => {
         alert("내용을 변경해주세요.");
         return;
       }
-      updateReviewReply(data.reviewId, data.replies.replyId, textAreaValue)
+      updateReviewReply(data.reviewId, adminReply?.replyId, textAreaValue)
         .then(() => {
           alert("수정했습니다.");
           isChanged(true);
@@ -78,12 +86,16 @@ export const ReviewDialog = (props) => {
     }
   };
   const onDeleteButtonClicked = () => {
-    if (mode === "EDIT") {
-      setTextAreaValue(data?.replies?.content);
-      setMode("VIEW");
-    } else {
-      deleteReviewReply(data.replies.replyId);
-    }
+    deleteReviewReply(adminReply?.replyId).then(() => {
+      alert("삭제했습니다.");
+      setTextAreaValue("");
+    });
+  };
+  const onDeleteCustomerReview = () => {
+    deleteCustomerReview(data?.reviewId).then(() => {
+      alert("고객의 리뷰를 삭제했습니다.");
+      setTextAreaValue("");
+    });
   };
   const onCloseButtonClicked = () => {
     handleClose();
@@ -104,6 +116,9 @@ export const ReviewDialog = (props) => {
           <DialogTitle>리뷰 댓글 작성</DialogTitle>
           <Stack direction={"row"} spacing={1} justifyContent={"flex-end"}>
             <div>{data?.reviewCreatedAt}</div>
+            <Button onClick={onDeleteCustomerReview} color={"error"}>
+              고객리뷰삭제
+            </Button>
           </Stack>
           <Card sx={{ marginTop: "10px", padding: "10px 25px" }}>
             <span>{data?.content}</span>
@@ -133,19 +148,19 @@ export const ReviewDialog = (props) => {
           <DialogActions>
             {mode === "ADD" ? (
               <>
-                <Button onClick={onAddButtonClicked}>추가하기</Button>
+                <Button onClick={onAddButtonClicked}>댓글달기</Button>
               </>
             ) : (
               <>
                 <Button onClick={onUpdateModeButtonClicked}>
-                  {mode === "VIEW" ? "수정모드" : "수정하기"}
+                  {mode === "EDIT" && "수정하기"}
                 </Button>
                 <Button color={"error"} onClick={onDeleteButtonClicked}>
-                  {mode === "VIEW" ? "삭제하기" : "취소하기"}
+                  댓글 삭제하기
                 </Button>
               </>
             )}
-            <Button onClick={onCloseButtonClicked}>돌아가기</Button>
+            <Button onClick={onCloseButtonClicked}>나가기</Button>
           </DialogActions>
         </Stack>
       )}
