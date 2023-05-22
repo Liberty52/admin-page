@@ -7,6 +7,9 @@ import OrderDetail from "./screen/orders/OrderDetail";
 import "./App.css";
 import Login from "./screen/login/Login";
 import Customer from "./screen/Customer";
+import {PATH_PRODUCT, PATH_PRODUCT_DETAIL} from "./constants/path";
+import Product from "./screen/product/Product";
+import ProductDetail from "./screen/product/ProductDetail";
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
         <Route path={"/customers"} element={<Customer />} />
         <Route path={"/order"} element={<Orders />} />
         <Route path="/order/:orderId" element={<OrderDetail />} />
+        <Route path={PATH_PRODUCT} element={<Product/>}/>
+        <Route path={PATH_PRODUCT_DETAIL} element={<ProductDetail/>}/>
       </Routes>
     </BrowserRouter>
   );
