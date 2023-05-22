@@ -8,21 +8,31 @@ import {
   TableHead,
   TableRow,
   IconButton,
+  Checkbox,
 } from "@mui/material";
 import { PageContainer, Page } from "./index";
 import { getCanceledOrders } from "../../axios/Orders";
 import { useNavigate } from "react-router-dom";
 
-export default function CanceledOrdersTable({ page, setPage, cancelType }) {
+export default function CanceledOrdersTable({
+  page,
+  setPage,
+  cancelType,
+  checkedOrderId,
+  setCheckedOrderId,
+}) {
   const [rows, setRows] = useState([]);
   const rowsPerPage = 6; // 한 페이지 당 데이터
   const [hasPage, setHasPage] = useState({ hasPrev: false, hasNext: false });
+  const [orderIds, setOrderIds] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getCanceledOrders(rowsPerPage, page - 1, cancelType)
       .then((res) => {
+        setOrderIds([]);
         setRows([]);
+        setCheckedOrderId([]);
         const startPage = res.data.startPage;
         const lastPage = res.data.lastPage;
         setHasPage({
@@ -42,6 +52,7 @@ export default function CanceledOrdersTable({ page, setPage, cancelType }) {
             d.approvedAdminName
           );
           setRows((rows) => [...rows, row]);
+          setOrderIds((orderIds) => [...orderIds, d.orderId]);
         });
       })
       .catch((err) => alert(err.response.data.error_message));
@@ -97,6 +108,23 @@ export default function CanceledOrdersTable({ page, setPage, cancelType }) {
     },
   ];
 
+  const selectAllOrders = () => {
+    if (orderIds.length === checkedOrderId.length) setCheckedOrderId([]);
+    else setCheckedOrderId(orderIds);
+  };
+
+  const selectOrder = (e, orderId) => {
+    e.stopPropagation();
+    if (checkedOrderId.includes(orderId))
+      setCheckedOrderId(checkedOrderId.filter((o) => o != orderId));
+    else setCheckedOrderId([...checkedOrderId, orderId]);
+  };
+
+  const isSelected = (orderId) => {
+    if (checkedOrderId.includes(orderId)) return true;
+    return false;
+  };
+  
   const handleChangePage = (e, newPage) => {
     e.preventDefault();
     setPage(newPage);
@@ -132,6 +160,19 @@ export default function CanceledOrdersTable({ page, setPage, cancelType }) {
         <Table aria-label="customer table">
           <TableHead>
             <TableRow>
+              <TableCell>
+                {rows.length !== 0 && (
+                  <Checkbox
+                    checked={orderIds.length === checkedOrderId.length}
+                    onChange={() => {
+                      selectAllOrders();
+                    }}
+                    inputProps={{
+                      "aria-label": "select all orders",
+                    }}
+                  />
+                )}
+              </TableCell>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -152,29 +193,34 @@ export default function CanceledOrdersTable({ page, setPage, cancelType }) {
                 데이터가 없습니다
               </TableRow>
             ) : (
-              <></>
+              rows.map((row) => {
+                return (
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={row.orderId}
+                    onClick={(e) => {
+                      navigate(`/order/canceled/${row.orderId}`);
+                    }}
+                  >
+                    <TableCell>
+                      <Checkbox
+                        checked={isSelected(row.orderId)}
+                        onClick={(e) => selectOrder(e, row.orderId)}
+                      />
+                    </TableCell>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align="center">
+                          {value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
             )}
-            {rows.map((row) => {
-              return (
-                <TableRow
-                  hover
-                  tabIndex={-1}
-                  key={row.orderId}
-                  onClick={() => {
-                    navigate(`/order/canceled/${row.orderId}`);
-                  }}
-                >
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align="center">
-                        {value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
           </TableBody>
         </Table>
       </TableContainer>
