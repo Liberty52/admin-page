@@ -20,7 +20,7 @@ export const CustomerTable = (props) => {
   const [hasPage, setHasPage] = useState({ hasPrev: false, hasNext: false });
   const [sort, setSort] = useState({
     // colName: isDesc
-    id: false,
+    name: false,
   });
 
   useEffect(() => {
@@ -28,9 +28,9 @@ export const CustomerTable = (props) => {
       .then((res) => {
         setRows([]);
         setHasPage({ hasPrev: res.data.hasPrev, hasNext: res.data.hasNext });
-        res.data.infoList.map((d) => {
+        res.data.infoList.map((d, i, arr) => {
           const row = createData(
-            d.id,
+            i + 1,
             <Avatar
               alt="프로필 이미지"
               src={d.profileUrl}
@@ -41,7 +41,6 @@ export const CustomerTable = (props) => {
             d.name,
             d.email,
             d.phoneNumber,
-            d.role,
             d.createdAt
           );
           setRows((rows) => [...rows, row]);
@@ -50,20 +49,12 @@ export const CustomerTable = (props) => {
       .catch((err) => alert(err.response.data.error_message));
   }, [page, sort]);
 
-  function createData(
-    id,
-    profileUrl,
-    name,
-    email,
-    phoneNumber,
-    role,
-    createdAt
-  ) {
-    return { id, profileUrl, name, email, phoneNumber, role, createdAt };
+  function createData(n, profileUrl, name, email, phoneNumber, createdAt) {
+    return { n, profileUrl, name, email, phoneNumber, createdAt };
   }
 
   const columns = [
-    { id: "id", label: "아이디", minWidth: 150, maxWidth: 320 },
+    { id: "n", label: "No.", maxWidth: 50 },
     { id: "profileUrl", label: "프로필", minWidth: 70 },
     { id: "name", label: "이름", maxWidth: 150 },
     {
@@ -75,11 +66,6 @@ export const CustomerTable = (props) => {
       id: "phoneNumber",
       label: "전화번호",
       minWidth: 120,
-    },
-    {
-      id: "role",
-      label: "role",
-      minWidth: "70px",
     },
     {
       id: "createdAt",
@@ -97,9 +83,6 @@ export const CustomerTable = (props) => {
     e.preventDefault();
     if (sort[key] === undefined) isDesc = false;
     switch (key) {
-      case "id":
-        setSort({ id: isDesc });
-        break;
       case "name":
         setSort({ name: isDesc });
         break;
@@ -108,9 +91,6 @@ export const CustomerTable = (props) => {
         break;
       case "phoneNumber":
         setSort({ phoneNumber: isDesc });
-        break;
-      case "role":
-        setSort({ role: isDesc });
         break;
       case "createdAt":
         setSort({ createdAt: isDesc });
