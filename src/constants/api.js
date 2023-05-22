@@ -40,6 +40,20 @@ export const CUSTOMER_LIST = (size, page, sort) => {
   return `/admin/customer-info?size=${size}&page=${page}${sortParam}`;
 };
 
+// 주문 조회 api
+export const CANCELED_ORDERS = (size, page, type) => {
+  return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
+};
+
+export const CANCELED_ORDER_DETAILS = (orderId) => {
+  return `/admin/orders/cancel/${orderId}`;
+};
+
+// 환불 요청 api
+export const APPROVE_CANCEL = () => {
+  return `/admin/orders/refund`;
+};
+
 // 상품 관리
 export const PRODUCT_LIST = () => `/admin/productInfo`;
 export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
