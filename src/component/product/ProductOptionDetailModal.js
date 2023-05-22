@@ -11,12 +11,11 @@ import {Box} from "@mui/material";
 
 
 export default function ProductOptionDetailModal({open, setOpen, optionId, setOptionId, mode, editProps, clearEditProps,actived}) {
-    const [value,setValue] = useState();
+    const [value,setValue] = useState("");
     const [price,setPrice] = useState(0);
     const [onSail, setOnSail] = useState(false);
     const [buttonText, setButtonText] = useState();
     useEffect(() => {
-        console.log(editProps)
         setValue(editProps.optionDetailName);
         setPrice(editProps.price)
         setOnSail(editProps.onSail);
@@ -39,6 +38,28 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
         }
     }
     const addOptionDetailButtonClicked = async () => {
+        let isValid = true;
+
+        
+        if(value.length === 0){
+            Toast.fire({
+                icon: 'warning',
+                title: '옵션의 이름을 입력해주세요'
+            })
+            isValid = false;
+        }
+        
+        if(price < 0){
+            Toast.fire({
+                icon: 'warning',
+                title: '가격은 0이상의 값을 입력해주세요'
+            })
+            isValid = false;
+        }
+        if(!isValid)
+            return;
+
+
 
         try{
             const response = await addOptionDetail(optionId,{
