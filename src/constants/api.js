@@ -13,7 +13,21 @@ export const UPLOAD_IMAGE = () => `/auth/questions/img`;
 // 리뷰 api
 export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
+export const REVIEW_DETAIL = (id) => `/admin/reviews/${id}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
+export const UPDATE_REVIEW_REPLY = (reviewId, replyId) =>
+  `/admin/reviews/${reviewId}/replies/${replyId}`;
+export const DELETE_REVIEW_REPLY = (id) => `/admin/reviews/replies/${id}`;
+export const DELETE_CUSTOMER_REVIEW = (id) => `/admin/customerReviews/${id}`;
+
+// 공지사항 api
+export const NOTICE_LIST = (page, pageSize) =>
+  `/admin/notices?page=${page}&size=${pageSize}`;
+export const NOTICE_DETAIL = (id) => `/admin/notices/${id}`;
+export const CREATE_NOTICE = () => `/admin/notices`;
+
+export const CUSTOMER_LIST = (size, page, name, sort) =>
+  `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
 
 // 고객 조회 api
 export const CUSTOMER_LIST = (size, page, sort) => {

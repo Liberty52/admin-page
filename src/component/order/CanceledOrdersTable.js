@@ -124,7 +124,7 @@ export default function CanceledOrdersTable({
     if (checkedOrderId.includes(orderId)) return true;
     return false;
   };
-
+  
   const handleChangePage = (e, newPage) => {
     e.preventDefault();
     setPage(newPage);
