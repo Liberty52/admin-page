@@ -66,8 +66,6 @@ export const ProductOptionDetailAddButton = styled.div`
 `
 
 export const ProductOptionInput = styled(Input)`
-  //padding: 0 30px;
-  //text-align: center !important;
 `
 export const ProductOptionDetailButton = styled.div`
   display: flex;

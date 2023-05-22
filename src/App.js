@@ -11,7 +11,6 @@ import {PATH_PRODUCT, PATH_PRODUCT_DETAIL} from "./constants/path";
 import Product from "./screen/product/Product";
 import ProductDetail from "./screen/product/ProductDetail";
 
-
 function App() {
   return (
     <BrowserRouter>

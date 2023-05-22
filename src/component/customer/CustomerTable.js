@@ -18,9 +18,13 @@ export const CustomerTable = (props) => {
   const [page, setPage] = useState(1); // 현재 페이지
   const rowsPerPage = 6; // 한 페이지 당 데이터
   const [hasPage, setHasPage] = useState({ hasPrev: false, hasNext: false });
+  const [sort, setSort] = useState({
+    // colName: isDesc
+    id: false,
+  });
 
   useEffect(() => {
-    getCustomerList(rowsPerPage, page - 1, "id", "id,desc")
+    getCustomerList(rowsPerPage, page - 1, sort)
       .then((res) => {
         setRows([]);
         setHasPage({ hasPrev: res.data.hasPrev, hasNext: res.data.hasNext });
@@ -44,7 +48,7 @@ export const CustomerTable = (props) => {
         });
       })
       .catch((err) => alert(err.response.data.error_message));
-  }, [page]);
+  }, [page, sort]);
 
   function createData(
     id,
@@ -60,7 +64,7 @@ export const CustomerTable = (props) => {
 
   const columns = [
     { id: "id", label: "아이디", minWidth: 150, maxWidth: 320 },
-    { id: "profileUrl", label: "프로필", minWidth: 50 },
+    { id: "profileUrl", label: "프로필", minWidth: 70 },
     { id: "name", label: "이름", maxWidth: 150 },
     {
       id: "email",
@@ -87,6 +91,31 @@ export const CustomerTable = (props) => {
   const handleChangePage = (e, newPage) => {
     e.preventDefault();
     setPage(newPage);
+  };
+
+  const handleChangeSort = (e, key, isDesc) => {
+    e.preventDefault();
+    if (sort[key] === undefined) isDesc = false;
+    switch (key) {
+      case "id":
+        setSort({ id: isDesc });
+        break;
+      case "name":
+        setSort({ name: isDesc });
+        break;
+      case "email":
+        setSort({ email: isDesc });
+        break;
+      case "phoneNumber":
+        setSort({ phoneNumber: isDesc });
+        break;
+      case "role":
+        setSort({ role: isDesc });
+        break;
+      case "createdAt":
+        setSort({ createdAt: isDesc });
+        break;
+    }
   };
 
   const Pages = () => {
@@ -127,8 +156,18 @@ export const CustomerTable = (props) => {
                     minWidth: column.minWidth,
                     maxWidth: column.maxWidth,
                   }}
+                  onClick={(e) => {
+                    handleChangeSort(e, column.id, !sort[column.id]);
+                  }}
                 >
                   {column.label}
+                  {sort[column.id] !== undefined && (
+                    <IconButton
+                      sx={{ fontSize: 15, position: "relative", bottom: 3 }}
+                    >
+                      {sort[column.id] ? "↑" : "↓"}
+                    </IconButton>
+                  )}
                 </TableCell>
               ))}
             </TableRow>
