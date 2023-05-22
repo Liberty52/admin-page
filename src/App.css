@@ -1,1 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap');
+
+@font-face {
+    font-family: "GmarketSansMedium";
+    src: url("/src/global/fonts/OTF/GmarketSansMedium.otf") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+div,
+span,
+a,
+button,
+input {
+    font-family: "GmarketSansMedium" !important;
+    font-size: 13px;
+}
+
+
+#product-option-input{
+    text-align: center;
+    padding: 0 15px;
+}
