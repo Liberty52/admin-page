@@ -20,6 +20,20 @@ export const UPDATE_REVIEW_REPLY = (reviewId, replyId) =>
 export const DELETE_REVIEW_REPLY = (id) => `/admin/reviews/replies/${id}`;
 export const DELETE_CUSTOMER_REVIEW = (id) => `/admin/customerReviews/${id}`;
 
-// 고객 api
-export const CUSTOMER_LIST = (size, page, name, sort) =>
-  `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
+// 고객 조회 api
+export const CUSTOMER_LIST = (size, page, sort) => {
+  let sortParam = "";
+  for (const key in sort) {
+    const isDesc = sort[key];
+    sortParam += `&sort=${key}`;
+    if (isDesc) sortParam += `,desc`;
+  }
+  return `/admin/customer-info?size=${size}&page=${page}${sortParam}`;
+};
+
+// 상품 관리
+export const PRODUCT_LIST = () => `/admin/productInfo`;
+export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
+export const PRODUCT_OPTION_LIST = (productId) => `/admin/productOptionInfo/${productId}`;
+export const ADD_PRODUCT_OPTION_DETAIL = (optionId) => `/admin/optionDetail/${optionId}`;
+export const DELETE_PRODUCT_OPTION_DETAIL = (optionDetailId) => `/admin/optionDetail/${optionDetailId}`;
