@@ -1,5 +1,6 @@
 import { MainContainer } from "../component/main/MainComponent";
 import SideNav from "../component/common/side-nav/SideNav";
+import CancelModal from "../../component/order/CancelModal";
 import "./OrderDetail.css";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -211,9 +212,13 @@ function OrderPayment({ order }) {
 }
 
 function CancelInfo({ orderId, cancelInfo }) {
+  const [modal, showModal] = useState(false);
   const navigate = useNavigate();
   return (
     <>
+      {modal && (
+        <CancelModal orderId={orderId} closeModal={() => showModal(false)} />
+      )}
       <h2>취소 정보</h2>
       <Border />
       <div className="grid">
@@ -243,20 +248,7 @@ function CancelInfo({ orderId, cancelInfo }) {
       ) : (
         <Button
           sx={{ width: "100%", height: 50, fontWeight: "bold", fontSize: 17 }}
-          onClick={() => {
-            if (window.confirm("주문 취소 승인하시겠습니까?")) {
-              const dto = {
-                orderId: orderId,
-                fee: 0,
-              };
-              approveCancel(dto)
-                .then(() => {
-                  alert("주문 취소 완료");
-                  navigate("/order");
-                })
-                .catch((err) => alert(err.response.data.error_message));
-            }
-          }}
+          onClick={() => showModal(true)}
         >
           주문 취소 승인
         </Button>
@@ -269,6 +261,7 @@ export default function CanceledOrderDetail() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [cancelInfo, setCancelInfo] = useState(null);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     getCanceledOrderDetails(orderId)
@@ -285,6 +278,7 @@ export default function CanceledOrderDetail() {
 
   return (
     <div className="MainContainer">
+      {modal && <CancelModal closeModal={() => setModal(false)} />}
       <div className="left-Container">
         <MainContainer />
         <SideNav />
@@ -298,7 +292,11 @@ export default function CanceledOrderDetail() {
           <OrderPerson order={order} />
           <OrderDelivery order={order} />
           <OrderPayment order={order} />
-          <CancelInfo orderId={orderId} cancelInfo={cancelInfo} />
+          <CancelInfo
+            orderId={orderId}
+            cancelInfo={cancelInfo}
+            setModal={setModal}
+          />
         </div>
       </div>
     </div>
