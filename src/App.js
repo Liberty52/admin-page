@@ -7,7 +7,9 @@ import OrderDetail from "./screen/orders/OrderDetail";
 import "./App.css";
 import Login from "./screen/login/Login";
 import Customer from "./screen/Customer";
-
+import Notice from "./screen/Notice";
+import Editor from "./component/notice/Editor";
+import NoticeDetail from "./component/notice/NoticeDetail";
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
         <Route path={"/customers"} element={<Customer />} />
         <Route path={"/order"} element={<Orders />} />
         <Route path="/order/:orderId" element={<OrderDetail />} />
+        <Route path={"/notice"} element={<Notice />} />
+        <Route path={"/notice/write"} element={<Editor />} />
+        <Route path={"/notice/detail"} element={<NoticeDetail />} />
       </Routes>
     </BrowserRouter>
   );

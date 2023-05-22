@@ -15,7 +15,11 @@ export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
 
+// 공지사항 api
+export const NOTICE_LIST = (page, pageSize) =>
+  `/admin/notices?page=${page}&size=${pageSize}`;
+export const NOTICE_DETAIL = (id) => `/admin/notices/${id}`;
+export const CREATE_NOTICE = () => `/admin/notices`;
 
 export const CUSTOMER_LIST = (size, page, name, sort) =>
   `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
-
