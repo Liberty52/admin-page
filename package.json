@@ -6,6 +6,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.17",
+    "@mui/icons-material": "^5.11.16",
     "@mui/joy": "^5.0.0-alpha.78",
     "@mui/material": "^5.13.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -21,6 +22,7 @@
     "react-scripts": "5.0.1",
     "simplebar-react": "^3.2.4",
     "styled-components": "^5.3.10",
+    "sweetalert2": "^11.7.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

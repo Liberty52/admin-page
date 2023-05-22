@@ -5,6 +5,8 @@ import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import { ArchiveBoxIcon } from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import {PATH_PRODUCT} from "../../../../constants/path";
 
 export const items = [
   {
@@ -53,6 +55,7 @@ export const items = [
     ),
   },
   {
+
     title: "Notice",
     path: "/notice",
     icon: (
@@ -60,5 +63,14 @@ export const items = [
         <ArchiveBoxIcon />
       </SvgIcon>
     ),
+
+    title : "Product",
+    path : PATH_PRODUCT,
+    icon : (
+        <SvgIcon fontSize={"small"}>
+          <InventoryIcon/>
+        </SvgIcon>
+    )
+
   },
 ];

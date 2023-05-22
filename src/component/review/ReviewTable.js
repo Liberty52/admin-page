@@ -11,6 +11,7 @@ import {
   Card,
   Button,
   SvgIcon,
+  Rating,
 } from "@mui/material";
 export const ReviewTable = (props) => {
   const {
@@ -44,7 +45,9 @@ export const ReviewTable = (props) => {
                   }}
                 >
                   <TableCell>{review.authorName}</TableCell>
-                  <TableCell>{review.rating}</TableCell>
+                  <TableCell>
+                    <Rating name="size-medium" defaultValue={review.rating} />
+                  </TableCell>
                   <TableCell>{review.content}</TableCell>
                   <TableCell>
                     {review.imageUrls.length > 0 ? (
@@ -59,7 +62,7 @@ export const ReviewTable = (props) => {
                         />
                       </div>
                     ) : (
-                      <span>올린 이미지가 없습니다.</span>
+                      <span>-</span>
                     )}
                   </TableCell>
                 </TableRow>
