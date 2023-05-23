@@ -1,6 +1,7 @@
 
 import axios from './axios';
 import {ACCESS_TOKEN} from "../constants/token";
+import request from "./axios";
 
 export const fetchOrders = async (page, size) => {
   try {
@@ -45,7 +46,7 @@ export const fetchOrderDetail = async (orderId) => {
   return null;
 };
 
-
+/*
 export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
   const payload = {
     depositorBank,
@@ -69,12 +70,42 @@ export async function updateOrder(orderId, depositorBank, depositorName, deposit
     console.log('400');
   }
 }
+*/
+export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
+  const payload = {
+    depositorBank,
+    depositorName,
+    depositorAccount
+  };
 
-export async function updateOrderStatus(orderId, orderStatus) {
+  console.log(depositorBank,
+    depositorName,
+    depositorAccount);
+
   try {
-    const response = await axios.put(`/admin/orders/${orderId}/status`, null, {
+    const response = await request.put(`/admin/orders/${orderId}/vbank`, payload, {
       headers: {
         'Authorization': 'LB-Role'
+      }
+    });
+
+    console.log('Response status:', response.status);
+
+    if (response.status === 200) {
+      console.log('200');
+    } else if (response.status === 400) {
+      console.log('400');
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+export async function updateOrderStatus(orderId, orderStatus) {
+  try {
+    const response = await request.put(`/admin/orders/${orderId}/status`, null, {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
       },
       params: {
         orderStatus
