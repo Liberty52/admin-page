@@ -24,38 +24,6 @@ function OrderTop() {
 }
 
 
-function OrderMiddle({ selectedOrders, setSelectedOrders, newOrderStatus, setNewOrderStatus }) {
-  const handleStatusChange = async () => {
-    console.log('handleStatusChange');
-
-    console.log( selectedOrders);
-    console.log( newOrderStatus);
-
-    for (const orderId of selectedOrders) {
-      await updateOrderStatus(orderId, newOrderStatus);
-      console.log('아이디',orderId);
-      console.log('상태정보 ',  newOrderStatus);
-    }
-
-    setSelectedOrders([]);
-    setNewOrderStatus('');
-  };
-
-  return (
-    <>
-      <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)}>
-        <option value="">주문 상태 선택</option>
-        <option value="MAKING">제작시작</option>
-        <option value="DELIVERING">배송시작</option>
-        <option value="COMPLETE ">배송완료 </option>
-      </select>
-      <button onClick={handleStatusChange}>변경</button>
-    </>
-  );
-}
-
-
-
 /////////////////////
 
 function OrderInquiry() {
@@ -88,7 +56,6 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const [depositorBank, setDepositorBank] = useState('');
   const [depositorName, setDepositorName] = useState('');
   const [depositorAccount, setDepositorAccount] = useState('');
-
   const [newOrderStatus, setNewOrderStatus] = useState('');
 
   useEffect(() => {
@@ -100,23 +67,20 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         setOrders(data.orders);
         setTotalLastPage(data.totalLastPage);
       }
-      if (selectedOrders.length > 0) {
-        for (const orderId of selectedOrders) {
-          await updateOrderStatus(orderId, newOrderStatus);
-        }
-        setSelectedOrders([]);
-        setNewOrderStatus('');
-      }
     };
 
     fetchData();
   }, [currentPage]);
+
   const handleOrderClick = (orderId) => {
     navigate(`/order/${orderId}`);
     console.log('Current Selected Orders:', selectedOrders);
   };
 
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+
   const handleOpenModal = (orderId) => {
+    setCurrentOrderId(orderId);
     setModalOpen(true);
   };
 
@@ -125,14 +89,48 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   };
 
   const handleConfirm = async () => {
-    await updateOrder( depositorBank, depositorName, depositorAccount);
+    await updateOrder(currentOrderId, depositorBank, depositorName, depositorAccount);
+    setCurrentOrderId(null);
+    setDepositorBank('');
+    setDepositorName('');
+    setDepositorAccount('');
     handleCloseModal();
+  };
+
+  const handleStatusChange = async () => {
+    for (const orderId of selectedOrders) {
+      await updateOrderStatus(orderId, newOrderStatus);
+      console.log('아이디',orderId);
+      console.log('상태정보 ',  newOrderStatus);
+    }
+
+    const data = await fetchOrders(currentPage, 10);
+    if (data) {
+      setOrders(data.orders);
+      setTotalLastPage(data.totalLastPage);
+
+    }
+
+    setSelectedOrders([]);
+    setNewOrderStatus('');
   };
 
    return (
     <>
-      <div className="order-select">
+     <div>
+        <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)}>
+          <option value="">주문 상태 선택</option>
+          <option value="MAKING">제작시작</option>
+          <option value="DELIVERING">배송시작</option>
+          <option value="COMPLETE ">배송완료 </option>
+        </select>
+        <button onClick={handleStatusChange}>변경</button>
+      </div>
+      <OrderCount/>
+      <Border/>
+      <OrderInquiry/>
 
+      <div className="order-select">
         {orders.length > 0 ? (
           orders.map((order) => (
             <button
@@ -173,6 +171,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           <p>데이터가 없습니다.</p>
         )}
       </div>
+
       <div className="pagination">
         {[...Array(totalLastPage)].map((_, i) => (
           <button
@@ -212,16 +211,9 @@ export default function Orders() {
       </div>
       <div className="Right-Container">
         <OrderTop/>
-        <OrderMiddle
-          selectedOrders={selectedOrders}
-          setSelectedOrders={setSelectedOrders}
-          newOrderStatus={newOrderStatus}
-          setNewOrderStatus={setNewOrderStatus}
-        />
+
         <div className="Bottom-Container">
-          <OrderCount/>
-          <Border/>
-          <OrderInquiry/>
+
           <OrderSelect
             selectedOrders={selectedOrders}
             setSelectedOrders={setSelectedOrders}

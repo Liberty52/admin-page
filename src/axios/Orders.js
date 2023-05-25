@@ -46,46 +46,21 @@ export const fetchOrderDetail = async (orderId) => {
   return null;
 };
 
-/*
+
 export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
   const payload = {
     depositorBank,
     depositorName,
     depositorAccount
   };
-
-  console.log(depositorBank,
-    depositorName,
-    depositorAccount);
-
-  const response = await axios.put(`/admin/orders/${orderId}/vbank`, payload, {
-    headers: {
-      'Authorization': 'LB-Role'
-    }
-  });
-
-  if (response.status === 200) {
-    console.log('200');
-  } else if (response.status === 400) {
-    console.log('400');
-  }
-}
-*/
-export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
-  const payload = {
-    depositorBank,
-    depositorName,
-    depositorAccount
-  };
-
-  console.log(depositorBank,
+  console.log( orderId,depositorBank,
     depositorName,
     depositorAccount);
 
   try {
     const response = await request.put(`/admin/orders/${orderId}/vbank`, payload, {
       headers: {
-        'Authorization': 'LB-Role'
+        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
       }
     });
 
@@ -95,12 +70,16 @@ export async function updateOrder(orderId, depositorBank, depositorName, deposit
       console.log('200');
     } else if (response.status === 400) {
       console.log('400');
+      alert(response.data.message);
     }
 
   } catch (error) {
     console.error('Error:', error);
+
   }
 }
+
+
 export async function updateOrderStatus(orderId, orderStatus) {
   try {
     const response = await request.put(`/admin/orders/${orderId}/status`, null, {
@@ -112,14 +91,15 @@ export async function updateOrderStatus(orderId, orderStatus) {
       }
     });
 
-    console.log('Response status:', response.status);
-
-    if (response.status === 200) {
-      console.log('200');
-    } else if (response.status === 400) {
-      console.log('400');
+    if (response.status !== 200) {
+      console.error('Error:', response.status, response.data);
+      if (response.data && response.data.message) {
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
     }
   } catch (error) {
-    console.error('Error:', error);
+    alert(error.response.data.cause.errorMessage);
   }
 }
