@@ -10,14 +10,15 @@ import {addOptionDetail} from "../../axios/Product";
 import {Box} from "@mui/material";
 
 
-export default function ProductOptionDetailModal({open, setOpen, optionId, setOptionId, mode, editProps, clearEditProps,actived}) {
+export default function ProductOptionModal({open, setOpen, productId, mode, editProps, clearEditProps,actived}) {
     const [value,setValue] = useState("");
-    const [price,setPrice] = useState(0);
+    const [require,setRequire] = useState(false);
     const [onSail, setOnSail] = useState(false);
     const [buttonText, setButtonText] = useState();
     useEffect(() => {
-        setValue(editProps.optionDetailName);
-        setPrice(editProps.price)
+        console.log(editProps)
+        setValue(editProps.optionName);
+        setRequire(editProps.require)
         setOnSail(editProps.onSail);
         setButtonText(mode === ModalMode.ADD ? "추가하기" : "수정하기");
     },[open])
@@ -25,22 +26,21 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
         setOpen(false);
         clearEditProps();
         setValue("");
-        setOptionId("");
-        setPrice(0);
+        setRequire(false);
         setOnSail(false);
         actived();
     }
     const onActionButtonClicked = () => {
         if(mode === ModalMode.ADD){
-            addOptionDetailButtonClicked();
+            addOptionButtonClicked();
         }else{
             editOptionDetail();
         }
     }
-    const addOptionDetailButtonClicked = async () => {
+    const addOptionButtonClicked = async () => {
         let isValid = true;
+        console.log(value)
 
-        
         if(value.length === 0){
             Toast.fire({
                 icon: 'warning',
@@ -48,25 +48,18 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             })
             isValid = false;
         }
-        
-        if(price < 0){
-            Toast.fire({
-                icon: 'warning',
-                title: '가격은 0이상의 값을 입력해주세요'
-            })
-            isValid = false;
-        }
+
         if(!isValid)
             return;
 
 
 
         try{
-            const response = await addOptionDetail(optionId,{
-                name : value ,
-                price,
-                onSail
-            });
+            // const response = await addOptionDetail(optionId,{
+            //     name : value ,
+            //     price,
+            //     onSail
+            // });
             Toast.fire({
                 icon: 'success',
                 title: '옵션이 추가되었습니다.'
@@ -118,17 +111,17 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
                     }}
                 />
                 <ProductOptionModalTitle>
-                    {mode === ModalMode.ADD? "옵션 항목 추가" : "옵션 항목 수정"}
+                    {mode === ModalMode.ADD? "옵션 추가" : "옵션 수정"}
                 </ProductOptionModalTitle>
-                <Input value={value} onChange={(e)=> setValue(e.target.value)} placeholder={"추가할 옵션 항목의 이름을 입력해주세요"}/>
-                <Box sx={{py: 1,}}/>
-
                 <Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={"center"}>
-                    <Grid sm={10}>
-                    <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션 항목의 가격을 입력해주세요"}/>
+                    <Grid sm={8}>
+                        <Input value={value} onChange={(e)=> setValue(e.target.value)} placeholder={"추가할 옵션 항목의 이름을 입력해주세요"}/>
                     </Grid>
                     <Grid sm={2}>
                         <Checkbox checked={onSail} onChange={(e)=> setOnSail(e.target.checked)} label={"판매"}/>
+                    </Grid>
+                    <Grid sm={2}>
+                        <Checkbox checked={require} onChange={(e)=> setRequire(e.target.checked)} label={"필수"}/>
                     </Grid>
                 </Grid>
                 <Stack direction={"row"} justifyContent={"flex-end"} spacing={1} marginTop={2}>
