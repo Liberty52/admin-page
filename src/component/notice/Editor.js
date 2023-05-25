@@ -69,18 +69,18 @@ const NoticeEditor = () => {
     setEditorState(editorState);
   };
 
-  const uploadCallback = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+  // const uploadCallback = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
 
-      reader.onloadend = async () => {
-        const formData = new FormData();
-        formData.append("multipartFiles", file);
-      };
+  //     reader.onloadend = async () => {
+  //       const formData = new FormData();
+  //       formData.append("multipartFiles", file);
+  //     };
 
-      reader.readAsDataURL(file);
-    });
-  };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
 
   //     const DIV = styled.div`
   //     .ant-form-item-control-input-content {
@@ -97,8 +97,7 @@ const NoticeEditor = () => {
       <Layout style={{ padding: "0 24px 24px" }}>
         <div style={{ borderTop: "1px solid #eee" }} />
         <div style={{ textAlign: "center" }}>
-          공지사항 등록 화면입니다.
-          <br />
+          <h3>공지사항 작성</h3>
         </div>
 
         <Container>
@@ -122,13 +121,13 @@ const NoticeEditor = () => {
                     localization={{
                       locale: "ko",
                     }}
-                    toolbar={{
-                      list: { inDropdown: false },
-                      textAlign: { inDropdown: false },
-                      link: { inDropdown: false },
-                      history: { inDropdown: false },
-                      image: { uploadCallback: uploadCallback },
-                    }}
+                    // toolbar={{
+                    //   list: { inDropdown: false },
+                    //   textAlign: { inDropdown: false },
+                    //   link: { inDropdown: false },
+                    //   history: { inDropdown: false },
+                    //   image: { uploadCallback: uploadCallback },
+                    // }}
                     editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
@@ -138,7 +137,7 @@ const NoticeEditor = () => {
                 </MyBlock>
               </Descriptions.Item>
               <Descriptions.Item
-                label="댓글허용"
+                label="댓글 허용 여부"
                 style={{ textAlign: "center" }}
               >
                 <FormItem name="allowComments" style={{ margin: "0" }}>

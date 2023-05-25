@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { Layout, Descriptions, Input, Button, Form } from "antd";
-import FormItem from "antd/lib/form/FormItem";
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState } from "draft-js";
 import { postNotice } from "../../axios/Notice";
 import SideNav from "../../screen/component/common/side-nav/SideNav";
 import { MainContainer } from "../../screen/component/main/MainComponent";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getNoticeDetail, deleteNotice } from "../../axios/Notice";
 import moment from "moment";
 import { Box, Container, Stack, Typography } from "@mui/material";
+import {
+  MoveToListButton,
+  DetailPageButtonWrapper,
+  Viewer,
+  NoticeDetailCreatedAt,
+  NoticeDetailHeader,
+  NoticeDetailTitle,
+} from "./style/Notice";
+import "./Notice.css";
 
 const NoticeDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [data, setData] = useState([]);
+  const [allowComments, setAllowComments] = useState("");
   useEffect(() => {
     console.log(state);
     let rawData = getNoticeDetail(state);
     rawData.then((appData) => {
       setData(appData.data);
+      console.log(data);
+      setAllowCommentsByData(appData.data.commentable);
     });
   }, []);
+  function setAllowCommentsByData(commentable) {
+    if (commentable == true) {
+      setAllowComments("댓글 작성 가능");
+    } else if (commentable == false) {
+      setAllowComments("댓글 작성 불가");
+    } else {
+    }
+  }
   const onEditNotice = () => {
     navigate("/notice/write");
   };
@@ -44,38 +59,44 @@ const NoticeDetail = () => {
           py: 8,
         }}
       >
-        <a href="/notice">
-          <button className="lf-button primary float-right">목록으로</button>
-        </a>
-        <table className="notice-table">
-          <colgroup>
-            <col width="20%" />
-            <col width="80%" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <td>{data.title}</td>
-            </tr>
-            <tr>
-              <th>작성일시</th>
-              <td>{moment(data.createdAt).format("YYYY-MM-DD")}</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                className="notice-contents"
-                colSpan="2"
-                dangerouslySetInnerHTML={{
-                  __html: data.content,
-                }}
-              ></td>
-            </tr>
-          </tbody>
-        </table>
-        <Button onClick={() => onDeleteNotice(data.noticeId)}> 삭제 </Button>
-        <Button onClick={onEditNotice}> 수정 </Button>
+        <>
+          <NoticeDetailHeader>
+            {data ? (
+              <div>
+                <NoticeDetailTitle>{data.title}</NoticeDetailTitle>
+                <NoticeDetailCreatedAt>
+                  공지사항 {" / "} {data.createdAt}
+                  {" / "}
+                  {allowComments}
+                </NoticeDetailCreatedAt>
+              </div>
+            ) : (
+              <></>
+            )}
+          </NoticeDetailHeader>
+          <Viewer id={"viewer"}></Viewer>
+          <table>
+            <td
+              className="notice-contents"
+              dangerouslySetInnerHTML={{
+                __html: data.content,
+              }}
+            ></td>
+          </table>
+          {data ? (
+            <DetailPageButtonWrapper>
+              <Button onClick={() => onDeleteNotice(data.noticeId)}>
+                삭제
+              </Button>
+              <Button onClick={onEditNotice}> 수정 </Button>
+              <MoveToListButton onClick={() => navigate("/notice")}>
+                목록
+              </MoveToListButton>
+            </DetailPageButtonWrapper>
+          ) : (
+            <></>
+          )}
+        </>
       </Box>
     </MainContainer>
   );
