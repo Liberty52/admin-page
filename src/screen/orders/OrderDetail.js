@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchOrderDetail } from '../../axios/Orders';
 import Button from '../../component/Button';
-import testImage from './test.jpg';
+
 
 ////////////////////////////
 function Border(){
@@ -51,38 +51,6 @@ function OrderImage({ order }) {
     </div>
   );
 }
-/*
-function OrderImage({ order }) {
-
-  const handleImageDownload = async () => {
-    for (const product of order.products) {
-      try {
-
-
-        const response = await fetch(testImage);
-
-        const blob = await response.blob();
-        console.log(blob.type);
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', product.name + '.jpg');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  return (
-    <div className="OrderIMG">
-      <Button text="이미지 다운로드" onClick={handleImageDownload} />
-    </div>
-  );
-}*/
-
 
 function OrderInquiry() {
     return (

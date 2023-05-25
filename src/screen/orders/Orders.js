@@ -84,9 +84,17 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setModalOpen(false);
+
+
+    const data = await fetchOrders(currentPage, 10);
+    if (data) {
+      setOrders(data.orders);
+      setTotalLastPage(data.totalLastPage);
+    }
   };
+
 
   const handleConfirm = async () => {
     await updateOrder(currentOrderId, depositorBank, depositorName, depositorAccount);
@@ -158,10 +166,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
               </div>
               <p>{order.orderDate}</p>
               <p>{order.productName}</p>
-              <div>
+              <div className="OrderStatus">
                 <p>{order.orderStatus}</p>
                 {order.orderStatus === '입금대기' && (
-                  <Button onClick={(e) => { e.stopPropagation(); handleOpenModal(order.orderId); }} text="입금 확인"></Button>
+                  <Button className="orderStatus-Button" onClick={(e) => { e.stopPropagation(); handleOpenModal(order.orderId); }} text="입금 확인"></Button>
                 )}
               </div>
               <p>{order.customerName}</p>
