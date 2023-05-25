@@ -7,6 +7,7 @@ import {
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 import {deleteOptionDetail} from "../../axios/Product";
 import Swal from "sweetalert2";
 import {Toast} from "../../utils/Toast";
@@ -66,7 +67,7 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                     <ProductOptionDetailButtonWrapper
                         onClick={onDeleteButtonClicked}
                     >
-                   <DeleteIcon/>
+                   <AutorenewIcon/>
                     </ProductOptionDetailButtonWrapper>
                 </ProductOptionDetailButton>
             </ProductOptionDetailWrapper>
