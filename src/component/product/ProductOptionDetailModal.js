@@ -118,14 +118,14 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
                     }}
                 />
                 <ProductOptionModalTitle>
-                    {mode === ProductOptionModalMode.ADD? "옵션 내용 추가" : "옵션 내용 수정"}
+                    {mode === ProductOptionModalMode.ADD? "옵션 항목 추가" : "옵션 항목 수정"}
                 </ProductOptionModalTitle>
-                <Input value={value} onChange={(e)=> setValue(e.target.value)} placeholder={"추가할 옵션 내용을 입력해주세요"}/>
+                <Input value={value} onChange={(e)=> setValue(e.target.value)} placeholder={"추가할 옵션 항목의 이름을 입력해주세요"}/>
                 <Box sx={{py: 1,}}/>
 
                 <Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={"center"}>
                     <Grid sm={10}>
-                    <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션의 가격을 입력해주세요"}/>
+                    <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션 항목의 가격을 입력해주세요"}/>
                     </Grid>
                     <Grid sm={2}>
                         <Checkbox checked={onSail} onChange={(e)=> setOnSail(e.target.checked)} label={"판매"}/>
