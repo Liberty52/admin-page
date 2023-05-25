@@ -24,6 +24,20 @@ export const CardImage = styled.img`
 `
 export const ProductBox = styled(Stack)`
 `
+export const ProductHeaderWrapper = styled(Stack)`
+    margin-bottom: 20px;
+
+`
+export const ProductTitle = styled.div`
+    font-size: 26px;
+    font-weight: bold;
+`
+
+export const ProductAddButtonWrapper = styled.div`
+    :hover{
+      cursor:pointer;
+    }
+`
 
 export const PointeredBox = styled.div`
   :hover {

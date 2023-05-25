@@ -3,9 +3,11 @@ import SideNav from "../component/common/side-nav/SideNav";
 import {Box, Container} from "@mui/material";
 import ProductItem from "../../component/product/ProductItem";
 import {MOCK_IMAGE} from "../../utils/MockData";
-import {ProductBox} from "../../component/product/styled/Product";
+import {ProductAddButtonWrapper, ProductBox, ProductHeaderWrapper, ProductTitle} from "../../component/product/styled/Product";
 import {useEffect, useState} from "react";
 import {retrieveProduct} from "../../axios/Product";
+import {Stack} from "@mui/joy";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 
 
@@ -45,7 +47,12 @@ export default function Product(){
                     }}
                 >
                     <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
-                        <h1>상품 관리</h1>
+                        <ProductHeaderWrapper direction={"row"} justifyContent={"space-between"}
+                        alignItems={"center"}>
+                            <ProductTitle>상품 관리</ProductTitle>
+                            <ProductAddButtonWrapper><ControlPointIcon/></ProductAddButtonWrapper>
+                        </ProductHeaderWrapper>
+                        
                         <ProductBox useFlexGap  flexWrap={"wrap"} direction={"row"} spacing={2}>
                             {product !== undefined ? product?.map(p => <ProductItem
                             id={p.id}
