@@ -1,10 +1,12 @@
 import Orders from "./orders/Orders";
 import CanceledOrders from "../component/order/CanceledOrders";
+import Payment from "../component/order/payment/Payment";
 import { MainContainer } from "./component/main/MainComponent";
 import SideNav from "./component/common/side-nav/SideNav";
 import { Box, Container, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,6 +47,7 @@ function BasicTabs() {
   const tabContents = [
     { label: "전체 주문 조회", content: <Orders /> },
     { label: "주문 취소 관리", content: <CanceledOrders /> },
+    { label: "결제 관리", content: <Payment />}
   ];
 
   const tabs = [];
@@ -61,6 +64,7 @@ function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <h1>주문 관리</h1>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
