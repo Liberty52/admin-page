@@ -1,6 +1,6 @@
 import {
-    ProductOptionDetailButton,
-    ProductOptionDetailButtonWrapper,
+    HoverButtonWrapper,
+    HoverButton,
     ProductOptionDetailWrapper,
     ProductOptionItemName,
     ProductOptionItemWrapper
@@ -60,18 +60,18 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                         {detail.optionDetailName}
                     </ProductOptionItemName>
                 </ProductOptionItemWrapper>
-                <ProductOptionDetailButton focused={focused}>
-                    <ProductOptionDetailButtonWrapper
+                <HoverButtonWrapper focused={focused}>
+                    <HoverButton
                         onClick={() => onEditButtonClicked(detail)}
                     >
                         <EditIcon />
-                    </ProductOptionDetailButtonWrapper>
-                    <ProductOptionDetailButtonWrapper
+                    </HoverButton>
+                    <HoverButton
                         onClick={onDeleteButtonClicked}
                     >
                    <AutorenewIcon/>
-                    </ProductOptionDetailButtonWrapper>
-                </ProductOptionDetailButton>
+                    </HoverButton>
+                </HoverButtonWrapper>
             </ProductOptionDetailWrapper>
         </>
     )

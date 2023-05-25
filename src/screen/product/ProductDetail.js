@@ -58,8 +58,9 @@ export default function ProductDetail() {
     },[])
 
     useEffect(() => {
+        // TODO showAll 을 넘겨야 할 수 있음.
         getOptions();
-    },[optionChanged])
+    },[optionChanged, showAll])
 
 
 

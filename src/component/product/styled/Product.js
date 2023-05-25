@@ -96,7 +96,11 @@ export const ProductOptionDetailAddButton = styled.div`
 
 export const ProductOptionInput = styled(Input)`
 `
-export const ProductOptionDetailButton = styled.div`
+export const ProductOptionTitleWrapper = styled.div`
+  position: relative;
+  background-color: white;
+`
+export const HoverButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -130,7 +134,7 @@ export const ProductOptionItemName = styled.div`
   overflow: hidden;
   white-space: nowrap;
 `
-export const ProductOptionDetailButtonWrapper = styled.div`
+export const HoverButton = styled.div`
   z-index : 2;
   :hover{
     cursor: pointer;
