@@ -97,6 +97,24 @@ export const ProductOptionDetailButton = styled.div`
 export const ProductOptionDetailWrapper = styled.div`
   position: relative;
 `
+export const ProductOptionItemWrapper = styled.div`
+  box-sizing: border-box;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #D8D8DF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  background-color: ${props => props.onSail ? "white" : "rgba(0,0,0,0.2)"};
+
+
+`
+export const ProductOptionItemName = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`
 export const ProductOptionDetailButtonWrapper = styled.div`
   z-index : 2;
   :hover{

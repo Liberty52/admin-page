@@ -2,7 +2,7 @@ import {
     ProductOptionDetailButton,
     ProductOptionInput,
     ProductOptionDetailWrapper,
-    ProductOptionDetailButtonWrapper
+    ProductOptionDetailButtonWrapper, ProductOptionItemWrapper, ProductOptionItemName
 } from "./styled/Product";
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
@@ -55,9 +55,11 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                 onMouseEnter ={onMouseOn}
                 onMouseLeave ={onMouseOut}
             >
-            <ProductOptionInput
-                                id={'product-option-input'}
-                                readOnly  value={detail.optionDetailName} />
+                <ProductOptionItemWrapper onSail={detail.onSail}>
+                    <ProductOptionItemName>
+                        {detail.optionDetailName}
+                    </ProductOptionItemName>
+                </ProductOptionItemWrapper>
                 <ProductOptionDetailButton focused={focused}>
                     <ProductOptionDetailButtonWrapper
                         onClick={() => onEditButtonClicked(detail)}
