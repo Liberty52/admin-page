@@ -63,6 +63,21 @@ export const CardDetailImage = styled.img`
   border-radius: 25px;
 `
 
+export const ProductOptionHeader = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+
+export const ProductOptionHeaderTitle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+`
+export const ProductOptionAddButton = styled.div`
+    cursor: pointer;
+`
+
 export const ProductOptionTitle = styled.div`
   font-size: 20px;
   font-weight: bold;

@@ -6,7 +6,7 @@ import {
     CardDetailImage,
     PointeredBox,
     ProductChevronLeft,
-    ProductDetailName
+    ProductDetailName, ProductOptionAddButton, ProductOptionHeader, ProductOptionHeaderTitle
 } from "../../component/product/styled/Product";
 import {PATH_PRODUCT} from "../../constants/path";
 import ProductOption from "../../component/product/ProductOption";
@@ -14,11 +14,14 @@ import ProductOptionDetailModal from "../../component/product/ProductOptionDetai
 import {useEffect, useState} from "react";
 import {ProductOptionModalMode} from "../../constants/mode";
 import {retrieveProductDetail, retrieveProductOptionList} from "../../axios/Product";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import {Checkbox} from "@mui/joy";
 
 
 export default function ProductDetail() {
     const {productId} = useParams();
     const navigate = useNavigate();
+    const [showAll,setShowAll] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [mode, setMode] = useState(ProductOptionModalMode.ADD);
     const [product,setProduct] = useState(undefined);
@@ -118,9 +121,15 @@ export default function ProductDetail() {
                     </div>
                     {/* 사진과 옵션 사이의 공간 설정*/}
                     <Box sx={{py: 2,}}/>
+                    <Stack marginBottom={3} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                        <ProductOptionHeader>
+                            <ProductOptionHeaderTitle>옵션 목록</ProductOptionHeaderTitle>
+                            <Checkbox checked={showAll} onChange={(e)=> setShowAll(e.target.checked)} label="전체 옵션 보기" />
+                        </ProductOptionHeader>
+                        <ProductOptionAddButton><ControlPointIcon/></ProductOptionAddButton>
+                    </Stack>
                     {/*옵션 공간*/}
                     <Stack direction={"row"} flexWrap={"wrap"} useFlexGap spacing={2} >
-
                         {options.map(o =>
                             <ProductOption
                                 option ={o}

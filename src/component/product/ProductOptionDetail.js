@@ -1,12 +1,12 @@
 import {
     ProductOptionDetailButton,
-    ProductOptionInput,
+    ProductOptionDetailButtonWrapper,
     ProductOptionDetailWrapper,
-    ProductOptionDetailButtonWrapper, ProductOptionItemWrapper, ProductOptionItemName
+    ProductOptionItemName,
+    ProductOptionItemWrapper
 } from "./styled/Product";
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import {deleteOptionDetail} from "../../axios/Product";
 import Swal from "sweetalert2";
