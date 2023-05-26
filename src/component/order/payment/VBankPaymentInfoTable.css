@@ -1,0 +1,17 @@
+#btn-more-container {
+    position: relative;
+    display: inline-block;
+}
+
+#btn-more-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+#btn-more-container img:hover {
+    opacity: 0;
+}
