@@ -13,9 +13,50 @@ export const UPLOAD_IMAGE = () => `/auth/questions/img`;
 // 리뷰 api
 export const REVIEW_LIST = (page, pageSize) =>
   `/admin/reviews?size=${pageSize}&page=${page}`;
+export const REVIEW_DETAIL = (id) => `/admin/reviews/${id}`;
 export const CREATE_REVIEW_REPLY = (id) => `/admin/reviews/${id}/replies`;
+export const UPDATE_REVIEW_REPLY = (reviewId, replyId) =>
+  `/admin/reviews/${reviewId}/replies/${replyId}`;
+export const DELETE_REVIEW_REPLY = (id) => `/admin/reviews/replies/${id}`;
+export const DELETE_CUSTOMER_REVIEW = (id) => `/admin/customerReviews/${id}`;
 
+// 공지사항 api
+export const NOTICE_LIST = (page, pageSize) =>
+  `/admin/notices?page=${page}&size=${pageSize}`;
+export const NOTICE_DETAIL = (id) => `/admin/notices/${id}`;
+export const CREATE_NOTICE = () => `/admin/notices`;
 
-export const CUSTOMER_LIST = (size, page, name, sort) =>
-  `/admin/user-info?size=${size}&page=${page}&sort=${name}&sort=${sort}`;
+// 고객 조회 api
+export const CUSTOMER_LIST = (size, page, sort) => {
+  let sortParam = "";
+  for (const key in sort) {
+    const isDesc = sort[key];
+    sortParam += `&sort=${key}`;
+    if (isDesc) sortParam += `,desc`;
+  }
+  return `/admin/customer-info?size=${size}&page=${page}${sortParam}`;
+};
 
+// 주문 조회 api
+export const CANCELED_ORDERS = (size, page, type) => {
+  return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
+};
+
+export const CANCELED_ORDER_DETAILS = (orderId) => {
+  return `/admin/orders/cancel/${orderId}`;
+};
+
+// 환불 요청 api
+export const APPROVE_CANCEL = () => {
+  return `/admin/orders/refund`;
+};
+
+// 상품 관리
+export const PRODUCT_LIST = () => `/admin/productInfo`;
+export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
+export const PRODUCT_OPTION_LIST = (productId) =>
+  `/admin/productOptionInfo/${productId}`;
+export const ADD_PRODUCT_OPTION_DETAIL = (optionId) =>
+  `/admin/optionDetail/${optionId}`;
+export const DELETE_PRODUCT_OPTION_DETAIL = (optionDetailId) =>
+  `/admin/optionDetail/${optionDetailId}`;

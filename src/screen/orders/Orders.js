@@ -1,5 +1,3 @@
-import { MainContainer } from "../component/main/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
 import './Orders.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,23 +6,13 @@ import { Checkbox } from "@mui/material";
 import Modal from 'react-modal';
 import Button from '../../component/Button';
 import Input from '../../component/Input';
+import Select from '../../component/Select';
 
-////////////////////////////
 function Border(){
-  return <div className="OrderBorder"></div>;
+  return(
+    <div className='order-border'></div>
+  )
 }
-///////////////////////////
-
-function OrderTop() {
-  return (
-  <div className="Top-Container">
-    <h1>주문조회</h1>
-  </div>
-  );
-}
-
-
-/////////////////////
 
 function OrderInquiry() {
   return (
@@ -38,14 +26,6 @@ function OrderInquiry() {
   );
 }
 
-function OrderCount() {
-
-  return (
-    <div className="OrderCount-Container">
-    목록( 총 N개 )
-    </div>
-  );
-}
 
 function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const [orders, setOrders] = useState([]);
@@ -125,20 +105,29 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
 
    return (
     <>
-     <div>
-        <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)}>
-          <option value="">주문 상태 선택</option>
-          <option value="MAKING">제작시작</option>
-          <option value="DELIVERING">배송시작</option>
-          <option value="COMPLETE ">배송완료 </option>
-        </select>
-        <button onClick={handleStatusChange}>변경</button>
+     <div className="order-change-status">
+      <Select
+        value={newOrderStatus}
+        onChange={setNewOrderStatus}
+        options={[
+          { value: '', label: '주문 상태 선택' },
+          { value: 'MAKING', label: '제작시작' },
+          { value: 'DELIVERING', label: '배송시작' },
+          { value: 'COMPLETE', label: '배송완료' },
+        ]}
+        />
+        <Button
+          onClick={handleStatusChange}
+          text="변경"
+        />
       </div>
-      <OrderCount/>
-      <Border/>
-      <OrderInquiry/>
+
+
+
 
       <div className="order-select">
+      <OrderInquiry/>
+      <Border/>
         {orders.length > 0 ? (
           orders.map((order) => (
             <button
@@ -146,39 +135,44 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
               key={order.orderId}
               onClick={() => handleOrderClick(order.orderId)}
             >
-              <div className="order_select_checkbox">
-              <Checkbox
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  if (e.target.checked) {
-                    setSelectedOrders((prevSelectedOrders) => [...prevSelectedOrders, order.orderId]);
-                  } else {
-                    setSelectedOrders((prevSelectedOrders) =>
-                      prevSelectedOrders.filter((orderId) => orderId !== order.orderId)
-                    );
-                  }
-                }}
-                checked={selectedOrders.includes(order.orderId)}
-              />
-
+            <div className="order_select_checkbox">
+            <Checkbox
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => {
+                e.stopPropagation();
+                const checked = e.target.checked;
+                if (checked) {
+                  setSelectedOrders([order.orderId]);
+                } else {
+                   setSelectedOrders([]);
+                }
+              }}
+              checked={selectedOrders.includes(order.orderId)}
+            />
                 <p>{order.orderNumber}</p>
               </div>
               <p>{order.orderDate}</p>
               <p>{order.productName}</p>
-              <div className="OrderStatus">
+
+              {order.orderStatus === '입금대기' ? (
+            <div className="OrderStatus">
+              <p>{order.orderStatus}</p>
+                <Button className="orderStatus-Button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                     handleOpenModal(order.orderId);
+                     }} text="입금 확인"/>
+                </div>
+              ) : (
                 <p>{order.orderStatus}</p>
-                {order.orderStatus === '입금대기' && (
-                  <Button className="orderStatus-Button" onClick={(e) => { e.stopPropagation(); handleOpenModal(order.orderId); }} text="입금 확인"></Button>
-                )}
-              </div>
+              )}
               <p>{order.customerName}</p>
             </button>
           ))
         ) : (
           <p>데이터가 없습니다.</p>
         )}
-      </div>
+
 
       <div className="pagination">
         {[...Array(totalLastPage)].map((_, i) => (
@@ -191,17 +185,19 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           </button>
         ))}
       </div>
+      </div>
+
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Update Order Modal"
       >
-        <h2>가상 계좌 정보 입력</h2>
+        <h2 className='order-modal-h2'>가상 계좌 정보 입력</h2>
         <input type="text" placeholder="Bank" value={depositorBank} onChange={(e) => setDepositorBank(e.target.value)} />
         <input type="text" placeholder="Name" value={depositorName} onChange={(e) => setDepositorName(e.target.value)} />
         <input type="text" placeholder="Account" value={depositorAccount} onChange={(e) => setDepositorAccount(e.target.value)} />
-        <Button onClick={handleConfirm} text="제출"></Button>
-        <Button onClick={handleCloseModal} text="취소"></Button>
+        <Button onClick={handleConfirm} text="제출"/>
+        <Button onClick={handleCloseModal} text="취소"/>
       </Modal>
     </>
   );
@@ -212,23 +208,12 @@ export default function Orders() {
   const [newOrderStatus, setNewOrderStatus] = useState('');
 
   return (
-    <div className="MainContainer">
-      <div className="left-Container">
-        <MainContainer />
-        <SideNav />
-      </div>
-      <div className="Right-Container">
-        <OrderTop/>
-
-        <div className="Bottom-Container">
 
           <OrderSelect
             selectedOrders={selectedOrders}
             setSelectedOrders={setSelectedOrders}
           />
-          </div>
-      </div>
-    </div>
+
   );
 }
 

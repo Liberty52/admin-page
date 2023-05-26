@@ -3,7 +3,10 @@ import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
 import ShoppingBagIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
 import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+import { ArchiveBoxIcon } from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import { PATH_PRODUCT } from "../../../../constants/path";
 
 export const items = [
   {
@@ -48,6 +51,24 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <LockClosedIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Notice",
+    path: "/notice",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ArchiveBoxIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Product",
+    path: PATH_PRODUCT,
+    icon: (
+      <SvgIcon fontSize={"small"}>
+        <InventoryIcon />
       </SvgIcon>
     ),
   },

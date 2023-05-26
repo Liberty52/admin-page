@@ -1,20 +1,21 @@
-import SideNav from "./component/common/side-nav/SideNav";
 import { MainContainer } from "./component/main/MainComponent";
+import SideNav from "./component/common/side-nav/SideNav";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { ReviewTable } from "../component/review/ReviewTable";
-import { ReviewDialog } from "../component/review/ReviewDialog";
-import { getReviewList } from "../axios/Review";
+import { NoticeTable } from "../component/notice/NoticeTable";
+import { useCallback, useEffect, useState } from "react";
+import { QuestionDialog } from "../component/question/QuestionDialog";
+import { getNoticeList } from "../axios/Notice";
 
-export default function Review() {
+export default function Notice() {
   const [data, setData] = useState();
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [isChanged, setIsChanged] = useState(false);
   const [open, setOpen] = useState(false);
-  const [reviewId, setReviewnId] = useState();
+  const [questionId, setQuestionId] = useState();
+  const [isChanged, setIsChanged] = useState(false);
 
-  function retrieveReviewList() {
-    getReviewList(page)
+  function retrieveQuestionList() {
+    getNoticeList(page)
       .then((res) => {
         setData(res.data);
       })
@@ -22,22 +23,39 @@ export default function Review() {
   }
 
   useEffect(() => {
-    retrieveReviewList();
+    retrieveQuestionList();
   }, [page]);
 
-  const handlePageChange = () => {};
-  const onMinusPageButtonClicked = () => {};
-  const onPlusPageButtonClicked = () => {};
-  const pageNumberArray = () => {};
+  const onMinusPageButtonClicked = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const onPlusPageButtonClicked = () => {
+    if (page == data.totalPage - 1) return;
+    setPage((prev) => prev + 1);
+  };
+
+  const handlePageChange = useCallback((event) => {
+    setPage(event.target.innerText - 1);
+  }, []);
+  const pageNumberArray = () => {
+    if (data === undefined) return undefined;
+    const array = [];
+    for (let i = data.startPage; i <= data.lastPage; i++) array.push(i);
+    return array;
+  };
+
   const handleDialogOn = (id) => {
-    setReviewnId(id);
+    setQuestionId(id);
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
-    setReviewnId(undefined);
+    setQuestionId(undefined);
     if (isChanged) {
-      retrieveReviewList();
+      retrieveQuestionList();
       setIsChanged(false);
     }
   };
@@ -61,13 +79,13 @@ export default function Review() {
                   sx={{ "font-family": "'Gothic A1', sans-serif !important;" }}
                   variant="h4"
                 >
-                  리뷰
+                  공지사항
                 </Typography>
               </Stack>
             </Stack>
-            {data?.contents && (
-              <ReviewTable
-                items={data?.contents}
+            {data?.contents !== undefined ? (
+              <NoticeTable
+                items={data.contents}
                 onPageChange={handlePageChange}
                 page={page}
                 onMinusPageButtonClicked={onMinusPageButtonClicked}
@@ -75,15 +93,17 @@ export default function Review() {
                 pageNumberArray={pageNumberArray()}
                 handleDialogOn={handleDialogOn}
               />
+            ) : (
+              <></>
             )}
           </Stack>
         </Container>
       </Box>
-      <ReviewDialog
+      <QuestionDialog
         isChanged={setIsChanged}
         open={open}
         handleClose={handleClose}
-        id={reviewId}
+        id={questionId}
       />
     </MainContainer>
   );
