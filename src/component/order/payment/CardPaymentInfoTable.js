@@ -25,52 +25,55 @@ export default function CardPaymentInfoTable() {
     ]
 
     return (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer>
-                <Table aria-label="customer table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align="center"
-                                    style={{
-                                        minWidth: column.minWidth,
-                                        maxWidth: column.maxWidth,
-                                    }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.length === 0 ? (
-                            <TableRow sx={{ display: "block", padding: "16px" }}>
-                                데이터가 없습니다
-                            </TableRow>
-                        ) : (
-                            rows.map((row) => {
-                                return (
-                                    <TableRow
-                                        tabIndex={-1}
-                                        key={row.type}
+        <div>
+            <h2>신용카드 관리</h2>
+            <Paper sx={{ width: "100%", overflow: "hidden" }}>
+                <TableContainer>
+                    <Table aria-label="customer table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align="center"
+                                        style={{
+                                            minWidth: column.minWidth,
+                                            maxWidth: column.maxWidth,
+                                        }}
                                     >
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align="center">
-                                                    {value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.length === 0 ? (
+                                <TableRow sx={{ display: "block", padding: "16px" }}>
+                                    데이터가 없습니다
+                                </TableRow>
+                            ) : (
+                                rows.map((row) => {
+                                    return (
+                                        <TableRow
+                                            tabIndex={-1}
+                                            key={row.type}
+                                        >
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align="center">
+                                                        {value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Paper>
+        </div>
     );
 }
