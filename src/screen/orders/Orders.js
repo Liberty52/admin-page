@@ -62,7 +62,12 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const handleOpenModal = (orderId) => {
     setCurrentOrderId(orderId);
     setModalOpen(true);
+    console.log('Modal opened: ', orderId);
+    setDepositorBank('');
+    setDepositorName('');
+    setDepositorAccount('');
   };
+
 
   const handleCloseModal = async () => {
     setModalOpen(false);
@@ -77,6 +82,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
 
 
   const handleConfirm = async () => {
+    console.log("Current bank: ", depositorBank);
+    console.log("Current name: ", depositorName);
+    console.log("Current account: ", depositorAccount);
+
     await updateOrder(currentOrderId, depositorBank, depositorName, depositorAccount);
     setCurrentOrderId(null);
     setDepositorBank('');
@@ -195,9 +204,41 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         className="myContent"
       >
         <h2 className='order-modal-h2'>가상 계좌 정보 입력</h2>
-        <input type="text" name="Bank" label="Bank" placeholder="Bank" value={depositorBank} onChange={(e) => setDepositorBank(e.target.value)} />
-        <input type="text" name="Name" label="Name" placeholder="Name" value={depositorName} onChange={(e) => setDepositorName(e.target.value)} />
-        <input type="text" name="Account" label="Account" placeholder="Account" value={depositorAccount} onChange={(e) => setDepositorAccount(e.target.value)} />
+        <input
+        type="text"
+        name="Bank"
+        label="Bank"
+        placeholder="Bank"
+        value={depositorBank}
+        onChange={(e) => {
+          console.log('Bank input changed: ', e.target.value);
+          setDepositorBank(e.target.value);
+        }}
+      />
+
+      <input
+        type="text"
+        name="Name"
+        label="Name"
+        placeholder="Name"
+        value={depositorName}
+        onChange={(e) => {
+          console.log('Name input changed: ', e.target.value);
+          setDepositorName(e.target.value);
+        }}
+      />
+
+      <input
+        type="text"
+        name="Account"
+        label="Account"
+        placeholder="Account"
+        value={depositorAccount}
+        onChange={(e) => {
+          console.log('Account input changed: ', e.target.value);
+          setDepositorAccount(e.target.value);
+        }}
+      />
 
         <Button onClick={handleConfirm} text="제출"/>
         <Button onClick={handleCloseModal} text="취소"/>

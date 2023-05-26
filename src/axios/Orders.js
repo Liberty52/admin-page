@@ -102,6 +102,7 @@ export async function updateOrder(orderId, depositorBank, depositorName, deposit
       console.log('200');
     } else if (response.status === 400) {
       console.log('400');
+      console.log(response.data);
       alert(response.data.message);
     }
 
