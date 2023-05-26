@@ -187,21 +187,25 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
       </div>
       </div>
 
+
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Update Order Modal"
+        className="myContent"
       >
         <h2 className='order-modal-h2'>가상 계좌 정보 입력</h2>
-        <input type="text" placeholder="Bank" value={depositorBank} onChange={(e) => setDepositorBank(e.target.value)} />
-        <input type="text" placeholder="Name" value={depositorName} onChange={(e) => setDepositorName(e.target.value)} />
-        <input type="text" placeholder="Account" value={depositorAccount} onChange={(e) => setDepositorAccount(e.target.value)} />
+        <input type="text" name="Bank" label="Bank" placeholder="Bank" value={depositorBank} onChange={(e) => setDepositorBank(e.target.value)} />
+        <input type="text" name="Name" label="Name" placeholder="Name" value={depositorName} onChange={(e) => setDepositorName(e.target.value)} />
+        <input type="text" name="Account" label="Account" placeholder="Account" value={depositorAccount} onChange={(e) => setDepositorAccount(e.target.value)} />
+
         <Button onClick={handleConfirm} text="제출"/>
         <Button onClick={handleCloseModal} text="취소"/>
       </Modal>
     </>
   );
 }
+
 
 export default function Orders() {
   const [selectedOrders, setSelectedOrders] = useState([]);

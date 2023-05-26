@@ -96,6 +96,7 @@ export async function updateOrder(orderId, depositorBank, depositorName, deposit
     });
 
     console.log('Response status:', response.status);
+    console.log('Input values:', depositorBank, depositorName, depositorAccount);
 
     if (response.status === 200) {
       console.log('200');
