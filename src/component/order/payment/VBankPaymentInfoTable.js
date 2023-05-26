@@ -189,7 +189,7 @@ export default function VBankPaymentInfoTable() {
                                                         }
                                                         {
                                                             editMode.isEdit && row.vBankId === editMode.vBankId ?
-                                                                <Stack direction="row" spacing={2}>
+                                                                <Stack direction="row" spacing={1}>
                                                                     <Button
                                                                         disabled={!isEditChanged}
                                                                         onClick={handleEdit}

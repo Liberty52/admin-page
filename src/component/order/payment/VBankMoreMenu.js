@@ -96,7 +96,7 @@ export default function VBankMoreMenu(props) {
                                         aria-labelledby="composition-button"
                                         onKeyDown={handleListKeyDown}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={editVBank}>
                                             <ListItemIcon>
                                                 <EditIcon fontSize="small"
                                                 sx={{
@@ -104,9 +104,9 @@ export default function VBankMoreMenu(props) {
                                                 }}
                                                 />
                                             </ListItemIcon>
-                                            <Typography variant="inherit" onClick={editVBank}>수정하기</Typography>
+                                            <Typography variant="inherit" >수정하기</Typography>
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem onClick={deleteVBank}>
                                             <ListItemIcon>
                                                 <DeleteIcon fontSize="small"
                                                 sx={{
@@ -114,7 +114,7 @@ export default function VBankMoreMenu(props) {
                                                 }}
                                                 />
                                             </ListItemIcon>
-                                            <Typography variant="inherit" onClick={deleteVBank}>삭제하기</Typography>
+                                            <Typography variant="inherit">삭제하기</Typography>
                                         </MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
