@@ -43,11 +43,13 @@ export default function VBankMoreMenu(props) {
     }, [open]);
 
     const editVBank = (e) => {
-        props.handelEditMode(props.vBankId)
-        handleClose(e)
+        props.handleEditMode(props.vBankId);
+        handleClose(e);
     }
 
-    const deleteVBank = () => {
+    const deleteVBank = (e) => {
+        props.handleDeleteMode(props.vBankId);
+        handleClose(e);
     }
 
     return (

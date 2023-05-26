@@ -1,22 +1,15 @@
 import {
     Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Button,
-    Stack,
-    TextField
+    Table, TableBody, TableCell, TableContainer, TableRow,
+    Button, Stack, TextField,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import moreDefault from "../../../image/icon/more_default.png";
 import moreHover from "../../../image/icon/more_hover.png";
-
 import "./VBankPaymentInfoTable.css"
 import {useState} from "react";
 import VBankMoreMenu from "./VBankMoreMenu";
-import Input from "../../Input";
+import {pink} from "@mui/material/colors";
 
 export default function VBankPaymentInfoTable() {
     // const [rows, setRows] = useState([]);
@@ -52,6 +45,7 @@ export default function VBankPaymentInfoTable() {
     //         .catch((err) => alert(err.response.data.error_message));
     // }, [page, cancelType]);
 
+    // >> START EDIT
     const [editMode, setEditMode] = useState({
         vBankId: "",
         originVBank: "",
@@ -59,7 +53,11 @@ export default function VBankPaymentInfoTable() {
     });
     const [isEditChanged, setIsEditChanged] = useState(false);
     const [editValue, setEditValue] = useState(null);
-
+    const resetEditMode = () => {
+        setEditMode({vBankId: "", originVBank: "", isEdit: false});
+        setIsEditChanged(false);
+        setEditValue(null);
+    }
     const handleEditMode = (vBankId) => {
         setEditMode({
             vBankId: vBankId,
@@ -71,12 +69,37 @@ export default function VBankPaymentInfoTable() {
         setIsEditChanged(editMode.originVBank !== event.target.value);
         setEditValue(event.target.value);
     }
-
-    const handleCancelEditMode = () => {
-        setEditMode({vBankId: "", originVBank: "", isEdit: false});
-        setIsEditChanged(false);
-        setEditValue(null);
+    const handleEdit = () => {
+        alert(`${editValue} 수정 요청 진행`);
+        resetEditMode();
     }
+    const handleCancelEditMode = () => {
+        resetEditMode();
+    }
+    // << END EDIT
+
+    // >> START DELETE
+    const [deleteMode, setDeleteMode] = useState({
+        vBankId: "",
+        vBank: "",
+        isDelete: false
+    });
+    const resetDeleteMode = () => {
+        setDeleteMode({vBankId: "", vBank: "", isDelete: false});
+    }
+    const handleDeleteMode = (vBankId) => {
+        setDeleteMode({
+            vBankId: vBankId, vBank: rows.find(r => r.vBankId === vBankId).vBank, isDelete: true
+        })
+    }
+    const handleDelete = (vBankId) => {
+        alert(`${vBankId} 삭제 진행`);
+        resetDeleteMode();
+    }
+    const handleCancelDelete = () => {
+        resetDeleteMode();
+    }
+    // << END DELETE
 
     const columns = [
         {id: "vBank", label: "가상계좌"},
@@ -125,6 +148,7 @@ export default function VBankPaymentInfoTable() {
                                                     {
                                                         editMode.isEdit && row.vBankId === editMode.vBankId ?
                                                             <TextField
+                                                                fullWidth
                                                                 id="inputEdit"
                                                                 defaultValue={value}
                                                                 onChange={handleEditChanged}
@@ -136,6 +160,7 @@ export default function VBankPaymentInfoTable() {
                                                             <Stack direction="row" spacing={2}>
                                                                 <Button
                                                                     disabled={!isEditChanged}
+                                                                    onClick={handleEdit}
                                                                 >수정</Button>
                                                                 <Button
                                                                     onClick={handleCancelEditMode}
@@ -143,7 +168,8 @@ export default function VBankPaymentInfoTable() {
                                                             </Stack> :
                                                             <VBankMoreMenu
                                                                 vBankId={row.vBankId}
-                                                                handelEditMode={handleEditMode}
+                                                                handleEditMode={handleEditMode}
+                                                                handleDeleteMode={handleDeleteMode}
                                                             />
                                                     }
 
@@ -161,6 +187,54 @@ export default function VBankPaymentInfoTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <div>
+                {deleteMode.isDelete ?
+                    <DeleteVBankDialog
+                        vBankId={deleteMode.vBankId}
+                        vBank={deleteMode.vBank}
+                        handleDelete={handleDelete}
+                        handleCancelDelete={handleCancelDelete}
+                    /> :
+                    null}
+            </div>
         </Paper>
+    );
+}
+
+function DeleteVBankDialog(props) {
+    const [open, setOpen] = useState(true);
+
+    const handleDeleted = () => {
+        props.handleDelete(props.vBankId);
+        setOpen(false);
+    }
+
+    const handleClose = () => {
+        props.handleCancelDelete();
+        setOpen(false);
+    };
+
+    return (
+        <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {`가상계좌 삭제`}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {`정말 ${props.vBank} 가상계좌를 삭제하시겠습니까?\n삭제한 이후에는 복구하기 어렵습니다.`}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleted} sx={{color: pink[500]}}>삭제</Button>
+                    <Button onClick={handleClose}>취소</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     );
 }
