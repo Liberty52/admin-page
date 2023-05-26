@@ -6,6 +6,7 @@ import SideNav from "./component/common/side-nav/SideNav";
 import { Box, Container, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import Delivery from "../component/order/delivery/Delivery";
 
 
 function TabPanel(props) {
@@ -47,7 +48,8 @@ function BasicTabs() {
   const tabContents = [
     { label: "전체 주문 조회", content: <Orders /> },
     { label: "주문 취소 관리", content: <CanceledOrders /> },
-    { label: "결제 관리", content: <Payment />}
+    { label: "결제 관리", content: <Payment /> },
+    { label: "배송 관리", content: <Delivery /> }
   ];
 
   const tabs = [];
