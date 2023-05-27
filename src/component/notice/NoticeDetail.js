@@ -18,6 +18,7 @@ import {
   NoticeDetailTitle,
 } from "./style/Notice";
 import "./Notice.css";
+import { ProductOptionModalMode } from "../../constants/mode";
 
 const NoticeDetail = () => {
   const navigate = useNavigate();
@@ -42,7 +43,12 @@ const NoticeDetail = () => {
     }
   }
   const onEditNotice = () => {
-    navigate("/notice/write");
+    navigate("/notice/editor", {
+      state: {
+        id: state,
+        mode: ProductOptionModalMode.EDIT,
+      },
+    });
   };
   const onDeleteNotice = (id) => {
     if (window.confirm("삭제 하시겠습니까?")) deleteNotice(id);
