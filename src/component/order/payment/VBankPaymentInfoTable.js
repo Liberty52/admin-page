@@ -5,7 +5,7 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Grid,
     IconButton,
     Paper,
     Stack,
@@ -22,6 +22,7 @@ import VBankMoreMenu from "./VBankMoreMenu";
 import {blue, pink} from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../Modal";
+import styled from "styled-components";
 
 export default function VBankPaymentInfoTable() {
     // const [rows, setRows] = useState([]);
@@ -132,11 +133,17 @@ export default function VBankPaymentInfoTable() {
     const rows = [
         {
             vBankId: "1",
-            vBank: "하나은행 1234123412341234 리버티"
+            bankOfVBank: "하나은행",
+            accountNumber: "1234123412341234",
+            holder: "리버티",
+            account: "하나은행 1234123412341234 리버티"
         },
         {
             vBankId: "2",
-            vBank: "국민은행 4321432143214321 리버티"
+            bankOfVBank: "국민은행",
+            accountNumber: "4321432143214321",
+            holder: "리버티",
+            account: "국민은행 4321432143214321 리버티"
         }
     ]
 
@@ -171,7 +178,6 @@ export default function VBankPaymentInfoTable() {
                                             key={row.vBankId}
                                         >
                                             {columns.map((column) => {
-                                                const value = row[column.id];
                                                 return (
                                                     <TableCell
                                                         key={column.id}
@@ -185,13 +191,10 @@ export default function VBankPaymentInfoTable() {
                                                     >
                                                         {
                                                             editMode.isEdit && row.vBankId === editMode.vBankId ?
-                                                                <TextField
-                                                                    fullWidth
-                                                                    id="inputEdit"
-                                                                    defaultValue={value}
-                                                                    onChange={handleEditChanged}
+                                                                <EditVBankTextField
+                                                                    data={row}
                                                                 /> :
-                                                                value
+                                                                row.account
                                                         }
                                                         {
                                                             editMode.isEdit && row.vBankId === editMode.vBankId ?
@@ -288,6 +291,45 @@ function AddVBankModal(props) {
                 </Button>
             </form>
         </Modal>
+    );
+}
+
+function EditVBankTextField(props) {
+    const data = props.data;
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={2}>
+                <TextField
+                    type="text"
+                    sx={{ width: "100%", marginBottom: 2 }}
+                    label="은행이름"
+                    variant="outlined"
+                    name="bank"
+                    defaultValue={data.bankOfVBank}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="number"
+                    sx={{ width: "100%", marginBottom: 2 }}
+                    label="계좌번호"
+                    variant="outlined"
+                    name="account"
+                    defaultValue={data.accountNumber}
+                />
+            </Grid>
+            <Grid item xs={3}>
+                <TextField
+                    type="text"
+                    sx={{ width: "100%", marginBottom: 2 }}
+                    label="예금주"
+                    variant="outlined"
+                    name="holder"
+                    defaultValue={data.holder}
+                />
+            </Grid>
+        </Grid>
     );
 }
 
