@@ -204,7 +204,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         className="myContent"
       >
         <h2 className='order-modal-h2'>가상 계좌 정보 입력</h2>
-        <input
+        <Input
         type="text"
         name="Bank"
         label="Bank"
@@ -216,7 +216,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         }}
       />
 
-      <input
+      <Input
         type="text"
         name="Name"
         label="Name"
@@ -228,7 +228,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         }}
       />
 
-      <input
+      <Input
         type="text"
         name="Account"
         label="Account"
