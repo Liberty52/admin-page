@@ -41,44 +41,47 @@ export default function DeliveryFeeInfoSection() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h2>배송비 관리</h2>
-        <IconButton
-          aria-label="edit"
-          id="edit-button"
-          onClick={handleEditFee}
+      <Stack
+          direction={"row"} spacing={2}
           sx={{
-            color: blue[500],
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
           }}
         >
-          <EditIcon />
-        </IconButton>
-      </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-        <p>현재 배송비: </p>
-        {editMode ? (
-          <TextField
-            type="number"
-            defaultValue={originFee}
-            onChange={handleFeeChanged}
-          />
-        ) : (
-          <p>{`${fee}원`}</p>
-        )}
-        {editMode ? (
-          <Stack direction="row" spacing={1}>
-            <Button disabled={!isEditChanged} onClick={handleEdit}>
-              수정
-            </Button>
-            <Button onClick={handleCancelEditMode}>취소</Button>
-          </Stack>
-        ) : null}
+          <h2>배송비 관리</h2>
+          <IconButton
+            aria-label="edit"
+            id="edit-button"
+            onClick={handleEditFee}
+            sx={{
+              color: blue[500],
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+      </Stack>
+      <Box sx={{ display: "flex", justifyContent: "flex-start",}}>
+        <Stack direction={"row"} spacing={2} sx={{alignItems: "center"}}>
+          <p>현재 배송비: </p>
+          {editMode ? (
+              <TextField
+                  type="number"
+                  defaultValue={originFee}
+                  onChange={handleFeeChanged}
+              />
+          ) : (
+              <p>{`${fee}원`}</p>
+          )}
+          {editMode ? (
+              <Stack direction="row" spacing={1}>
+                <Button disabled={!isEditChanged} onClick={handleEdit} sx={{minWidth: "50px"}}>
+                  수정
+                </Button>
+                <Button onClick={handleCancelEditMode} sx={{minWidth: "50px"}}>취소</Button>
+              </Stack>
+          ) : null}
+        </Stack>
       </Box>
     </>
   );
