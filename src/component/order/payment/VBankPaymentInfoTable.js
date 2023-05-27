@@ -16,7 +16,7 @@ import {
     TableRow,
     TextField
 } from "@mui/material";
-import "./VBankPaymentInfoTable.css"
+import "./VBankPaymentInfoTable.css";
 import React, {useState} from "react";
 import VBankMoreMenu from "./VBankMoreMenu";
 import {blue, pink} from "@mui/material/colors";
@@ -62,11 +62,11 @@ export default function VBankPaymentInfoTable() {
     const [addModal, showAddModal] = useState(false);
     const handleAdd = () => {
         showAddModal(true);
-    }
+    };
     const handleAddFinish = () => {
         showAddModal(false);
         // refetch vbank data
-    }
+    };
 
     // << END ADD
 
@@ -74,7 +74,7 @@ export default function VBankPaymentInfoTable() {
     const [editMode, setEditMode] = useState({
         vBankId: "",
         originVBank: "",
-        isEdit: false
+        isEdit: false,
     });
     const [isEditChanged, setIsEditChanged] = useState(false);
     const [editValue, setEditValue] = useState(null);
@@ -82,53 +82,53 @@ export default function VBankPaymentInfoTable() {
         setEditMode({vBankId: "", originVBank: "", isEdit: false});
         setIsEditChanged(false);
         setEditValue(null);
-    }
+    };
     const handleEditMode = (vBankId) => {
         setEditMode({
             vBankId: vBankId,
-            originVBank: rows.find(r => r.vBankId === vBankId).vBank,
-            isEdit: true
+            originVBank: rows.find((r) => r.vBankId === vBankId).vBank,
+            isEdit: true,
         });
-    }
+    };
     const handleEditChanged = (event) => {
         setIsEditChanged(editMode.originVBank !== event.target.value);
         setEditValue(event.target.value);
-    }
+    };
     const handleEdit = () => {
         alert(`${editValue} 수정 요청 진행`);
         resetEditMode();
-    }
+    };
     const handleCancelEditMode = () => {
         resetEditMode();
-    }
+    };
     // << END EDIT
 
     // >> START DELETE
     const [deleteMode, setDeleteMode] = useState({
         vBankId: "",
         vBank: "",
-        isDelete: false
+        isDelete: false,
     });
     const resetDeleteMode = () => {
         setDeleteMode({vBankId: "", vBank: "", isDelete: false});
-    }
+    };
     const handleDeleteMode = (vBankId) => {
         setDeleteMode({
-            vBankId: vBankId, vBank: rows.find(r => r.vBankId === vBankId).vBank, isDelete: true
-        })
-    }
+            vBankId: vBankId,
+            vBank: rows.find((r) => r.vBankId === vBankId).vBank,
+            isDelete: true,
+        });
+    };
     const handleDelete = (vBankId) => {
         alert(`${vBankId} 삭제 진행`);
         resetDeleteMode();
-    }
+    };
     const handleCancelDelete = () => {
         resetDeleteMode();
-    }
+    };
     // << END DELETE
 
-    const columns = [
-        {id: "vBank", label: "가상계좌"},
-    ];
+    const columns = [{id: "vBank", label: "가상계좌"}];
 
     const rows = [
         {
@@ -145,21 +145,21 @@ export default function VBankPaymentInfoTable() {
             holder: "리버티",
             account: "국민은행 4321432143214321 리버티"
         }
-    ]
+    ];
 
     return (
-        <div>
-            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+        <div style={{marginTop: "3rem"}}>
+            <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <h2>가상계좌 관리</h2>
                 <IconButton
                     aria-label="add"
                     id="add-button"
                     onClick={handleAdd}
                     sx={{
-                        color: blue[500]
+                        color: blue[500],
                     }}
                 >
-                    <AddIcon />
+                    <AddIcon/>
                 </IconButton>
             </Box>
             <Paper sx={{width: "100%", overflow: "hidden"}}>
@@ -173,11 +173,9 @@ export default function VBankPaymentInfoTable() {
                             ) : (
                                 rows.map((row) => {
                                     return (
-                                        <TableRow
-                                            tabIndex={-1}
-                                            key={row.vBankId}
-                                        >
+                                        <TableRow tabIndex={-1} key={row.vBankId}>
                                             {columns.map((column) => {
+                                                const value = row[column.id];
                                                 return (
                                                     <TableCell
                                                         key={column.id}
@@ -186,33 +184,35 @@ export default function VBankPaymentInfoTable() {
                                                             paddingRight: "30px",
                                                             display: "flex",
                                                             justifyContent: "space-between",
-                                                            verticalAlign: "middle"
+                                                            alignItems: "center",
                                                         }}
                                                     >
-                                                        {
-                                                            editMode.isEdit && row.vBankId === editMode.vBankId ?
-                                                                <EditVBankTextField
-                                                                    data={row}
-                                                                /> :
-                                                                row.account
-                                                        }
-                                                        {
-                                                            editMode.isEdit && row.vBankId === editMode.vBankId ?
-                                                                <Stack direction="row" spacing={1}>
-                                                                    <Button
-                                                                        disabled={!isEditChanged}
-                                                                        onClick={handleEdit}
-                                                                    >수정</Button>
-                                                                    <Button
-                                                                        onClick={handleCancelEditMode}
-                                                                    >취소</Button>
-                                                                </Stack> :
-                                                                <VBankMoreMenu
-                                                                    vBankId={row.vBankId}
-                                                                    handleEditMode={handleEditMode}
-                                                                    handleDeleteMode={handleDeleteMode}
-                                                                />
-                                                        }
+                                                        {editMode.isEdit && row.vBankId === editMode.vBankId ? (
+                                                            <EditVBankTextField
+                                                                data={row}
+                                                            />
+                                                        ) :
+                                                        row.account}
+                                                        {editMode.isEdit &&
+                                                        row.vBankId === editMode.vBankId ? (
+                                                            <Stack direction="row" spacing={1}>
+                                                                <Button
+                                                                    disabled={!isEditChanged}
+                                                                    onClick={handleEdit}
+                                                                >
+                                                                    수정
+                                                                </Button>
+                                                                <Button onClick={handleCancelEditMode}>
+                                                                    취소
+                                                                </Button>
+                                                            </Stack>
+                                                        ) : (
+                                                            <VBankMoreMenu
+                                                                vBankId={row.vBankId}
+                                                                handleEditMode={handleEditMode}
+                                                                handleDeleteMode={handleDeleteMode}
+                                                            />
+                                                        )}
 
                                                         {/*<div id="btn-more-container">*/}
                                                         {/*<img src={moreHover} width={'19px'}/>*/}
@@ -237,14 +237,14 @@ export default function VBankPaymentInfoTable() {
                     )}
                 </>
                 <div>
-                    {deleteMode.isDelete ?
+                    {deleteMode.isDelete ? (
                         <DeleteVBankDialog
                             vBankId={deleteMode.vBankId}
                             vBank={deleteMode.vBank}
                             handleDelete={handleDelete}
                             handleCancelDelete={handleCancelDelete}
-                        /> :
-                        null}
+                        />
+                    ) : null}
                 </div>
             </Paper>
         </div>
@@ -257,27 +257,29 @@ function AddVBankModal(props) {
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    alert(`${e.target.bank.value} / ${e.target.account.value} / ${e.target.holder.value}`);
+                    alert(
+                        `${e.target.bank.value} / ${e.target.account.value} / ${e.target.holder.value}`
+                    );
                     props.handleAddFinish();
                 }}
             >
                 <TextField
                     type="text"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%", marginBottom: 2}}
                     label="은행이름"
                     variant="outlined"
                     name="bank"
                 />
                 <TextField
                     type="number"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%", marginBottom: 2}}
                     label="계좌번호"
                     variant="outlined"
                     name="account"
                 />
                 <TextField
                     type="text"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%", marginBottom: 2}}
                     label="예금주"
                     variant="outlined"
                     name="holder"
@@ -285,7 +287,7 @@ function AddVBankModal(props) {
                 <Button
                     type="submit"
                     variant="contained"
-                    sx={{ width: "100%", height: 45 }}
+                    sx={{width: "100%", height: 45}}
                 >
                     추가하기
                 </Button>
@@ -302,7 +304,7 @@ function EditVBankTextField(props) {
             <Grid item xs={2}>
                 <TextField
                     type="text"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%"}}
                     label="은행이름"
                     variant="outlined"
                     name="bank"
@@ -312,7 +314,7 @@ function EditVBankTextField(props) {
             <Grid item xs={6}>
                 <TextField
                     type="number"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%"}}
                     label="계좌번호"
                     variant="outlined"
                     name="account"
@@ -322,7 +324,7 @@ function EditVBankTextField(props) {
             <Grid item xs={3}>
                 <TextField
                     type="text"
-                    sx={{ width: "100%", marginBottom: 2 }}
+                    sx={{width: "100%"}}
                     label="예금주"
                     variant="outlined"
                     name="holder"
@@ -339,7 +341,7 @@ function DeleteVBankDialog(props) {
     const handleDeleted = () => {
         props.handleDelete(props.vBankId);
         setOpen(false);
-    }
+    };
 
     const handleClose = () => {
         props.handleCancelDelete();
@@ -354,16 +356,16 @@ function DeleteVBankDialog(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
-                    {`가상계좌 삭제`}
-                </DialogTitle>
+                <DialogTitle id="alert-dialog-title">{`가상계좌 삭제`}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {`정말 ${props.vBank} 가상계좌를 삭제하시겠습니까?\n삭제한 이후에는 복구하기 어렵습니다.`}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDeleted} sx={{color: pink[500]}}>삭제</Button>
+                    <Button onClick={handleDeleted} sx={{color: pink[500]}}>
+                        삭제
+                    </Button>
                     <Button onClick={handleClose}>취소</Button>
                 </DialogActions>
             </Dialog>
