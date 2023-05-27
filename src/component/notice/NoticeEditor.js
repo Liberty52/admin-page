@@ -207,15 +207,16 @@ export default function NoticeEditor() {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            alignContent: "space-between",
+            width: "100%",
           }}
         >
-          <h4>댓글 허용</h4>
+          <span style={{ width: "10%" }}>댓글 작성 허용</span>
           <Input
             type="checkbox"
             onChange={(e) => {
               onChangeCheck(e.target.checked);
             }}
+            style={{ width: "10%" }}
           />
         </div>
         <QuestionPageButtonWrapper>
