@@ -157,7 +157,8 @@ export const QuestEditorTitleInput = styled.input`
   font-weight: bold;
   border-color: rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  padding: 0px 0px;
+  padding: 0 10px;
+  box-sizing: border-box;
 `;
 
 export const HTMLSizeLimiter = styled.div`

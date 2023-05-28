@@ -205,12 +205,16 @@ export default function NoticeEditor() {
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
             width: "100%",
           }}
         >
-          <label>
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
             <span style={{ width: "initial", marginRight: "10px" }}>
               댓글 작성 허용
             </span>
