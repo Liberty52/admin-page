@@ -210,14 +210,18 @@ export default function NoticeEditor() {
             width: "100%",
           }}
         >
-          <span style={{ width: "10%" }}>댓글 작성 허용</span>
-          <Input
-            type="checkbox"
-            onChange={(e) => {
-              onChangeCheck(e.target.checked);
-            }}
-            style={{ width: "10%" }}
-          />
+          <label>
+            <span style={{ width: "initial", marginRight: "10px" }}>
+              댓글 작성 허용
+            </span>
+            <Input
+              type="checkbox"
+              onChange={(e) => {
+                onChangeCheck(e.target.checked);
+              }}
+              style={{ width: "initial" }}
+            />
+          </label>
         </div>
         <QuestionPageButtonWrapper>
           <MoveToListButton onClick={moveToListButtonClicked}>
