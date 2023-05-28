@@ -57,7 +57,7 @@ export default function ProductDetail() {
 
     const getOptions = async () => {
         try{
-            const response = await retrieveProductOptionList(productId,showAll);
+            const response = await retrieveProductOptionList(productId,!showAll);
             setOptions(response.data);
         }catch (e) {
             console.error(e)
