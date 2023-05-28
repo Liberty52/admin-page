@@ -7,12 +7,15 @@ import {
   QUESTION_LIST,
   UPDATE_QUESTION_REPLY,
   CREATE_NOTICE,
+  UPDATE_NOTICE,
+  UPLOAD_NOTICE_IMAGE,
   NOTICE_LIST,
   NOTICE_DETAIL,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
+import { CONTENT_TYPE } from "../constants/content-type";
 
 export const getQuestionList = async (page) => {
   return request.get(QUESTION_LIST(page, 10), {
@@ -138,4 +141,41 @@ const todayTime = () => {
     minutes +
     "분"
   );
+};
+
+export const createNotice = (data, next) => {
+  request
+    .post(CREATE_NOTICE(), data, {
+      headers: {
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    })
+    .then((res) => {
+      next();
+    })
+    .catch((err) => console.error(err));
+};
+
+export const updateNotice = (data, next, id) => {
+  request
+    .put(UPDATE_NOTICE(id), data, {
+      headers: {
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    })
+    .then((res) => {
+      next();
+    })
+    .catch((err) => console.error(err));
+};
+
+export const uploadImage = (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return request.post(UPLOAD_NOTICE_IMAGE(), formData, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      "Content-Type": CONTENT_TYPE.MultipartFormData,
+    },
+  });
 };
