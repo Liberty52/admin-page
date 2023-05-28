@@ -9,7 +9,7 @@ import Button from '../../component/Button';
 
 ////////////////////////////
 function Border(){
-  return <div className="OrderBorder"></div>;
+  return <div className="OrderBorder"></div>
 }
 
 ///////////////////////////
