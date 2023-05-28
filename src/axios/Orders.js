@@ -2,9 +2,11 @@ import axios from "./axios";
 import {
   CANCELED_ORDERS,
   CANCELED_ORDER_DETAILS,
-  APPROVE_CANCEL,
+  APPROVE_CANCEL, POST_NEW_VBANK, GET_VBANKS, PUT_VBANK, DELETE_VBANK,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
+import local_axios from "axios";
+
 
 export const fetchOrders = async (page, size) => {
   try {
@@ -75,3 +77,53 @@ export const approveCancel = async (dto) => {
     },
   });
 };
+
+export const postCreateNewVBank = async (dto) => {
+  return axios.post(POST_NEW_VBANK(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const getVBanks = async () => {
+  return local_axios.get('http://localhost:8081/vbanks', {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      "LB-Role": "ADMIN"
+    }
+  });
+  // return axios.get(GET_VBANKS, {
+  //   headers: {
+  //     "Content-Type": 'application/json',
+  //     Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+  //   }
+  // });
+}
+
+export const putVBank = async (vbankId, dto) => {
+  return axios.put(PUT_VBANK(vbankId), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const deleteVBank = async (vbankId) => {
+  return local_axios.delete('http://localhost:8081/admin/vbanks/'+vbankId, {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      "LB-Role": "ADMIN"
+    }
+  });
+  // return axios.delete(DELETE_VBANK(vbankId), {
+  //   headers: {
+  //     "Content-Type": 'application/json',
+  //     Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+  //   }
+  // });
+}
