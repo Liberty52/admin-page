@@ -25,6 +25,8 @@ export const NOTICE_LIST = (page, pageSize) =>
   `/admin/notices?page=${page}&size=${pageSize}`;
 export const NOTICE_DETAIL = (id) => `/admin/notices/${id}`;
 export const CREATE_NOTICE = () => `/admin/notices`;
+export const UPDATE_NOTICE = (id) => `/admin/notices/${id}`;
+export const UPLOAD_NOTICE_IMAGE = () => `/admin/notices/img`;
 
 // 고객 조회 api
 export const CUSTOMER_LIST = (size, page, sort) => {
