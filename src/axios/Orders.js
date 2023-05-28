@@ -11,8 +11,6 @@ import {
   PATCH_DEFAULT_DELIVERY_FEE,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
-import local_axios from "axios";
-
 
 export const fetchOrders = async (page, size) => {
   try {
@@ -130,7 +128,7 @@ export const getDefaultDeliveryFee = async () => {
 }
 
 export const patchDefaultDeliveryFee = async (dto) => {
-  return local_axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
+  return axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
     headers: {
       "Content-Type": 'application/json',
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
