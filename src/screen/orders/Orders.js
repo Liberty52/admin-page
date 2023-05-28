@@ -99,8 +99,10 @@ function OrderSelect() {
 export default function Orders() {
   return (
     <div className="MainContainer">
-      <OrderMiddle />
-      <OrderBottom />
+      <div className="Right-Container">
+        <OrderMiddle />
+        <OrderBottom />
+      </div>
     </div>
   );
 }
