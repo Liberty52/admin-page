@@ -1,8 +1,9 @@
 import {Stack} from "@mui/material";
 import ProductOptionDetail from "./ProductOptionDetail";
 import {
+    HoverButton,
+    HoverButtonWrapper,
     ProductOptionDetailAddButton,
-    HoverButtonWrapper, HoverButton,
     ProductOptionTitle,
     ProductOptionTitleWrapper
 } from "./styled/Product";
@@ -11,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {useState} from "react";
 import Swal from "sweetalert2";
-import {deleteOptionDetail} from "../../axios/Product";
+import {changeProductOptionOnSale} from "../../axios/Product";
 import {Toast} from "../../utils/Toast";
 
 
@@ -36,21 +37,13 @@ export default function ProductOption({option, onOptionDetailAddButtonClicked, o
             cancelButtonText : '취소하기'
         }).then((result) => {
             if (result.isConfirmed) {
-                // const data = {
-                //     onSail : !detail.onSail
-                // }
-                // deleteOptionDetail(detail.optionDetailId,data).then(() => {
-                //     Toast.fire({
-                //         icon: 'success',
-                //         title: '변경이 완료되었습니다'
-                //     })
-                //     actived();
-                // });
-                Toast.fire({
-                    icon: 'success',
-                    title: '변경이 완료되었습니다'
-                })
-                actived();
+                changeProductOptionOnSale(option.optionId).then(() => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: '변경이 완료되었습니다'
+                    })
+                    actived();
+                });
             }
         })
     }
@@ -62,7 +55,7 @@ export default function ProductOption({option, onOptionDetailAddButtonClicked, o
                     onMouseEnter ={onMouseOn}
                     onMouseLeave ={onMouseOut}
                 >
-                    <ProductOptionTitle>{option.optionName}</ProductOptionTitle>
+                    <ProductOptionTitle onSale={option.onSale}>{option.optionName}</ProductOptionTitle>
                     <HoverButtonWrapper focused={focused}>
                         <HoverButton
                             onClick={() => onOptionEditButtonClicked(option)}

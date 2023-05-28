@@ -1,25 +1,25 @@
-import {Button,  Grid, Input, Modal, ModalClose, Sheet, Stack, Typography} from "@mui/joy";
+import {Button, Grid, Input, Modal, ModalClose, Sheet, Stack} from "@mui/joy";
 import Checkbox from '@mui/joy/Checkbox';
 
 import {ModalMode} from "../../constants/mode";
 import {useEffect, useState} from "react";
 import {ProductOptionModalTitle} from "./styled/Product";
-import Swal from "sweetalert2";
 import {Toast} from "../../utils/Toast";
-import {addOptionDetail} from "../../axios/Product";
+import {addOptionDetail, updateOptionDetail} from "../../axios/Product";
 import {Box} from "@mui/material";
 
 
 export default function ProductOptionDetailModal({open, setOpen, optionId, setOptionId, mode, editProps, clearEditProps,actived}) {
     const [value,setValue] = useState("");
     const [price,setPrice] = useState(0);
-    const [onSail, setOnSail] = useState(false);
+    const [onSale, setOnSale] = useState(false);
     const [buttonText, setButtonText] = useState();
     useEffect(() => {
         setValue(editProps.optionDetailName);
         setPrice(editProps.price)
-        setOnSail(editProps.onSail);
+        setOnSale(editProps.onSale);
         setButtonText(mode === ModalMode.ADD ? "추가하기" : "수정하기");
+        console.log(editProps)
     },[open])
     const onCloseAction = () => {
         setOpen(false);
@@ -27,7 +27,7 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
         setValue("");
         setOptionId("");
         setPrice(0);
-        setOnSail(false);
+        setOnSale(false);
         actived();
     }
     const onActionButtonClicked = () => {
@@ -38,6 +38,7 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
         }
     }
     const addOptionDetailButtonClicked = async () => {
+        console.log(editProps)
         let isValid = true;
 
         
@@ -65,7 +66,7 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             const response = await addOptionDetail(optionId,{
                 name : value ,
                 price,
-                onSail
+                onSale
             });
             Toast.fire({
                 icon: 'success',
@@ -76,13 +77,46 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             console.error(e)
         }
     }
-    const editOptionDetail = () => {
+    const editOptionDetail = async () => {
+        let isValid = true;
         if(value === editProps.name){
             Toast.fire({
                 icon: 'warning',
                 title: '내용을 수정해주세요'
             })
             return;
+        }
+        if(value.length === 0){
+            Toast.fire({
+                icon: 'warning',
+                title: '옵션의 이름을 입력해주세요'
+            })
+            isValid = false;
+        }
+
+        if(price < 0){
+            Toast.fire({
+                icon: 'warning',
+                title: '가격은 0이상의 값을 입력해주세요'
+            })
+            isValid = false;
+        }
+        if(!isValid)
+            return;
+
+        try{
+            const response = await updateOptionDetail(editProps.optionDetailId,{
+                name : value ,
+                price,
+                onSale
+            });
+            Toast.fire({
+                icon: 'success',
+                title: '옵션이 수정되었습니다.'
+            })
+            onCloseAction();
+        }catch (e) {
+            console.error(e)
         }
     }
 
@@ -128,7 +162,7 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
                     <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션 항목의 가격을 입력해주세요"}/>
                     </Grid>
                     <Grid sm={2}>
-                        <Checkbox checked={onSail} onChange={(e)=> setOnSail(e.target.checked)} label={"판매"}/>
+                        <Checkbox checked={onSale} onChange={(e)=> setOnSale(e.target.checked)} label={"판매"}/>
                     </Grid>
                 </Grid>
                 <Stack direction={"row"} justifyContent={"flex-end"} spacing={1} marginTop={2}>

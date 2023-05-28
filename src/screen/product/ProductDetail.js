@@ -6,7 +6,10 @@ import {
     CardDetailImage,
     PointeredBox,
     ProductChevronLeft,
-    ProductDetailName, ProductOptionAddButton, ProductOptionHeader, ProductOptionHeaderTitle
+    ProductDetailName,
+    ProductOptionAddButton,
+    ProductOptionHeader,
+    ProductOptionHeaderTitle
 } from "../../component/product/styled/Product";
 import {PATH_PRODUCT} from "../../constants/path";
 import ProductOption from "../../component/product/ProductOption";
@@ -30,22 +33,19 @@ export default function ProductDetail() {
     const [options,setOptions] = useState([]);
     const [optionId, setOptionId] = useState('');
     const [optionDetailEditProps, setOptionDetailEditProps] = useState({
-        id: "",
+        optionDetailId: "",
         optionDetailName: "",
         price :0,
-        onSail:false,
+        onSale:false,
     })
     const [optionProps, setOptionProps] = useState({
         id: "",
         optionName: "",
         require :false,
-        onSail:false,
+        onSale:false,
     })
     const [optionModalOpen, setOptionModalOpen] = useState(false);
     const [optionMode, setOptionMode] = useState(ModalMode.ADD);
-
-
-
     const detailEffect = async () => {
         try{
             const response = await retrieveProductDetail(productId);
@@ -57,7 +57,7 @@ export default function ProductDetail() {
 
     const getOptions = async () => {
         try{
-            const response = await retrieveProductOptionList(productId);
+            const response = await retrieveProductOptionList(productId,showAll);
             setOptions(response.data);
         }catch (e) {
             console.error(e)
@@ -79,16 +79,16 @@ export default function ProductDetail() {
             id: "",
             optionName: "",
             require :false,
-            onSail:false,
+            onSale:false,
         })
     }
 
     const clearOptionDetailEditProps = () => {
         setOptionDetailEditProps({
-            id: "",
+            optionDetailId: "",
             optionDetailName: "",
             price :0,
-            onSail:false,
+            onSale:false,
         })
     }
 
@@ -112,17 +112,15 @@ export default function ProductDetail() {
         setOptionModalOpen(true)
         setOptionMode(ModalMode.ADD)
         setChanged(prev => !prev);
-        console.log(optionProps)
     }
     const onOptionModifyButtonClicked = (option) => {
-        console.log(option)
         setOptionModalOpen(true);
         setOptionMode(ModalMode.EDIT)
         setOptionProps({
             id : option.optionId,
             optionName : option.optionName,
             require : option.require,
-            onSail : option.onSail
+            onSale : option.onSale
         })
     }
 

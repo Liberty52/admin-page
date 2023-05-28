@@ -82,6 +82,8 @@ export const ProductOptionTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   text-align: center;
+  text-decoration: ${props => props.onSale ? "none" : "line-through"};
+  color : ${props => props.onSale ? "black" : "rgba(0,0,0,0.3)"};
 `
 export const ProductOptionDetailAddButton = styled.div`
   display: flex;
@@ -125,7 +127,7 @@ export const ProductOptionItemWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 30px;
-  background-color: ${props => props.onSail ? "white" : "rgba(0,0,0,0.2)"};
+  background-color: ${props => props.onSale ? "white" : "rgba(0,0,0,0.2)"};
 
 
 `

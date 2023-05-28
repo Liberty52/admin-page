@@ -1,6 +1,6 @@
 import {
-    HoverButtonWrapper,
     HoverButton,
+    HoverButtonWrapper,
     ProductOptionDetailWrapper,
     ProductOptionItemName,
     ProductOptionItemWrapper
@@ -8,7 +8,7 @@ import {
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import {deleteOptionDetail} from "../../axios/Product";
+import {changeOptionDetailOnSale} from "../../axios/Product";
 import Swal from "sweetalert2";
 import {Toast} from "../../utils/Toast";
 
@@ -32,9 +32,9 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = {
-                    onSail : !detail.onSail
+                    onSale : !detail.onSale
                 }
-                deleteOptionDetail(detail.optionDetailId,data).then(() => {
+                changeOptionDetailOnSale(detail.optionDetailId,data).then(() => {
                     Toast.fire({
                         icon: 'success',
                         title: '변경이 완료되었습니다'
@@ -55,7 +55,7 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                 onMouseEnter ={onMouseOn}
                 onMouseLeave ={onMouseOut}
             >
-                <ProductOptionItemWrapper onSail={detail.onSail}>
+                <ProductOptionItemWrapper onSale={detail.onSale}>
                     <ProductOptionItemName>
                         {detail.optionDetailName}
                     </ProductOptionItemName>
