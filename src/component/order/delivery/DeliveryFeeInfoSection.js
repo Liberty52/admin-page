@@ -1,15 +1,29 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {getDefaultDeliveryFee, patchDefaultDeliveryFee} from "../../../axios/Orders";
 
 export default function DeliveryFeeInfoSection() {
-  const fee = "100,000";
 
   const [editMode, setEditMode] = useState(false);
+  const [fee, setFee] = useState("");
   const [originFee, setOriginFee] = useState(0);
   const [isEditChanged, setIsEditChanged] = useState(false);
   const [editFee, setEditFee] = useState(0);
+
+  useEffect(() => {
+    fetchDefaultFee();
+  }, []);
+
+  const fetchDefaultFee = () => {
+    getDefaultDeliveryFee()
+        .then((res) => {
+          setFee(res.data.fee);
+        })
+        .catch((err) => alert(`배송비 조회 실패.\n${err.response.data.errorMessage}`));
+  }
+
   const resetEditMode = () => {
     setIsEditChanged(false);
     setOriginFee(0);
@@ -30,8 +44,12 @@ export default function DeliveryFeeInfoSection() {
   };
 
   const handleEdit = () => {
-    alert(`${editFee}로 변경 요청`);
-    // refetch
+    patchDefaultDeliveryFee({fee: editFee})
+        .then((res) => {
+          fetchDefaultFee();
+          resetEditMode();
+        })
+        .catch((err) => alert(`배송비 수정 실패.\n${err.response.data.errorMessage}`));
     resetEditMode();
   };
 

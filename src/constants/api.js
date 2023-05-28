@@ -66,3 +66,7 @@ export const POST_NEW_VBANK = () => `/admin/product/vbanks`;
 export const GET_VBANKS = () => `/admin/product/vbanks`;
 export const PUT_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
 export const DELETE_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
+
+// 배송비 관리
+export const GET_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;
+export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;

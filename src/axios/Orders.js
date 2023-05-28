@@ -2,7 +2,13 @@ import axios from "./axios";
 import {
   CANCELED_ORDERS,
   CANCELED_ORDER_DETAILS,
-  APPROVE_CANCEL, POST_NEW_VBANK, GET_VBANKS, PUT_VBANK, DELETE_VBANK,
+  APPROVE_CANCEL,
+  POST_NEW_VBANK,
+  GET_VBANKS,
+  PUT_VBANK,
+  DELETE_VBANK,
+  GET_DEFAULT_DELIVERY_FEE,
+  PATCH_DEFAULT_DELIVERY_FEE,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
 import local_axios from "axios";
@@ -88,19 +94,12 @@ export const postCreateNewVBank = async (dto) => {
 }
 
 export const getVBanks = async () => {
-  return local_axios.get('http://localhost:8081/vbanks', {
+  return axios.get(GET_VBANKS(), {
     headers: {
       "Content-Type": 'application/json',
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "LB-Role": "ADMIN"
     }
   });
-  // return axios.get(GET_VBANKS, {
-  //   headers: {
-  //     "Content-Type": 'application/json',
-  //     Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-  //   }
-  // });
 }
 
 export const putVBank = async (vbankId, dto) => {
@@ -113,17 +112,28 @@ export const putVBank = async (vbankId, dto) => {
 }
 
 export const deleteVBank = async (vbankId) => {
-  return local_axios.delete('http://localhost:8081/admin/vbanks/'+vbankId, {
+  return axios.delete(DELETE_VBANK(vbankId), {
     headers: {
       "Content-Type": 'application/json',
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "LB-Role": "ADMIN"
     }
   });
-  // return axios.delete(DELETE_VBANK(vbankId), {
-  //   headers: {
-  //     "Content-Type": 'application/json',
-  //     Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-  //   }
-  // });
+}
+
+export const getDefaultDeliveryFee = async () => {
+  return axios.get(GET_DEFAULT_DELIVERY_FEE(), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const patchDefaultDeliveryFee = async (dto) => {
+  return local_axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
 }
