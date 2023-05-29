@@ -108,7 +108,7 @@ export const HoverButtonWrapper = styled.div`
   align-items: center;
   position: absolute;
   z-index: ${props => props.focused ? 1 : -1};
-  top: 0;
+  top: 2px;
   width: calc(100% - 10px);
   height: 100%;
   padding: 0 5px;
@@ -127,7 +127,7 @@ export const ProductOptionItemWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 30px;
-  background-color: ${props => props.onSale ? "white" : "rgba(0,0,0,0.2)"};
+  background-color: ${props => props.onSale ? "white" : "#B0B0B0"};
 
 
 `
