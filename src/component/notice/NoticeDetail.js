@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Descriptions, Input, Button, Form } from "antd";
+import React, {useEffect, useState} from "react";
+import {Button} from "antd";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
-import { postNotice } from "../../axios/Notice";
+import {deleteNotice, getNoticeDetail} from "../../axios/Notice";
 import SideNav from "../../screen/component/common/side-nav/SideNav";
-import { MainContainer } from "../../screen/component/main/MainComponent";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getNoticeDetail, deleteNotice } from "../../axios/Notice";
-import moment from "moment";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import {MainContainer} from "../../screen/component/main/MainComponent";
+import {useLocation, useNavigate} from "react-router-dom";
+import {Box} from "@mui/material";
 import {
-  MoveToListButton,
   DetailPageButtonWrapper,
-  Viewer,
+  MoveToListButton,
   NoticeDetailCreatedAt,
   NoticeDetailHeader,
   NoticeDetailTitle,
+  Viewer,
 } from "./style/Notice";
 import "./Notice.css";
-import { ProductOptionModalMode } from "../../constants/mode";
+import {ModalMode} from "../../constants/mode";
 
 const NoticeDetail = () => {
   const navigate = useNavigate();
@@ -46,7 +43,7 @@ const NoticeDetail = () => {
     navigate("/notice/editor", {
       state: {
         id: state,
-        mode: ProductOptionModalMode.EDIT,
+        mode: ModalMode.EDIT,
       },
     });
   };

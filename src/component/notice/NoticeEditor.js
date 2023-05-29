@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
 import {
   CurrentHtmlSizeSpan,
   HTMLEditor,
@@ -11,18 +11,13 @@ import {
   QuestionPageButton,
   QuestionPageButtonWrapper,
 } from "./style/QuestionComponent";
-import { Input } from "antd";
-import { Editor } from "@toast-ui/editor";
+import {Input} from "antd";
+import {Editor} from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import { ProductOptionModalMode } from "../../constants/mode";
-import { useNavigate } from "react-router";
-import {
-  createNotice,
-  updateNotice,
-  uploadImage,
-  getNoticeDetail,
-} from "../../axios/Notice";
+import {ModalMode} from "../../constants/mode";
+import {useNavigate} from "react-router";
+import {createNotice, getNoticeDetail, updateNotice, uploadImage,} from "../../axios/Notice";
 import "./NoticeEditor.css";
 
 export default function NoticeEditor() {
@@ -43,7 +38,7 @@ export default function NoticeEditor() {
     const isMobile = /Mobi/i.test(window.navigator.userAgent); // "Mobi" 가 User agent에 포함되어 있으면 모바일
     const mode = location.state.mode;
     let data;
-    if (mode === ProductOptionModalMode.ADD) {
+    if (mode === ModalMode.ADD) {
       data = " ";
     } else {
       let PREV_DATA;
@@ -144,7 +139,7 @@ export default function NoticeEditor() {
     if (!validateTitle()) return;
     if (!validateContent()) return;
 
-    if (location.state.mode === ProductOptionModalMode.EDIT) {
+    if (location.state.mode === ModalMode.EDIT) {
       updateQuestionButtonClikced();
     } else {
       addQuestion();
@@ -232,7 +227,7 @@ export default function NoticeEditor() {
             뒤로가기
           </MoveToListButton>
           <QuestionPageButton onClick={editorActionButtonClicked}>
-            {location.state.mode === ProductOptionModalMode.EDIT
+            {location.state.mode === ModalMode.EDIT
               ? "수정하기"
               : "작성하기"}
           </QuestionPageButton>

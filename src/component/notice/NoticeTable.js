@@ -22,7 +22,7 @@ import {
   SmallTableCell,
 } from "./index";
 import { useNavigate } from "react-router-dom";
-import { ProductOptionModalMode } from "../../constants/mode";
+import { ModalMode } from "../../constants/mode";
 
 export const NoticeTable = (props) => {
   const {
@@ -39,7 +39,7 @@ export const NoticeTable = (props) => {
   const navigateWrite = () => {
     navigate("/notice/editor", {
       state: {
-        mode: ProductOptionModalMode.ADD,
+        mode: ModalMode.ADD,
       },
     });
   };
