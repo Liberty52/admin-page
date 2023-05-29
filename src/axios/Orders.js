@@ -1,4 +1,7 @@
-import axios from "./axios";
+
+import axios from './axios';
+import {ACCESS_TOKEN} from "../constants/token";
+import request from "./axios";
 import {
   CANCELED_ORDERS,
   CANCELED_ORDER_DETAILS,
@@ -10,7 +13,6 @@ import {
   GET_DEFAULT_DELIVERY_FEE,
   PATCH_DEFAULT_DELIVERY_FEE,
 } from "../constants/api";
-import { ACCESS_TOKEN } from "../constants/token";
 
 export const fetchOrders = async (page, size) => {
   try {
@@ -82,6 +84,7 @@ export const approveCancel = async (dto) => {
   });
 };
 
+
 export const postCreateNewVBank = async (dto) => {
   return axios.post(POST_NEW_VBANK(), JSON.stringify(dto), {
     headers: {
@@ -135,3 +138,64 @@ export const patchDefaultDeliveryFee = async (dto) => {
     }
   });
 }
+
+export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
+  const payload = {
+    depositorBank,
+    depositorName,
+    depositorAccount
+  };
+  console.log( orderId,depositorBank,
+    depositorName,
+    depositorAccount);
+
+  try {
+    const response = await request.put(`/admin/orders/${orderId}/vbank`, payload, {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
+      }
+    });
+
+    console.log('Response status:', response.status);
+    console.log(orderId)
+    console.log('Input values:', depositorBank, depositorName, depositorAccount);
+
+    if (response.status === 200) {
+      console.log('200');
+    } else if (response.status === 400) {
+      console.log('400');
+      console.log(response.data);
+      alert(response.data.message);
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+
+  }
+}
+
+
+export async function updateOrderStatus(orderId, orderStatus) {
+  try {
+    const response = await request.put(`/admin/orders/${orderId}/status`, null, {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
+      },
+      params: {
+        orderStatus
+      }
+    });
+
+    if (response.status !== 200) {
+      console.error('Error:', response.status, response.data);
+      if (response.data && response.data.message) {
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    }
+  } catch (error) {
+    alert(error.response.data.cause.errorMessage);
+  }
+}
+
