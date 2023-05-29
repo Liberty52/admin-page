@@ -3,6 +3,12 @@ import {
   CANCELED_ORDERS,
   CANCELED_ORDER_DETAILS,
   APPROVE_CANCEL,
+  POST_NEW_VBANK,
+  GET_VBANKS,
+  PUT_VBANK,
+  DELETE_VBANK,
+  GET_DEFAULT_DELIVERY_FEE,
+  PATCH_DEFAULT_DELIVERY_FEE,
 } from "../constants/api";
 import { ACCESS_TOKEN } from "../constants/token";
 
@@ -75,3 +81,57 @@ export const approveCancel = async (dto) => {
     },
   });
 };
+
+export const postCreateNewVBank = async (dto) => {
+  return axios.post(POST_NEW_VBANK(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const getVBanks = async () => {
+  return axios.get(GET_VBANKS(), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const putVBank = async (vbankId, dto) => {
+  return axios.put(PUT_VBANK(vbankId), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const deleteVBank = async (vbankId) => {
+  return axios.delete(DELETE_VBANK(vbankId), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const getDefaultDeliveryFee = async () => {
+  return axios.get(GET_DEFAULT_DELIVERY_FEE(), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
+
+export const patchDefaultDeliveryFee = async (dto) => {
+  return axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": 'application/json',
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    }
+  });
+}
