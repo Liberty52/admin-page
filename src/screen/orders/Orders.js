@@ -1,41 +1,25 @@
-import { MainContainer } from "../component/main/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
-import './Orders.css';
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchOrders } from '../../axios/Orders';
-
+import "./Orders.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchOrders } from "../../axios/Orders";
 
 ////////////////////////////
-function Border(){
+function Border() {
   return <div className="OrderBorder"></div>;
 }
 ///////////////////////////
 
-function OrderTop() {
-  return (
-  <div className="Top-Container">
-    <h1>주문조회</h1>
-  </div>
-  );
-}
-
 function OrderMiddle() {
-  return (
-    <div className="Middle-Container">
-      배송상태변경등
-    </div>
-  );
+  return <div className="Middle-Container">배송상태변경등</div>;
 }
 
-
-function OrderBotton() {
+function OrderBottom() {
   return (
     <div className="Bottom-Container">
-    <OrderCount/>
-    <Border/>
-    <OrderInquiry/>
-    <OrderSelect/>
+      <OrderCount />
+      <Border />
+      <OrderInquiry />
+      <OrderSelect />
     </div>
   );
 }
@@ -54,12 +38,7 @@ function OrderInquiry() {
 }
 
 function OrderCount() {
-
-  return (
-    <div className="OrderCount-Container">
-    목록( 총 N개 )
-    </div>
-  );
+  return <div className="OrderCount-Container">목록( 총 N개 )</div>;
 }
 
 function OrderSelect() {
@@ -83,12 +62,15 @@ function OrderSelect() {
     navigate(`/order/${orderId}`);
   };
 
-
   return (
     <div className="order-select">
       {orders.length > 0 ? (
         orders.map((order) => (
-          <button className="order-select-detail" key={order.orderId} onClick={() => handleOrderClick(order.orderId)}>
+          <button
+            className="order-select-detail"
+            key={order.orderId}
+            onClick={() => handleOrderClick(order.orderId)}
+          >
             <p>{order.orderNumber}</p>
             <p>{order.orderDate}</p>
             <p>{order.productName}</p>
@@ -101,7 +83,11 @@ function OrderSelect() {
       )}
       <div className="pagination">
         {[...Array(totalLastPage)].map((_, i) => (
-          <button className="paginationBT" key={i} onClick={() => setCurrentPage(i)}>
+          <button
+            className="paginationBT"
+            key={i}
+            onClick={() => setCurrentPage(i)}
+          >
             {i + 1}
           </button>
         ))}
@@ -110,20 +96,13 @@ function OrderSelect() {
   );
 }
 
-
 export default function Orders() {
   return (
     <div className="MainContainer">
-      <div className="left-Container">
-        <MainContainer />
-        <SideNav />
-      </div>
       <div className="Right-Container">
-        <OrderTop/>
-        <OrderMiddle/>
-        <OrderBotton/>
+        <OrderMiddle />
+        <OrderBottom />
       </div>
     </div>
   );
 }
-

@@ -25,6 +25,8 @@ export const NOTICE_LIST = (page, pageSize) =>
   `/admin/notices?page=${page}&size=${pageSize}`;
 export const NOTICE_DETAIL = (id) => `/admin/notices/${id}`;
 export const CREATE_NOTICE = () => `/admin/notices`;
+export const UPDATE_NOTICE = (id) => `/admin/notices/${id}`;
+export const UPLOAD_NOTICE_IMAGE = () => `/admin/notices/img`;
 
 // 고객 조회 api
 export const CUSTOMER_LIST = (size, page, sort) => {
@@ -68,3 +70,13 @@ export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
 export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) => `/admin/optionDetail/${optionDetailId}`;
 
 
+
+// 가상계좌 관리
+export const POST_NEW_VBANK = () => `/admin/product/vbanks`;
+export const GET_VBANKS = () => `/admin/product/vbanks`;
+export const PUT_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
+export const DELETE_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
+
+// 배송비 관리
+export const GET_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;
+export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;

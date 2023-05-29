@@ -41,6 +41,7 @@ request.interceptors.response.use(
           sessionStorage.removeItem(ACCESS_TOKEN);
           localStorage.removeItem(REFRESH_TOKEN);
           alert("다시 로그인해주세요");
+          window.location.href = "/login";
         }
       }
     }
