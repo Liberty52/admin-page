@@ -1,73 +1,120 @@
-.MainContainer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.left-Container {
-  flex-direction: row;
-}
-
-.Right-Container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.Middle-Container {
-  box-shadow: 1px 1px 3px 1px lightgray;
-  padding: 2rem;
-}
-
-.Bottom-Container {
-  box-shadow: 1px 1px 3px 1px lightgray;
-  padding: 2rem;
-  margin-top: 2rem;
-}
-
 .Order-Inquiry-wrapper {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
-  gap: 10px;
-  justify-content: start;
-  text-align: center;
   margin-top: 1rem;
-  background-color: #f1f2f4;
-  border: #d9d9d9 solid 1px;
-  padding: 10px;
+  padding: 16px;
+  background-color: #fff;
+  line-height: 1.5rem;
+  font-size: 14px;
 }
 
-.OrderCount-Container {
-  margin-bottom: 1rem;
+.order-border {
+  border-top: #D9D9D9 solid 1px;
 }
 
-.order-select {
-  width: 100%;
-}
-
+.Order-Inquiry-wrapper,
 .order-select-detail {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   justify-content: start;
   text-align: center;
-  border: #d9d9d9 solid 1px;
+  align-items: center;
+  border: none;
+}
+
+.order-select {
+  width: 100%;
+  margin-bottom: 1rem;
+  border: #D9D9D9 solid 1px;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.order-select-detail {
   font-size: 12px;
   background: none;
   padding: 0;
-  border-radius: 0;
   cursor: pointer;
   width: 100%;
+  height: 5rem;
+  border-bottom: #D9D9D9 solid 1px;
 }
 
 .paginationBT {
   color: black;
   background-color: white;
   border: white;
+  cursor: pointer
 }
 
 .pagination {
   text-align: center;
-  margin-top: 10px;
+  margin: 1rem;
+}
+
+.paginationBT.active {
+  font-weight: bold;
+}
+
+.order_select_checkbox {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1rem;
+}
+
+.order_select_checkbox p {
+  margin-left: 80px;
+}
+
+.OrderStatus {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 12px;
+}
+
+.order-change-status {
+  display: flex;
+  flex-direction: row;
+}
+
+.order-change-status Select {
+  margin-right: 10px;
+  padding: 1rem;
+}
+
+.order-change-status Button {
+  width: 60px;
+}
+
+.order-modal-h2 {
+  text-align: center;
+}
+
+.OrderStatus p {
+  padding-top: 8px;
+}
+
+.order-modal {
+  width: 100px;
+  background-color: aqua;
+}
+
+.myContent {
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: #fff;
+  border: #D9D9D9 solid 1px;
+  padding: 2rem;
+  border-radius: 4px;
+}
+
+.myContent Input {
+  margin-top: 1rem;
+}
+
+.myContent Button {
+  margin-top: 1rem;
 }
