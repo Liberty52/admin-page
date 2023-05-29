@@ -38,6 +38,7 @@ export function refresh(){
     }).catch(() => {
         sessionStorage.removeItem(ACCESS_TOKEN);
         localStorage.removeItem(REFRESH_TOKEN)
+        window.location.href = '/login';
     })
 
 
