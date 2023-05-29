@@ -1,13 +1,14 @@
 import {
-    ProductOptionDetailButton,
-    ProductOptionInput,
+    HoverButton,
+    HoverButtonWrapper,
     ProductOptionDetailWrapper,
-    ProductOptionDetailButtonWrapper
+    ProductOptionItemName,
+    ProductOptionItemWrapper
 } from "./styled/Product";
 import {useState} from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {deleteOptionDetail} from "../../axios/Product";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import {changeOptionDetailOnSale} from "../../axios/Product";
 import Swal from "sweetalert2";
 import {Toast} from "../../utils/Toast";
 
@@ -31,9 +32,9 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = {
-                    onSail : !detail.onSail
+                    onSale : !detail.onSale
                 }
-                deleteOptionDetail(detail.optionDetailId,data).then(() => {
+                changeOptionDetailOnSale(detail.optionDetailId,data).then(() => {
                     Toast.fire({
                         icon: 'success',
                         title: '변경이 완료되었습니다'
@@ -54,21 +55,23 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                 onMouseEnter ={onMouseOn}
                 onMouseLeave ={onMouseOut}
             >
-            <ProductOptionInput
-                                id={'product-option-input'}
-                                readOnly  value={detail.optionDetailName} />
-                <ProductOptionDetailButton focused={focused}>
-                    <ProductOptionDetailButtonWrapper
+                <ProductOptionItemWrapper onSale={detail.onSale}>
+                    <ProductOptionItemName>
+                        {detail.optionDetailName}
+                    </ProductOptionItemName>
+                </ProductOptionItemWrapper>
+                <HoverButtonWrapper focused={focused}>
+                    <HoverButton
                         onClick={() => onEditButtonClicked(detail)}
                     >
                         <EditIcon />
-                    </ProductOptionDetailButtonWrapper>
-                    <ProductOptionDetailButtonWrapper
+                    </HoverButton>
+                    <HoverButton
                         onClick={onDeleteButtonClicked}
                     >
-                   <DeleteIcon/>
-                    </ProductOptionDetailButtonWrapper>
-                </ProductOptionDetailButton>
+                   <AutorenewIcon/>
+                    </HoverButton>
+                </HoverButtonWrapper>
             </ProductOptionDetailWrapper>
         </>
     )

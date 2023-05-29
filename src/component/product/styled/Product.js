@@ -24,6 +24,20 @@ export const CardImage = styled.img`
 `
 export const ProductBox = styled(Stack)`
 `
+export const ProductHeaderWrapper = styled(Stack)`
+    margin-bottom: 20px;
+
+`
+export const ProductTitle = styled.div`
+    font-size: 26px;
+    font-weight: bold;
+`
+
+export const ProductAddButtonWrapper = styled.div`
+    :hover{
+      cursor:pointer;
+    }
+`
 
 export const PointeredBox = styled.div`
   :hover {
@@ -49,10 +63,27 @@ export const CardDetailImage = styled.img`
   border-radius: 25px;
 `
 
+export const ProductOptionHeader = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+
+export const ProductOptionHeaderTitle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+`
+export const ProductOptionAddButton = styled.div`
+    cursor: pointer;
+`
+
 export const ProductOptionTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   text-align: center;
+  text-decoration: ${props => props.onSale ? "none" : "line-through"};
+  color : ${props => props.onSale ? "black" : "rgba(0,0,0,0.3)"};
 `
 export const ProductOptionDetailAddButton = styled.div`
   display: flex;
@@ -67,7 +98,11 @@ export const ProductOptionDetailAddButton = styled.div`
 
 export const ProductOptionInput = styled(Input)`
 `
-export const ProductOptionDetailButton = styled.div`
+export const ProductOptionTitleWrapper = styled.div`
+  position: relative;
+  background-color: white;
+`
+export const HoverButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -83,7 +118,25 @@ export const ProductOptionDetailButton = styled.div`
 export const ProductOptionDetailWrapper = styled.div`
   position: relative;
 `
-export const ProductOptionDetailButtonWrapper = styled.div`
+export const ProductOptionItemWrapper = styled.div`
+  box-sizing: border-box;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #D8D8DF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  background-color: ${props => props.onSale ? "white" : "rgba(0,0,0,0.2)"};
+
+
+`
+export const ProductOptionItemName = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`
+export const HoverButton = styled.div`
   z-index : 2;
   :hover{
     cursor: pointer;

@@ -6,32 +6,46 @@ import {
     CardDetailImage,
     PointeredBox,
     ProductChevronLeft,
-    ProductDetailName
+    ProductDetailName,
+    ProductOptionAddButton,
+    ProductOptionHeader,
+    ProductOptionHeaderTitle
 } from "../../component/product/styled/Product";
 import {PATH_PRODUCT} from "../../constants/path";
 import ProductOption from "../../component/product/ProductOption";
 import ProductOptionDetailModal from "../../component/product/ProductOptionDetailModal";
 import {useEffect, useState} from "react";
-import {ProductOptionModalMode} from "../../constants/mode";
+import {ModalMode} from "../../constants/mode";
 import {retrieveProductDetail, retrieveProductOptionList} from "../../axios/Product";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import {Checkbox} from "@mui/joy";
+import ProductOptionModal from "../../component/product/ProductOptionModal";
 
 
 export default function ProductDetail() {
     const {productId} = useParams();
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [mode, setMode] = useState(ProductOptionModalMode.ADD);
+    const [showAll,setShowAll] = useState(false);
+    const [optionDetailModalOpen, setOptionDetailModalOpen] = useState(false);
+    const [optionDetailMode, setOptionDetailMode] = useState(ModalMode.ADD);
     const [product,setProduct] = useState(undefined);
-    const [optionChanged,setOptionChanged] = useState(false);
+    const [changed,setChanged] = useState(false);
     const [options,setOptions] = useState([]);
     const [optionId, setOptionId] = useState('');
-    const [editProps, setEditProps] = useState({
-        id: "",
+    const [optionDetailEditProps, setOptionDetailEditProps] = useState({
+        optionDetailId: "",
         optionDetailName: "",
         price :0,
-        onSail:false,
+        onSale:false,
     })
-
+    const [optionProps, setOptionProps] = useState({
+        id: "",
+        optionName: "",
+        require :false,
+        onSale:false,
+    })
+    const [optionModalOpen, setOptionModalOpen] = useState(false);
+    const [optionMode, setOptionMode] = useState(ModalMode.ADD);
     const detailEffect = async () => {
         try{
             const response = await retrieveProductDetail(productId);
@@ -43,7 +57,7 @@ export default function ProductDetail() {
 
     const getOptions = async () => {
         try{
-            const response = await retrieveProductOptionList(productId);
+            const response = await retrieveProductOptionList(productId,!showAll);
             setOptions(response.data);
         }catch (e) {
             console.error(e)
@@ -55,17 +69,26 @@ export default function ProductDetail() {
     },[])
 
     useEffect(() => {
+        // TODO showAll 을 넘겨야 할 수 있음.
         getOptions();
-    },[optionChanged])
+    },[changed, showAll])
 
 
-
-    const clearEditProps = () => {
-        setEditProps({
+    const clearOptionEditProps = () => {
+        setOptionProps({
             id: "",
+            optionName: "",
+            require :false,
+            onSale:false,
+        })
+    }
+
+    const clearOptionDetailEditProps = () => {
+        setOptionDetailEditProps({
+            optionDetailId: "",
             optionDetailName: "",
             price :0,
-            onSail:false,
+            onSale:false,
         })
     }
 
@@ -73,20 +96,36 @@ export default function ProductDetail() {
         navigate(PATH_PRODUCT);
     }
 
-    const onModifyButtonClicked = (detail) => {
-        setModalOpen(true);
-        setMode(ProductOptionModalMode.EDIT)
-        setEditProps(detail)
+    const onOptionDetailModifyButtonClicked = (detail) => {
+        setOptionDetailModalOpen(true);
+        setOptionDetailMode(ModalMode.EDIT)
+        setOptionDetailEditProps(detail)
     }
-    const onAddButtonClicked = (id) => {
-        setModalOpen(true)
-        setMode(ProductOptionModalMode.ADD)
+    const onOptionDetailAddButtonClicked = (id) => {
+        setOptionDetailModalOpen(true)
+        setOptionDetailMode(ModalMode.ADD)
         setOptionId(id);
-        setOptionChanged(prev => !prev);
+        setChanged(prev => !prev);
+    }
+
+    const onOptionAddButtonClicked = () => {
+        setOptionModalOpen(true)
+        setOptionMode(ModalMode.ADD)
+        setChanged(prev => !prev);
+    }
+    const onOptionModifyButtonClicked = (option) => {
+        setOptionModalOpen(true);
+        setOptionMode(ModalMode.EDIT)
+        setOptionProps({
+            id : option.optionId,
+            optionName : option.optionName,
+            require : option.require,
+            onSale : option.onSale
+        })
     }
 
     const actived = () => {
-        setOptionChanged(prev => !prev)
+        setChanged(prev => !prev)
     }
 
     if(product === undefined){
@@ -118,14 +157,23 @@ export default function ProductDetail() {
                     </div>
                     {/* 사진과 옵션 사이의 공간 설정*/}
                     <Box sx={{py: 2,}}/>
+                    <Stack marginBottom={3} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                        <ProductOptionHeader>
+                            <ProductOptionHeaderTitle>옵션 목록</ProductOptionHeaderTitle>
+                            <Checkbox checked={showAll} onChange={(e)=> setShowAll(e.target.checked)} label="전체 옵션 보기" />
+                        </ProductOptionHeader>
+                        <ProductOptionAddButton onClick={onOptionAddButtonClicked}>
+                            <ControlPointIcon/>
+                        </ProductOptionAddButton>
+                    </Stack>
                     {/*옵션 공간*/}
                     <Stack direction={"row"} flexWrap={"wrap"} useFlexGap spacing={2} >
-
                         {options.map(o =>
                             <ProductOption
                                 option ={o}
-                                onAddButtonClicked={onAddButtonClicked}
-                                onEditButtonClicked={onModifyButtonClicked}
+                                onOptionDetailAddButtonClicked={onOptionDetailAddButtonClicked}
+                                onOptionDetailEditButtonClicked={onOptionDetailModifyButtonClicked}
+                                onOptionEditButtonClicked={onOptionModifyButtonClicked}
                                 actived={actived}
                             />)}
                     </Stack>
@@ -133,14 +181,24 @@ export default function ProductDetail() {
 
             </Box>
             <ProductOptionDetailModal
-                open={modalOpen}
-                setOpen={setModalOpen}
-                mode={mode}
+                open={optionDetailModalOpen}
+                setOpen={setOptionDetailModalOpen}
+                mode={optionDetailMode}
                 optionId={optionId}
                 setOptionId={setOptionId}
-                editProps={editProps}
-                clearEditProps={clearEditProps}
+                editProps={optionDetailEditProps}
+                clearEditProps={clearOptionDetailEditProps}
                 actived ={actived}
+            />
+            <ProductOptionModal
+                open={optionModalOpen}
+                setOpen={setOptionModalOpen}
+                mode={optionMode}
+                productId={productId}
+                editProps={optionProps}
+                clearEditProps={clearOptionEditProps}
+                actived ={actived}
+
             />
 
 
