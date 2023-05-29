@@ -15,7 +15,8 @@ import {changeProductOptionOnSale} from "../../axios/Product";
 import {Toast} from "../../utils/Toast";
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default function ProductOption({option, onOptionDetailAddButtonClicked, onOptionDetailEditButtonClicked,onOptionEditButtonClicked, actived}){
 
@@ -66,7 +67,7 @@ export default function ProductOption({option, onOptionDetailAddButtonClicked, o
                         <HoverButton
                             onClick={onDeleteButtonClicked}
                         >
-                            {option.onSale ? <CheckBoxOutlinedIcon/> : <CheckBoxOutlineBlankOutlinedIcon/>}
+                            {option.onSale ? <LockOutlinedIcon/> : <LockOpenOutlinedIcon/>}
                         </HoverButton>
                     </HoverButtonWrapper>
                 </ProductOptionTitleWrapper>
