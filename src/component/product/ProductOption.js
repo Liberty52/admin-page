@@ -9,12 +9,14 @@ import {
 } from "./styled/Product";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import EditIcon from "@mui/icons-material/Edit";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {useState} from "react";
 import Swal from "sweetalert2";
 import {changeProductOptionOnSale} from "../../axios/Product";
 import {Toast} from "../../utils/Toast";
-
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default function ProductOption({option, onOptionDetailAddButtonClicked, onOptionDetailEditButtonClicked,onOptionEditButtonClicked, actived}){
 
@@ -65,7 +67,7 @@ export default function ProductOption({option, onOptionDetailAddButtonClicked, o
                         <HoverButton
                             onClick={onDeleteButtonClicked}
                         >
-                            <AutorenewIcon/>
+                            {option.onSale ? <LockOutlinedIcon/> : <LockOpenOutlinedIcon/>}
                         </HoverButton>
                     </HoverButtonWrapper>
                 </ProductOptionTitleWrapper>

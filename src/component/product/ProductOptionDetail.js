@@ -11,6 +11,10 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import {changeOptionDetailOnSale} from "../../axios/Product";
 import Swal from "sweetalert2";
 import {Toast} from "../../utils/Toast";
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
+import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 
 export default function ProductOptionDetail({onEditButtonClicked,detail, actived}){
     const [focused, setFocused] = useState();
@@ -69,7 +73,7 @@ export default function ProductOptionDetail({onEditButtonClicked,detail, actived
                     <HoverButton
                         onClick={onDeleteButtonClicked}
                     >
-                   <AutorenewIcon/>
+                        {detail.onSale ? <LockOutlinedIcon/> : <LockOpenOutlinedIcon/>}
                     </HoverButton>
                 </HoverButtonWrapper>
             </ProductOptionDetailWrapper>
