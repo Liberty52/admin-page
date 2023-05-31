@@ -213,7 +213,6 @@ function OrderPayment({ order }) {
 
 function CancelInfo({ orderId, cancelInfo }) {
   const [modal, showModal] = useState(false);
-  const navigate = useNavigate();
   return (
     <>
       {modal && (
@@ -233,18 +232,20 @@ function CancelInfo({ orderId, cancelInfo }) {
         <div className="Order-common">취소일시</div>
         <div className="Order-common">{cancelInfo.canceledAt}</div>
       </div>
-      <div className="grid">
-        <div className="Order-common">취소요금</div>
-        <div className="Order-common">
-          &#8361;
-          {cancelInfo.fee.toLocaleString("ko-KR")}
-        </div>
-      </div>
       {cancelInfo.approvedAdminName ? (
-        <div className="grid">
-          <div className="Order-common">담당자명</div>
-          <div className="Order-common">{cancelInfo.approvedAdminName}</div>
-        </div>
+        <>
+          <div className="grid">
+            <div className="Order-common">취소요금</div>
+            <div className="Order-common">
+              &#8361;
+              {cancelInfo.fee.toLocaleString("ko-KR")}
+            </div>
+          </div>
+          <div className="grid">
+            <div className="Order-common">담당자명</div>
+            <div className="Order-common">{cancelInfo.approvedAdminName}</div>
+          </div>
+        </>
       ) : (
         <Button
           sx={{ width: "100%", height: 50, fontWeight: "bold", fontSize: 17 }}
