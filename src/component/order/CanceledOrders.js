@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function CanceledOrders() {
   const [page, setPage] = useState(1); // 현재 페이지
-  const [cancelType, setCancelType] = useState();
+  const [cancelType, setCancelType] = useState("");
   const [checkedOrderId, setCheckedOrderId] = useState([]);
   const [modal, showModal] = useState(false);
   console.log(checkedOrderId);
