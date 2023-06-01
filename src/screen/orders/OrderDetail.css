@@ -4,6 +4,7 @@
   width: 100%;
 }
 
+
 /*//////////*/
 
 .Order-common {
@@ -22,6 +23,11 @@
 }
 
 /*//////////*/
+
+.MainContainer {
+  display: flex;
+  flex-direction: row;
+}
 
 .OrderDetail {
   box-shadow: 1px 1px 3px 1px lightgray;

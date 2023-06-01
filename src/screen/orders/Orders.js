@@ -2,7 +2,7 @@ import './Orders.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchOrders,updateOrder,updateOrderStatus } from '../../axios/Orders';
-import { Checkbox } from "@mui/material";
+import { Checkbox, colors } from "@mui/material";
 import Modal from 'react-modal';
 import Button from '../../component/Button';
 import Input from '../../component/Input';
@@ -120,8 +120,8 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         onChange={setNewOrderStatus}
         options={[
           { value: '', label: '주문 상태 선택' },
-          { value: 'MAKING', label: '제작시작' },
-          { value: 'DELIVERING', label: '배송시작' },
+          { value: 'MAKING', label: '제작중'},
+          { value: 'DELIVERING', label: '배송시작'},
           { value: 'COMPLETE', label: '배송완료' },
         ]}
         />
@@ -173,7 +173,8 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
                      }} text="입금 확인"/>
                 </div>
               ) : (
-                <p>{order.orderStatus}</p>
+                <p className={`order-status ${order.orderStatus}`}>{order.orderStatus}</p>
+
               )}
               <p>{order.customerName}</p>
             </button>
