@@ -19,6 +19,7 @@ export default function CancelModal({ orderId, closeModal }) {
               .then(() => {
                 alert("주문 취소 완료");
                 navigate("/order");
+                closeModal();
               })
               .catch((err) => alert(err.response.data.error_message));
           }

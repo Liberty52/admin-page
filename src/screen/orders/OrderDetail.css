@@ -1,11 +1,7 @@
-/*//////////*/
 .OrderBorder {
   border: 1px solid lightgray;
   width: 100%;
 }
-
-
-/*//////////*/
 
 .Order-common {
   width: 100%;
@@ -103,34 +99,6 @@
 .Inquiry-Delivery-wrapper img {
   width: 100px;
   height: 100px;
-}
-
-.button {
-  width: 100%;
-  background-color: #000000;
-  border-radius: 3px;
-  color: white;
-  padding: 10px;
-  margin: 6px 0;
-
-}
-
-.button:hover {
-  cursor: pointer;
-}
-
-.button a {
-  color: white;
-}
-
-.button {
-  width: 100%;
-  background-color: #000000;
-  border-radius: 3px;
-  color: white;
-  padding: 10px;
-  margin: 6px 0;
-
 }
 
 .OrderIMG {

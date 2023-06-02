@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function CanceledOrders() {
   const [page, setPage] = useState(1); // 현재 페이지
-  const [cancelType, setCancelType] = useState("CANCELED");
+  const [cancelType, setCancelType] = useState("");
   const [checkedOrderId, setCheckedOrderId] = useState([]);
   const [modal, showModal] = useState(false);
 
@@ -36,17 +36,17 @@ export default function CanceledOrders() {
             marginBottom: 3,
           }}
         />
-        <Button
-          variant="outlined"
-          onClick={() => {
-            if (window.confirm("주문 취소 승인하시겠습니까?")) {
+        {cancelType === "REQUESTED" && (
+          <Button
+            disabled={checkedOrderId.length !== 1}
+            variant="outlined"
+            onClick={() => {
               showModal(true);
-              alert("(복수 선택) 미구현 된 기능입니다.");
-            }
-          }}
-        >
-          주문 취소 승인
-        </Button>
+            }}
+          >
+            주문 취소 승인
+          </Button>
+        )}
       </div>
       <CanceledOrdersTable
         page={page}
