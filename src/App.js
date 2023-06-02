@@ -4,7 +4,6 @@ import Question from "./screen/Question";
 import Review from "./screen/Review";
 import Order from "./screen/Order";
 import OrderDetail from "./screen/orders/OrderDetail";
-import CanceledOrderDetail from "./screen/orders/CanceledOrderDetail";
 import "./App.css";
 import Login from "./screen/login/Login";
 import Customer from "./screen/Customer";
@@ -27,13 +26,13 @@ function App() {
         <Route path={"/customers"} element={<Customer />} />
         <Route path={"/order"} element={<Order />} />
         <Route path="/order/:orderId" element={<OrderDetail />} />
+        <Route
+          path="/order/canceled/:orderId"
+          element={<OrderDetail canceled />}
+        />
         <Route path={"/notice"} element={<Notice />} />
         <Route path={"/notice/editor"} element={<NoticeEditor />} />
         <Route path={"/notice/detail"} element={<NoticeDetail />} />
-        <Route
-          path="/order/canceled/:orderId"
-          element={<CanceledOrderDetail />}
-        />
         <Route path={PATH_PRODUCT} element={<Product />} />
         <Route path={PATH_PRODUCT_DETAIL} element={<ProductDetail />} />
       </Routes>
