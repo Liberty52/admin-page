@@ -118,3 +118,24 @@
 .myContent Button {
   margin-top: 1rem;
 }
+
+
+.order-status.제작중 {
+  color: orange;
+}
+
+.order-status.배송시작 {
+  color: blue;
+}
+
+.order-status.배송완료 {
+  color: darkorchid;
+}
+
+.order-status.주문완료 {
+  color: green;
+}
+
+.order-status.주문취소 {
+  color: red;
+}

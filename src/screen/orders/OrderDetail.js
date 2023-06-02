@@ -274,7 +274,7 @@ export default function OrderDetail() {
         <SideNav />
       </div>
       <div className="Right-Container">
-      <div className="OrderDetail">
+        <div className="OrderDetail">
             <OrderTitle/>
             <OrderInquiry/>
             <OrderInquiryDetail order={order}/>
