@@ -336,7 +336,6 @@ export default function OrderDetail({ canceled }) {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [cancelInfo, setCancelInfo] = useState(null);
-  console.log(canceled);
 
   useEffect(() => {
     if (canceled) {

@@ -9,7 +9,6 @@ export default function CanceledOrders() {
   const [cancelType, setCancelType] = useState("");
   const [checkedOrderId, setCheckedOrderId] = useState([]);
   const [modal, showModal] = useState(false);
-  console.log(checkedOrderId);
 
   return (
     <div>
