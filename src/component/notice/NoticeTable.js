@@ -54,7 +54,7 @@ export const NoticeTable = (props) => {
         <QuestionTableWrapper>
           <TableHead>
             <QuestionTableHeader>
-              <QuestionTableCell>ID</QuestionTableCell>
+              <QuestionTableCell>Notice No</QuestionTableCell>
               <QuestionTableCell>제목</QuestionTableCell>
               <QuestionTableCell>작성 시간</QuestionTableCell>
             </QuestionTableHeader>
@@ -66,7 +66,7 @@ export const NoticeTable = (props) => {
                   hover
                   onClick={() => navigateDetail(notice.noticeId)}
                 >
-                  <MediumTableCell>{notice.noticeId}</MediumTableCell>
+                  <MediumTableCell>No.{page * 10 + 1 + idx}</MediumTableCell>
                   <QuestionTableCell>{notice.title}</QuestionTableCell>
                   <MediumTableCell>{notice.createdAt}</MediumTableCell>
                 </PointeredRow>
