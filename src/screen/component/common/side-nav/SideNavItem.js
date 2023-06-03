@@ -1,19 +1,20 @@
 import { Box, ButtonBase } from "@mui/material";
 
 export const SideNavItem = (props) => {
-  const { active = false, disabled, icon, path, title } = props;
+  const { active = false, icon, title } = props;
 
   return (
     <li>
       <ButtonBase
         sx={{
+          color: "rgb(157, 164, 174)",
           alignItems: "center",
           borderRadius: 1,
           display: "flex",
           justifyContent: "flex-start",
           pl: "16px",
-          pr: "16px",
-          py: "6px",
+          pr: "80px",
+          py: "10px",
           textAlign: "left",
           width: "100%",
           ...(active && {
@@ -29,19 +30,27 @@ export const SideNavItem = (props) => {
             component="span"
             sx={{
               alignItems: "center",
-              color: "neutral.400",
               display: "inline-flex",
               justifyContent: "center",
               mr: 2,
               ...(active && {
-                color: "primary.main",
+                color: "rgb(99, 102, 241)",
               }),
             }}
           >
             {icon}
           </Box>
         )}
-        {title}
+        <Box
+          component="span"
+          sx={{
+            ...(active && {
+              color: "#ffffff",
+            }),
+          }}
+        >
+          {title}
+        </Box>
       </ButtonBase>
     </li>
   );
