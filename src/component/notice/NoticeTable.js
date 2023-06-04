@@ -66,7 +66,7 @@ export const NoticeTable = (props) => {
                   hover
                   onClick={() => navigateDetail(notice.noticeId)}
                 >
-                  <MediumTableCell>No.{page * 10 + 1 + idx}</MediumTableCell>
+                  <MediumTableCell>{page * 10 + 1 + idx}</MediumTableCell>
                   <QuestionTableCell>{notice.title}</QuestionTableCell>
                   <MediumTableCell>{notice.createdAt}</MediumTableCell>
                 </PointeredRow>
