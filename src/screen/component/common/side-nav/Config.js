@@ -1,11 +1,13 @@
-import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
-import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
-import ShoppingBagIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
-import UserIcon from "@heroicons/react/24/solid/UserIcon";
-import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
-import { ArchiveBoxIcon } from "@heroicons/react/24/solid";
+import {
+  ChartBarIcon,
+  StarIcon,
+  UsersIcon,
+  ClipboardIcon,
+  QuestionMarkCircleIcon,
+  GiftIcon,
+  ComputerDesktopIcon,
+} from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
-import InventoryIcon from "@mui/icons-material/Inventory";
 import { PATH_PRODUCT } from "../../../../constants/path";
 
 export const items = [
@@ -32,7 +34,7 @@ export const items = [
     path: "/review",
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <StarIcon />
       </SvgIcon>
     ),
   },
@@ -41,7 +43,7 @@ export const items = [
     path: "/order",
     icon: (
       <SvgIcon fontSize="small">
-        <UserIcon />
+        <GiftIcon />
       </SvgIcon>
     ),
   },
@@ -50,7 +52,7 @@ export const items = [
     path: "/question",
     icon: (
       <SvgIcon fontSize="small">
-        <LockClosedIcon />
+        <QuestionMarkCircleIcon />
       </SvgIcon>
     ),
   },
@@ -59,7 +61,7 @@ export const items = [
     path: "/notice",
     icon: (
       <SvgIcon fontSize="small">
-        <ArchiveBoxIcon />
+        <ClipboardIcon />
       </SvgIcon>
     ),
   },
@@ -68,7 +70,7 @@ export const items = [
     path: PATH_PRODUCT,
     icon: (
       <SvgIcon fontSize={"small"}>
-        <InventoryIcon />
+        <ComputerDesktopIcon />
       </SvgIcon>
     ),
   },

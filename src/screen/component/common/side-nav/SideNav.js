@@ -9,10 +9,12 @@ const SideNav = () => {
     <>
       <Stack
         component="ul"
-        spacing={0.5}
+        spacing={1}
         sx={{
           listStyle: "none",
-          p: 0,
+          backgroundColor: "rgb(28, 37, 54)",
+          paddingY: 6,
+          paddingX: 3,
           m: 0,
         }}
       >
