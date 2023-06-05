@@ -6,6 +6,7 @@ import {
   QuestionMarkCircleIcon,
   GiftIcon,
   ComputerDesktopIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
 import { PATH_PRODUCT } from "../../../../constants/path";
@@ -74,4 +75,23 @@ export const items = [
       </SvgIcon>
     ),
   },
+  {
+    title: "Logout",
+    onClick: () => {
+      onLogoutClicked();
+    },
+    icon: (
+      <SvgIcon fontSize={"small"}>
+        <ArrowLeftOnRectangleIcon />
+      </SvgIcon>
+    ),
+  },
 ];
+
+function onLogoutClicked() {
+  if (window.confirm("로그아웃 하시겠습니까?")) {
+    sessionStorage.clear();
+    localStorage.clear();
+    window.location.href = "/";
+  }
+}

@@ -29,6 +29,7 @@ const SideNav = () => {
                 key={item.title}
                 path={item.path}
                 title={item.title}
+                onClick={item.onClick}
               />
             </Link>
           );
