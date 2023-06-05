@@ -27,8 +27,9 @@ function LoginForm() {
                 const password = event.target.password.value;
                 const checked = event.target.checkbox.checked;
                 const dto = {
-                    id: email,
+                    email: email,
                     password: password,
+                    isAutoLogin:checked
                 };
                 post(dto, checked);
             }}

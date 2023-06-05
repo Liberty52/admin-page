@@ -1,6 +1,7 @@
 import request from "./axios";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../constants/token";
 import {LOGIN, TOKEN_REFRESH} from "../constants/api";
+import axios from "axios";
 
 export function post(dto, checked) {
     request
@@ -22,6 +23,26 @@ export function post(dto, checked) {
                 if (e.response.status === 401) alert('로그인 실패.');
             }
         });
+
+    // axios
+    //     .post("http://localhost:8080/login", JSON.stringify(dto), {
+    //         headers: {
+    //             'Content-Type': `application/json`,
+    //         },
+    //     })
+    //     .then(response => {
+    //         alert(response.data.name + '님 환영합니다!');
+    //         if (checked) {
+    //             localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
+    //         }
+    //         sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
+    //         window.location.replace('/');
+    //     })
+    //     .catch(e => {
+    //         if (e.response) {
+    //             if (e.response.status === 401) alert('로그인 실패.');
+    //         }
+    //     });
 }
 
 export function refresh(){
