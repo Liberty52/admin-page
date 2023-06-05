@@ -28,12 +28,6 @@ export default function Product(){
     useEffect(() => {
         effect();
     },[])
-
-    if(product.length === 0)
-        return <div>Loading...</div>
-
-
-
     return (
         <>
             <MainContainer>

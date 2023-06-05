@@ -1,6 +1,7 @@
 import request from "./axios";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../constants/token";
 import {LOGIN, TOKEN_REFRESH} from "../constants/api";
+import axios from "axios";
 
 export function post(dto, checked) {
     request
