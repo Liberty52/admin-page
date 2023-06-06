@@ -46,7 +46,11 @@ export const ReviewTable = (props) => {
                 >
                   <TableCell>{review.authorName}</TableCell>
                   <TableCell>
-                    <Rating name="size-medium" defaultValue={review.rating} />
+                    <Rating
+                      defaultValue={review.rating}
+                      size="large"
+                      readOnly
+                    />
                   </TableCell>
                   <TableCell>{review.content}</TableCell>
                   <TableCell>
