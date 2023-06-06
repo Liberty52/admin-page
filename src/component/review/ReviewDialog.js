@@ -32,13 +32,12 @@ export const ReviewDialog = (props) => {
   const retrieveDetail = (prevData, id) => {
     getReviewDetail(id).then((res) => {
       prevData = res.data.content;
-      console.log(prevData);
       setData(prevData);
       setMode("ADD");
       for (var i = 0; prevData?.replies.length; i++) {
-        if (prevData?.replies[i].authorId === ADMINID) {
-          setTextAreaValue(prevData?.replies[i]?.content);
-          setAdminReply(prevData?.replies[i]);
+        if (prevData?.replies[i].authorId == ADMINID) {
+          setTextAreaValue(prevData.replies[i].content);
+          setAdminReply(prevData.replies[i]);
         }
         setMode("EDIT");
       }
@@ -65,6 +64,7 @@ export const ReviewDialog = (props) => {
       .then(() => {
         alert("댓글을 작성하셨습니다.");
         isChanged(true);
+        window.location.reload();
       })
       .catch((err) => console.errer(err));
   };
