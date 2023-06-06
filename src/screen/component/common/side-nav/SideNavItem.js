@@ -1,7 +1,7 @@
 import { Box, ButtonBase } from "@mui/material";
 
 export const SideNavItem = (props) => {
-  const { active = false, icon, title } = props;
+  const { active = false, icon, title, onClick } = props;
 
   return (
     <li>
@@ -24,6 +24,7 @@ export const SideNavItem = (props) => {
             backgroundColor: "rgba(255, 255, 255, 0.04)",
           },
         }}
+        onClick={onClick ? onClick : () => {}}
       >
         {icon && (
           <Box
