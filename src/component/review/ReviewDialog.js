@@ -64,7 +64,7 @@ export const ReviewDialog = (props) => {
       .then(() => {
         alert("댓글을 작성하셨습니다.");
         isChanged(true);
-        window.location.reload();
+        handleClose();
       })
       .catch((err) => console.errer(err));
   };
@@ -79,6 +79,7 @@ export const ReviewDialog = (props) => {
           alert("수정했습니다.");
           isChanged(true);
           retrieveReviewDetailData();
+          handleClose();
         })
         .catch((err) => console.err(err));
     } else {
@@ -89,12 +90,15 @@ export const ReviewDialog = (props) => {
     deleteReviewReply(adminReply?.replyId).then(() => {
       alert("삭제했습니다.");
       setTextAreaValue("");
+      retrieveReviewDetailData();
+      handleClose();
     });
   };
   const onDeleteCustomerReview = () => {
     deleteCustomerReview(data?.reviewId).then(() => {
       alert("고객의 리뷰를 삭제했습니다.");
       setTextAreaValue("");
+      window.location.reload();
     });
   };
   const onCloseButtonClicked = () => {
