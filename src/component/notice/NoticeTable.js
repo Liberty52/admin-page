@@ -33,6 +33,7 @@ export const NoticeTable = (props) => {
     onPlusPageButtonClicked,
     pageNumberArray,
     handleDialogOn,
+    totalCount,
   } = props;
 
   const navigate = useNavigate();
@@ -66,7 +67,9 @@ export const NoticeTable = (props) => {
                   hover
                   onClick={() => navigateDetail(notice.noticeId)}
                 >
-                  <MediumTableCell>{page * 10 + 1 + idx}</MediumTableCell>
+                  <MediumTableCell>
+                    {totalCount - (page * 10 + 1 + idx) + 1}
+                  </MediumTableCell>
                   <QuestionTableCell>{notice.title}</QuestionTableCell>
                   <MediumTableCell>{notice.createdAt}</MediumTableCell>
                 </PointeredRow>

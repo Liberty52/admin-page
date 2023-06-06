@@ -92,6 +92,7 @@ export default function Notice() {
                 onPlusPageButtonClicked={onPlusPageButtonClicked}
                 pageNumberArray={pageNumberArray()}
                 handleDialogOn={handleDialogOn}
+                totalCount={data.totalCount}
               />
             ) : (
               <></>
