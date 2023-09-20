@@ -1,0 +1,26 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - ci/docker-ci-pipeline
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t my-admin-page-app -f multistage.Dockerfile .
+          docker tag my-admin-page-app ghcr.io/liberty52/liberty52-admin-page:dev-v${{ github.sha }}
+        working-directory: ./
+
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Docker image to GitHub Container Registry
+        run: docker push ghcr.io/liberty52/liberty52-admin-page:dev-v${{ github.sha }}
