@@ -1,2 +1,13 @@
-export const PATH_PRODUCT = "/product";
-export const PATH_PRODUCT_DETAIL = `/product/:productId`;
+export const MAIN = `/`;
+export const LOGIN = `/login`;
+export const QUESTION = `/question`;
+export const REVIEW = `/review`;
+export const CUSTOMER = `/customers`;
+export const ORDER = `/order`;
+export const ORDER_DETAIL = `${ORDER}/:orderId`;
+export const ORDER_CANCELED = `${ORDER}/canceled/:orderId`;
+export const NOTICE = `/notice`;
+export const NOTICE_EDITOR = `${NOTICE}/editor`;
+export const NOTICE_DETAIL = `${NOTICE}/detail`;
+export const PATH_PRODUCT = `/product`;
+export const PATH_PRODUCT_DETAIL = `${PATH_PRODUCT}/:productId`;
