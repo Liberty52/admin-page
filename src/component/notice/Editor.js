@@ -6,8 +6,8 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState } from "draft-js";
 import { postNotice } from "../../axios/Notice";
-import SideNav from "../../screen/component/common/side-nav/SideNav";
-import { MainContainer } from "../../screen/component/main/MainComponent";
+import SideNav from "../common/side-nav/SideNav";
+import { MainContainer } from "../common/MainComponent";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 

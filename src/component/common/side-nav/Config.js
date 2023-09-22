@@ -9,7 +9,7 @@ import {
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
-import { PATH_PRODUCT } from "../../../../constants/path";
+import { PATH_PRODUCT } from "../../../constants/path";
 
 export const items = [
   {

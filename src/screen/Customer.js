@@ -1,5 +1,5 @@
-import { MainContainer } from "./component/main/MainComponent";
-import SideNav from "./component/common/side-nav/SideNav";
+import { MainContainer } from "../component/common/MainComponent";
+import SideNav from "../component/common/side-nav/SideNav";
 import { Box, Container, Stack, Typography, Input } from "@mui/material";
 import { CustomerTable } from "../component/customer/CustomerTable";
 // import { CustomerSearch } from "../component/customer/CustomerSearch";
