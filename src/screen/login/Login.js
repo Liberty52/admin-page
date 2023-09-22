@@ -1,7 +1,7 @@
 import "./Login.css";
-import Input from "../../component/Input";
-import Checkbox from "../../component/Checkbox";
-import Button from "../../component/Button";
+import Input from "../../component/common/Input";
+import Checkbox from "../../component/common/Checkbox";
+import Button from "../../component/common/Button";
 import { post } from "../../axios/Login";
 import { ACCESS_TOKEN } from "../../constants/token";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
-import SideNav from "./component/common/side-nav/SideNav";
-import { MainContainer } from "./component/main/MainComponent";
+import SideNav from "../component/common/side-nav/SideNav";
+import { MainContainer } from "../component/common/MainComponent";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ReviewTable } from "../component/review/ReviewTable";

@@ -11,6 +11,7 @@ const SideNav = () => {
         component="ul"
         spacing={1}
         sx={{
+          minHeight: "calc(100vh - 96px)",
           listStyle: "none",
           backgroundColor: "rgb(28, 37, 54)",
           paddingY: 6,

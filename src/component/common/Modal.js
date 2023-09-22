@@ -1,5 +1,5 @@
 import './Modal.css';
-import close from '../image/icon/close.png';
+import close from '../../image/icon/close.png';
 
 /**
  * @param title 모달 제목

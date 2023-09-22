@@ -22,7 +22,7 @@ import React, {useEffect, useState} from "react";
 import VBankMoreMenu from "./VBankMoreMenu";
 import {blue, pink} from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
-import Modal from "../../Modal";
+import Modal from "../../common/Modal";
 import {deleteVBank, getVBanks, postCreateNewVBank, putVBank} from "../../../axios/Orders";
 
 export default function VBankPaymentInfoTable() {

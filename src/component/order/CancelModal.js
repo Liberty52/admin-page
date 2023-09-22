@@ -1,4 +1,4 @@
-import Modal from "../Modal";
+import Modal from "../common/Modal";
 import { approveCancel } from "../../axios/Orders";
 import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
