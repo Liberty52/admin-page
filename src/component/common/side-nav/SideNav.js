@@ -20,7 +20,13 @@ const SideNav = () => {
         }}
       >
         {items.map((item, index) => {
-          const active = item.path ? pathname === item.path : false;
+          let active = false;
+          // Overview Tab - pathname이 '/'일 때만 active
+          if (item.path === "/") {
+            if (pathname === "/") active = true;
+          }
+          // 나머지 - pathname으로 시작할 때 active
+          else if (pathname.startsWith(item.path)) active = true;
 
           return (
             <Link to={item.path} key={index}>
