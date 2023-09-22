@@ -8,9 +8,9 @@ import {
 } from "../../axios/Orders";
 import { Checkbox, colors } from "@mui/material";
 import Modal from "react-modal";
-import Button from "../../component/Button";
-import Input from "../../component/Input";
-import Select from "../../component/Select";
+import Button from "../../component/common/Button";
+import Input from "../../component/common/Input";
+import Select from "../../component/common/Select";
 
 function Border() {
   return <div className="order-border"></div>;

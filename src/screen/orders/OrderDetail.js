@@ -4,7 +4,7 @@ import "./OrderDetail.css";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchOrderDetail } from "../../axios/Orders";
-import Button from "../../component/Button";
+import Button from "../../component/common/Button";
 
 ////////////////////////////
 function Border() {
