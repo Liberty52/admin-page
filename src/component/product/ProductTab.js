@@ -1,6 +1,7 @@
 import { Box, Tabs, Tab } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import ProductIntroPanel from "./ProductIntroPanel";
 import ProductOptionPanel from "./ProductOptionPanel";
 
 function TabPanel(props) {
@@ -40,7 +41,7 @@ export default function ProductTab() {
   };
 
   const tabConfigs = [
-    { value: "intro", label: "상품 소개 관리", content: "상품 소개 관리" },
+    { value: "intro", label: "상품 소개 관리", content: <ProductIntroPanel /> },
     {
       value: "option",
       label: "상품 옵션 관리",
