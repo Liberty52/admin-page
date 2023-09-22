@@ -11,7 +11,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
-import { Chart } from "../../common/Chart";
+import { Chart } from "../common/Chart";
 
 const useChartOptions = () => {
   const theme = useTheme();
