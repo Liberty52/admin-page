@@ -6,12 +6,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { fetchOrderDetail } from "../../axios/Orders";
 import Button from "../../component/common/Button";
 
-////////////////////////////
 function Border() {
   return <div className="OrderBorder"></div>;
 }
-
-///////////////////////////
 
 function OrderTitle() {
   return (
