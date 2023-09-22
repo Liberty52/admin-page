@@ -11,7 +11,6 @@ import {
 } from "../../component/product/styled/Product";
 import { useEffect, useState } from "react";
 import { retrieveProduct } from "../../axios/Product";
-import { Stack } from "@mui/joy";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 export default function Product() {

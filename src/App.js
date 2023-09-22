@@ -8,7 +8,6 @@ import "./App.css";
 import Login from "./screen/login/Login";
 import Customer from "./screen/Customer";
 import Notice from "./screen/Notice";
-import Editor from "./component/notice/Editor";
 import NoticeEditor from "./component/notice/NoticeEditor";
 import NoticeDetail from "./component/notice/NoticeDetail";
 import {
