@@ -67,7 +67,7 @@ export default function Review() {
             </Stack>
             {data?.contents && (
               <ReviewTable
-                items={data?.contents}
+                items={data.contents}
                 onPageChange={handlePageChange}
                 page={page}
                 onMinusPageButtonClicked={onMinusPageButtonClicked}

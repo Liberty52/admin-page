@@ -32,13 +32,12 @@ export const ReviewDialog = (props) => {
   const retrieveDetail = (prevData, id) => {
     getReviewDetail(id).then((res) => {
       prevData = res.data.content;
-      console.log(prevData);
       setData(prevData);
       setMode("ADD");
       for (var i = 0; prevData?.replies.length; i++) {
-        if (prevData?.replies[i].authorId === ADMINID) {
-          setTextAreaValue(prevData?.replies[i]?.content);
-          setAdminReply(prevData?.replies[i]);
+        if (prevData?.replies[i].authorId == ADMINID) {
+          setTextAreaValue(prevData.replies[i].content);
+          setAdminReply(prevData.replies[i]);
         }
         setMode("EDIT");
       }
@@ -65,6 +64,7 @@ export const ReviewDialog = (props) => {
       .then(() => {
         alert("댓글을 작성하셨습니다.");
         isChanged(true);
+        handleClose();
       })
       .catch((err) => console.errer(err));
   };
@@ -79,6 +79,7 @@ export const ReviewDialog = (props) => {
           alert("수정했습니다.");
           isChanged(true);
           retrieveReviewDetailData();
+          handleClose();
         })
         .catch((err) => console.err(err));
     } else {
@@ -89,12 +90,15 @@ export const ReviewDialog = (props) => {
     deleteReviewReply(adminReply?.replyId).then(() => {
       alert("삭제했습니다.");
       setTextAreaValue("");
+      retrieveReviewDetailData();
+      handleClose();
     });
   };
   const onDeleteCustomerReview = () => {
     deleteCustomerReview(data?.reviewId).then(() => {
       alert("고객의 리뷰를 삭제했습니다.");
       setTextAreaValue("");
+      window.location.reload();
     });
   };
   const onCloseButtonClicked = () => {

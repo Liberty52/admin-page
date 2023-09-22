@@ -47,8 +47,8 @@ export const ReviewTable = (props) => {
                   <TableCell>{review.authorName}</TableCell>
                   <TableCell>
                     <Rating
-                      sx={{ fontSize: "initial" }}
                       defaultValue={review.rating}
+                      size="large"
                       readOnly
                     />
                   </TableCell>
