@@ -15,24 +15,19 @@ export default function ProductIntroPanel() {
   }, []);
 
   async function upload(productId, imgFile) {
-    const response = await addProductIntroduction(productId, imgFile);
-    if (response.status === 201) {
-      alert("소개 이미지 변경 성공!");
-    } else {
-      alert(`[${response.status} ERROR] 소개 이미지 변경 실패.`);
-    }
+    if (imgFile) {
+      const response = await addProductIntroduction(productId, imgFile);
+      if (response.status === 201) alert("소개 이미지 변경 성공!");
+      else alert(`[${response.status} ERROR] 소개 이미지 변경 실패.`);
+    } else alert("소개 이미지를 수정한 후 업로드가 가능합니다.");
   }
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        const file = event.target.file.files[0];
-        if (file) {
-          upload(productId, file);
-        } else {
-          alert("소개 이미지를 수정한 후 업로드가 가능합니다.");
-        }
+        const imgFile = event.target.file.files[0];
+        upload(productId, imgFile);
       }}
     >
       <div
