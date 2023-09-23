@@ -53,30 +53,37 @@ export const APPROVE_CANCEL = () => {
   return `/admin/orders/refund`;
 };
 
-// 상품 관리
+// 상품 관리 api
 export const PRODUCT_LIST = () => `/admin/productInfo`;
 export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
-export const PRODUCT_OPTION_LIST = (productId,onSale) =>
+export const PRODUCT_OPTION_LIST = (productId, onSale) =>
   `/admin/productOptionInfo/${productId}?onSale=${onSale}`;
 
-export const ADD_PRODUCT_OPTION = (productId) => `/admin/productOption/${productId}`
-export const UPDATE_PRODUCT_OPTION = (optionId) => `/admin/productOption/${optionId}`;
-export const CHANGE_PRODUCT_ON_SALE = (optionId) => `/admin/productOptionOnSale/${optionId}`
+export const ADD_PRODUCT_OPTION = (productId) =>
+  `/admin/productOption/${productId}`;
+export const UPDATE_PRODUCT_OPTION = (optionId) =>
+  `/admin/productOption/${optionId}`;
+export const CHANGE_PRODUCT_ON_SALE = (optionId) =>
+  `/admin/productOptionOnSale/${optionId}`;
 
 export const ADD_PRODUCT_OPTION_DETAIL = (optionId) =>
   `/admin/optionDetail/${optionId}`;
 export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
   `/admin/optionDetailOnSale/${optionDetailId}`;
-export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) => `/admin/optionDetail/${optionDetailId}`;
+export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) =>
+  `/admin/optionDetail/${optionDetailId}`;
+// - 소개 관리
+export const ADD_PRODUCT_INTRODUCTION = (productId) =>
+  `/admin/product/${productId}/introduction`;
 
-
-
-// 가상계좌 관리
+// 가상계좌 관리 api
 export const POST_NEW_VBANK = () => `/admin/product/vbanks`;
 export const GET_VBANKS = () => `/admin/product/vbanks`;
 export const PUT_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
 export const DELETE_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
 
-// 배송비 관리
-export const GET_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;
-export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/product/options/delivery/fee`;
+// 배송비 관리 api
+export const GET_DEFAULT_DELIVERY_FEE = () =>
+  `/admin/product/options/delivery/fee`;
+export const PATCH_DEFAULT_DELIVERY_FEE = () =>
+  `/admin/product/options/delivery/fee`;
