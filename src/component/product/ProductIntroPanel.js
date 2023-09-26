@@ -3,23 +3,40 @@ import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import example from "../../image/preview-example.png";
-import { addProductIntroduction } from "../../axios/Product";
+import {
+  addProductIntroduction,
+  modifyProductIntroduction,
+} from "../../axios/Product";
 
 export default function ProductIntroPanel() {
   const { productId } = useParams();
   const [imgFile, setImgFile] = useState(undefined);
-
+  const [previousImg, setPreviousImg] = useState(undefined);
   useEffect(() => {
     // [TODO] 상품 소개 관리 조회 (관리자)
+    setPreviousImg(example);
     setImgFile(example);
   }, []);
 
   async function upload(productId, imgFile) {
-    if (imgFile) {
+    if (previousImg) {
+      // 기존 이미지 파일이 존재하는 경우
+      const response = await modifyProductIntroduction(productId, imgFile);
+      console.log(response.status);
+      if (response.status === 204) {
+        alert("이미지 수정 성공!");
+      } else {
+        alert(`[${response.status} ERROR] 이미지 수정 실패.`);
+      }
+    } else {
+      // 기존 이미지 파일이 존재하지 않는 경우
       const response = await addProductIntroduction(productId, imgFile);
-      if (response.status === 201) alert("소개 이미지 변경 성공!");
-      else alert(`[${response.status} ERROR] 소개 이미지 변경 실패.`);
-    } else alert("소개 이미지를 수정한 후 업로드가 가능합니다.");
+      if (response.status === 201) {
+        alert("이미지 추가 성공!");
+      } else {
+        alert(`[${response.status} ERROR] 이미지 추가 실패.`);
+      }
+    }
   }
 
   return (
@@ -58,7 +75,8 @@ export default function ProductIntroPanel() {
           type="submit"
           sx={{ fontWeight: "bold" }}
           variant="outlined"
-          disabled={imgFile === undefined}
+          // 이전과 같은 이미지일 경우 업로드버튼 비활성화
+          disabled={imgFile === previousImg}
         >
           업로드
         </Button>
