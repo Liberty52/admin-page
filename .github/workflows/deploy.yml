@@ -44,4 +44,4 @@ jobs:
             sudo docker pull ${{ steps.new-docker-image.outputs.image_name }}
             container_name=$(sudo docker ps | grep liberty52 | awk '{print $NF}')
             sudo docker stop $container_name
-            sudo docker run -d -p 8080:8080 ${{ steps.new-docker-image.outputs.image_name }}
+            sudo docker run -d -p 80:80 ${{ steps.new-docker-image.outputs.image_name }}
