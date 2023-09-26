@@ -18,7 +18,7 @@ jobs:
 
     env:
       DOCKER_REGISTRY: ghcr.io
-      DOCKER_REPO: liberty52/liberty52-admin-page-server
+      DOCKER_REPO: liberty52/liberty52-admin-page
 
     steps:
       - name: Get latest Release tag
