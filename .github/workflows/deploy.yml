@@ -1,11 +1,15 @@
 name: Deploy dev
-
+#
+#on:
+#  workflow_run:
+#    workflows:
+#      - Build and Push Docker Image
+#    types:
+#      - completed
 on:
-  workflow_run:
-    workflows:
-      - Build and Push Docker Image
-    types:
-      - completed
+  push:
+    branches:
+      - issue-58
 
 jobs:
   deploy:
