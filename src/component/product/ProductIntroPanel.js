@@ -1,18 +1,12 @@
 import ImageInput from "./ProductIntroImageInput";
 import { Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import example from "../../image/preview-example.png";
 import { addProductIntroduction } from "../../axios/Product";
 
-export default function ProductIntroPanel() {
+export default function ProductIntroPanel({ introductionImageUrl }) {
   const { productId } = useParams();
-  const [imgFile, setImgFile] = useState(undefined);
-
-  useEffect(() => {
-    // [TODO] 상품 소개 관리 조회 (관리자)
-    setImgFile(example);
-  }, []);
+  const [imgFile, setImgFile] = useState(introductionImageUrl);
 
   async function upload(productId, imgFile) {
     if (imgFile) {
@@ -41,7 +35,7 @@ export default function ProductIntroPanel() {
           type="button"
           sx={{ marginRight: 1, color: "black", borderColor: "black" }}
           variant="outlined"
-          disabled={imgFile === undefined}
+          disabled={imgFile === null}
           onClick={() => {
             // [TODO] 상품 소개 미리보기
             window.alert("구현되지 않은 기능입니다.");
@@ -58,7 +52,7 @@ export default function ProductIntroPanel() {
           type="submit"
           sx={{ fontWeight: "bold" }}
           variant="outlined"
-          disabled={imgFile === undefined}
+          disabled={imgFile === null}
         >
           업로드
         </Button>
