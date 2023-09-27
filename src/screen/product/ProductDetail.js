@@ -26,7 +26,6 @@ export default function ProductDetail() {
     try {
       const response = await retrieveProductDetail(productId);
       setProduct(response.data);
-      console.log(response.data);
     } catch (e) {
       console.error(e);
     }
