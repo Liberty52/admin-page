@@ -22,7 +22,6 @@ export default function ProductIntroPanel() {
     if (previousImg) {
       // 기존 이미지 파일이 존재하는 경우
       const response = await modifyProductIntroduction(productId, imgFile);
-      console.log(response.status);
       if (response.status === 204) {
         alert("이미지 수정 성공!");
       } else {
