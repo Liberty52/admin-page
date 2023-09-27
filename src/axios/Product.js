@@ -104,7 +104,7 @@ export const addProductIntroduction = (productId, imageFile) => {
 
 export const modifyProductIntroduction = (productId, imageFile) => {
   const formData = new FormData();
-  formData.append("imageFile", imageFile);
+  formData.append("images", imageFile);
   return request.patch(ADD_PRODUCT_INTRODUCTION(productId), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
