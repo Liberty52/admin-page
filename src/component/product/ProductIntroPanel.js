@@ -1,22 +1,16 @@
 import ImageInput from "./ProductIntroImageInput";
 import { Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import example from "../../image/preview-example.png";
 import {
   addProductIntroduction,
   modifyProductIntroduction,
 } from "../../axios/Product";
 
-export default function ProductIntroPanel() {
+export default function ProductIntroPanel({ introductionImageUrl }) {
   const { productId } = useParams();
-  const [imgFile, setImgFile] = useState(undefined);
-  const [previousImg, setPreviousImg] = useState(undefined);
-  useEffect(() => {
-    // [TODO] 상품 소개 관리 조회 (관리자)
-    setPreviousImg(example);
-    setImgFile(example);
-  }, []);
+  const [imgFile, setImgFile] = useState(introductionImageUrl);
+  const [previousImg, setPreviousImg] = useState(introductionImageUrl);
 
   async function upload(productId, imgFile) {
     if (previousImg) {
@@ -57,7 +51,7 @@ export default function ProductIntroPanel() {
           type="button"
           sx={{ marginRight: 1, color: "black", borderColor: "black" }}
           variant="outlined"
-          disabled={imgFile === undefined}
+          disabled={imgFile === null}
           onClick={() => {
             // [TODO] 상품 소개 미리보기
             window.alert("구현되지 않은 기능입니다.");
@@ -74,7 +68,6 @@ export default function ProductIntroPanel() {
           type="submit"
           sx={{ fontWeight: "bold" }}
           variant="outlined"
-          // 이전과 같은 이미지일 경우 업로드버튼 비활성화
           disabled={imgFile === previousImg}
         >
           업로드

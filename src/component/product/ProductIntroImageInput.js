@@ -37,7 +37,7 @@ export default function ImageInput(props) {
               const label = e.target.parentNode.parentNode;
               const input = label.children[0];
               input.value = "";
-              setImgFile(undefined);
+              setImgFile(null);
             }}
           />
           <img

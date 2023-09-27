@@ -93,7 +93,7 @@ export const changeProductOptionOnSale = (optionId) => {
 
 export const addProductIntroduction = (productId, imageFile) => {
   const formData = new FormData();
-  formData.append("imageFile", imageFile);
+  formData.append("images", imageFile);
   return request.post(ADD_PRODUCT_INTRODUCTION(productId), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
