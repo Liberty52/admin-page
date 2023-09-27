@@ -101,3 +101,14 @@ export const addProductIntroduction = (productId, imageFile) => {
     },
   });
 };
+
+export const modifyProductIntroduction = (productId, imageFile) => {
+  const formData = new FormData();
+  formData.append("imageFile", imageFile);
+  return request.patch(ADD_PRODUCT_INTRODUCTION(productId), formData, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

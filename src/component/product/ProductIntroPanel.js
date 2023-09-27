@@ -2,18 +2,34 @@ import ImageInput from "./ProductIntroImageInput";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { addProductIntroduction } from "../../axios/Product";
+import {
+  addProductIntroduction,
+  modifyProductIntroduction,
+} from "../../axios/Product";
 
 export default function ProductIntroPanel({ introductionImageUrl }) {
   const { productId } = useParams();
   const [imgFile, setImgFile] = useState(introductionImageUrl);
+  const [previousImg, setPreviousImg] = useState(introductionImageUrl);
 
   async function upload(productId, imgFile) {
-    if (imgFile) {
+    if (previousImg) {
+      // 기존 이미지 파일이 존재하는 경우
+      const response = await modifyProductIntroduction(productId, imgFile);
+      if (response.status === 204) {
+        alert("이미지 수정 성공!");
+      } else {
+        alert(`[${response.status} ERROR] 이미지 수정 실패.`);
+      }
+    } else {
+      // 기존 이미지 파일이 존재하지 않는 경우
       const response = await addProductIntroduction(productId, imgFile);
-      if (response.status === 201) alert("소개 이미지 변경 성공!");
-      else alert(`[${response.status} ERROR] 소개 이미지 변경 실패.`);
-    } else alert("소개 이미지를 수정한 후 업로드가 가능합니다.");
+      if (response.status === 201) {
+        alert("이미지 추가 성공!");
+      } else {
+        alert(`[${response.status} ERROR] 이미지 추가 실패.`);
+      }
+    }
   }
 
   return (
@@ -52,7 +68,7 @@ export default function ProductIntroPanel({ introductionImageUrl }) {
           type="submit"
           sx={{ fontWeight: "bold" }}
           variant="outlined"
-          disabled={imgFile === null}
+          disabled={imgFile === previousImg}
         >
           업로드
         </Button>
