@@ -128,3 +128,12 @@ export const ProductOptionModalTitle = styled.div`
   font-weight: bold;
   margin-bottom: 10px;
 `;
+
+
+export const ProductOptionaModalPriceQuantityName = styled.div`
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+`;

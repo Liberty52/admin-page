@@ -28,6 +28,7 @@ export default function ProductOptionPanel() {
     optionDetailId: "",
     optionDetailName: "",
     price: 0,
+    stock: 0,
     onSale: false,
   });
   const [optionProps, setOptionProps] = useState({
@@ -60,6 +61,7 @@ export default function ProductOptionPanel() {
       optionDetailId: "",
       optionDetailName: "",
       price: 0,
+      stock: 0,
       onSale: false,
     });
   };

@@ -7,16 +7,20 @@ import {ProductOptionModalTitle} from "./styled/Product";
 import {Toast} from "../../utils/Toast";
 import {addOptionDetail, updateOptionDetail} from "../../axios/Product";
 import {Box} from "@mui/material";
-
+import { ProductOptionaModalPriceQuantityName } from "./styled/Product";
 
 export default function ProductOptionDetailModal({open, setOpen, optionId, setOptionId, mode, editProps, clearEditProps,actived}) {
     const [value,setValue] = useState("");
     const [price,setPrice] = useState(0);
     const [onSale, setOnSale] = useState(false);
     const [buttonText, setButtonText] = useState();
+    const[stock, setStock] = useState(0);
+
+
     useEffect(() => {
         setValue(editProps.optionDetailName);
-        setPrice(editProps.price)
+        setPrice(editProps.price);
+        setStock(editProps.stock);
         setOnSale(editProps.onSale);
         setButtonText(mode === ModalMode.ADD ? "추가하기" : "수정하기");
         console.log(editProps)
@@ -27,6 +31,7 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
         setValue("");
         setOptionId("");
         setPrice(0);
+        setStock(0);
         setOnSale(false);
         actived();
     }
@@ -57,16 +62,23 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             })
             isValid = false;
         }
+
+        // if(stock<0){
+        //     Toast.fire({
+        //         icon: 'warning',
+        //         title: "수량을 0이상의 값을 입력해주세요."
+        //     })
+        //     isValid = false;
+        // }
         if(!isValid)
             return;
-
-
 
         try{
             const response = await addOptionDetail(optionId,{
                 name : value ,
                 price,
-                onSale
+                onSale,
+                // stock,
             });
             Toast.fire({
                 icon: 'success',
@@ -101,14 +113,22 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             })
             isValid = false;
         }
+
+        if(stock <0){
+            Toast.fire({
+                icon: 'warning',
+                title: '제품 수량은 0이상의 값을 입력해주세요'
+            })
+        }
         if(!isValid)
             return;
 
         try{
             const response = await updateOptionDetail(editProps.optionDetailId,{
                 name : value ,
+                stock,
                 price,
-                onSale
+                onSale,
             });
             Toast.fire({
                 icon: 'success',
@@ -119,8 +139,6 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
             console.error(e)
         }
     }
-
-
 
     return (
         <Modal
@@ -157,19 +175,38 @@ export default function ProductOptionDetailModal({open, setOpen, optionId, setOp
                 <Input value={value} onChange={(e)=> setValue(e.target.value)} placeholder={"추가할 옵션 항목의 이름을 입력해주세요"}/>
                 <Box sx={{py: 1,}}/>
 
-                <Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={"center"}>
+                <div>
+                    {mode ==ModalMode.ADD?<Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={"center"}>
                     <Grid sm={10}>
+                    <ProductOptionaModalPriceQuantityName>제품 가격</ProductOptionaModalPriceQuantityName>
                     <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션 항목의 가격을 입력해주세요"}/>
+                    {/* <ProductOptionaModalPriceQuantityName>제품 수량</ProductOptionaModalPriceQuantityName>   */}   
+                    {/* <Input value = {stock} type = "number" onChange={(e) => setStock(e.target.value)} placeholder = {"추가 혹은 줄일 제품의 수량을 입력해주세요."}/> */}
                     </Grid>
-                    <Grid sm={2}>
+                    <Grid sm={4}>
                         <Checkbox checked={onSale} onChange={(e)=> setOnSale(e.target.checked)} label={"판매"}/>
                     </Grid>
-                </Grid>
+                </Grid> :<Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={"center"}>
+                    <Grid sm={10}>
+                    <ProductOptionaModalPriceQuantityName>제품 가격</ProductOptionaModalPriceQuantityName>
+                    <Input value={price} type="number" onChange={(e)=> setPrice(e.target.value)} placeholder={"추가할 옵션 항목의 가격을 입력해주세요"}/>
+                    <ProductOptionaModalPriceQuantityName>제품 수량</ProductOptionaModalPriceQuantityName>
+                    <Input value = {stock} type = "number" onChange={(e) => setStock(e.target.value)} placeholder = {"추가 혹은 줄일 제품의 수량을 입력해주세요."}/>
+                    </Grid>
+                    <Grid sm={4}>
+                        <Checkbox checked={onSale} onChange={(e)=> setOnSale(e.target.checked)} label={"판매"}/>
+                    </Grid>
+                </Grid>}
+                </div>
                 <Stack direction={"row"} justifyContent={"flex-end"} spacing={1} marginTop={2}>
                     <Button onClick={onActionButtonClicked}>{buttonText}</Button>
                     <Button onClick={onCloseAction} color={"danger"}>취소하기</Button>
+
+
                 </Stack>
             </Sheet>
         </Modal>
+
+       
     )
 }
