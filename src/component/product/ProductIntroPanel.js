@@ -32,6 +32,7 @@ export default function ProductIntroPanel({ introductionImageUrl }) {
     }
   }
 
+
   return (
     <form
       onSubmit={(event) => {
