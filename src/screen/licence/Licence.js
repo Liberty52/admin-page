@@ -41,7 +41,6 @@ const Licence = () => {
               <ControlPointIcon
                 onClick={() => {
                   openDialog();
-                  console.log(open);
                 }}
               />
             </ProductAddButtonWrapper>

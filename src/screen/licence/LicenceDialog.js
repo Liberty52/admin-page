@@ -10,17 +10,41 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-// {
-//   "artistName" : "박찬길",
-//   "workName" : "별이 빛나는 밤",
-//   "startDate" : "2023-01-01T00:00:00",
-//   "endDate" : "2023-12-31T23:59:59",
-//   "stock" : 5
-// }
+import { useState } from "react";
+import dayjs from "dayjs";
+
 const LicenceDialog = (props) => {
   const { open, onClose } = props;
+  const [data, setData] = useState({
+    artistName: "",
+    workName: "",
+    stock: "",
+    imgUrl: "",
+  });
+  const onHandleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
   const handleClose = () => {
     onClose();
+  };
+  const datePickerFormat = "YYYY-MM-DD";
+  const datePickerUtils = {
+    format: datePickerFormat,
+    parse: (value) => dayjs(value, datePickerFormat, true).toDate(),
+  };
+  const startDateChange = (date) => {
+    const formattedDate = dayjs(date).format(datePickerFormat);
+    setData((data) => ({
+      ...data,
+      startDate: formattedDate,
+    }));
+  };
+  const endDateChange = (date) => {
+    const formattedDate = dayjs(date).format(datePickerFormat);
+    setData((data) => ({
+      ...data,
+      endDate: formattedDate,
+    }));
   };
   return (
     <>
@@ -30,37 +54,73 @@ const LicenceDialog = (props) => {
           <TextField
             autoFocus
             margin="dense"
-            id="artistName"
+            name="artistName"
             label="작가 이름"
             fullWidth
             variant="outlined"
+            onChange={(e) => onHandleChange(e)}
           />
           <TextField
             autoFocus
             margin="dense"
-            id="workName"
+            name="workName"
             label="작품 이름"
             fullWidth
             variant="outlined"
+            onChange={(e) => onHandleChange(e)}
           />
           <TextField
             autoFocus
             margin="dense"
-            id="name"
+            name="stock"
             label="수량"
             fullWidth
             variant="outlined"
+            onChange={(e) => onHandleChange(e)}
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            dateFormats={datePickerUtils}
+          >
             <DemoContainer components={["DatePicker"]}>
-              <DatePicker label="Start" />
-              <DatePicker label="End" />
+              <DatePicker
+                name="startDate"
+                label="Start"
+                format="YYYY-MM-DD"
+                onChange={(newValue) => {
+                  startDateChange(newValue);
+                }}
+              />
+              <DatePicker
+                name="endDate"
+                label="End"
+                format="YYYY-MM-DD"
+                onChange={(newValue) => {
+                  endDateChange(newValue);
+                }}
+              />
             </DemoContainer>
           </LocalizationProvider>
+          <Button variant="contained" component="label">
+            Upload File
+            <input
+              type="file"
+              accept="image/*"
+              name="imgUrl"
+              hidden
+              onChange={(e) => onHandleChange(e)}
+            />
+          </Button>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleClose}>등록</Button>
+          <Button
+            onClick={() => {
+              handleClose();
+            }}
+          >
+            등록
+          </Button>
         </DialogActions>
       </Dialog>
     </>
