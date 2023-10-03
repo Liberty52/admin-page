@@ -19,7 +19,7 @@ const LicenceDialog = (props) => {
     artistName: "",
     workName: "",
     stock: "",
-    imgUrl: "",
+    licenceImageUrl: "",
   });
   const onHandleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

@@ -3,6 +3,7 @@ import SideNav from "../../component/common/side-nav/SideNav";
 import { Box, Container } from "@mui/material";
 import {
   ProductAddButtonWrapper,
+  ProductBox,
   ProductHeaderWrapper,
   ProductTitle,
 } from "../../component/product/styled/Product";
@@ -12,7 +13,24 @@ import LicenceDialog from "./LicenceDialog";
 
 const Licence = () => {
   const [open, setOpen] = useState(false);
-
+  const [licences, setLicences] = useState([
+    {
+      artistName: "colde",
+      workName: "미야오",
+      stock: "100",
+      licenceImageUrl: "?",
+      startDate: "2023-10-04",
+      endDate: "2023-11-04",
+    },
+    {
+      artistName: "grboy",
+      workName: "멍",
+      stock: "100",
+      licenceImageUrl: "?",
+      startDate: "2023-10-04",
+      endDate: "2023-11-04",
+    },
+  ]);
   const openDialog = () => {
     setOpen(true);
   };
@@ -45,6 +63,27 @@ const Licence = () => {
               />
             </ProductAddButtonWrapper>
           </ProductHeaderWrapper>
+
+          <ProductBox
+            useFlexGap
+            flexWrap={"wrap"}
+            direction={"row"}
+            spacing={2}
+          >
+            {licences?.map((licence) => {
+              console.log(licence);
+              return (
+                <>
+                  {licence.artistName}
+                  {licence.workName}
+                  {licence.stock}
+                  {licence.licenceImageUrl}
+                  {licence.startDate}
+                  {licence.endDate}
+                </>
+              );
+            })}
+          </ProductBox>
           {open && <LicenceDialog open={open} onClose={closeDialog} />}
         </Container>
       </Box>
