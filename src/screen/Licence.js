@@ -1,15 +1,15 @@
-import { MainContainer } from "../../component/common/MainComponent";
-import SideNav from "../../component/common/side-nav/SideNav";
+import { MainContainer } from "../component/common/MainComponent";
+import SideNav from "../component/common/side-nav/SideNav";
 import { Box, Container } from "@mui/material";
 import {
   ProductAddButtonWrapper,
   ProductBox,
   ProductHeaderWrapper,
   ProductTitle,
-} from "../../component/product/styled/Product";
+} from "../component/product/styled/Product";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import { useState } from "react";
-import LicenceDialog from "./LicenceDialog";
+import LicenceDialog from "../component/licence/LicenceDialog";
 
 const Licence = () => {
   const [open, setOpen] = useState(false);
@@ -71,7 +71,6 @@ const Licence = () => {
             spacing={2}
           >
             {licences?.map((licence) => {
-              console.log(licence);
               return (
                 <>
                   {licence.artistName}

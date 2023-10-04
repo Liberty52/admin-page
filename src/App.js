@@ -28,7 +28,7 @@ import {
 } from "./constants/path";
 import Product from "./screen/product/Product";
 import ProductDetail from "./screen/product/ProductDetail";
-import Licence from "./screen/licence/Licence";
+import Licence from "./screen/Licence";
 
 function App() {
   return (

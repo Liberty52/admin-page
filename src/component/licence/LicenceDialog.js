@@ -114,13 +114,7 @@ const LicenceDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
-          <Button
-            onClick={() => {
-              handleClose();
-            }}
-          >
-            등록
-          </Button>
+          <Button onClick={handleClose}>등록</Button>
         </DialogActions>
       </Dialog>
     </>
