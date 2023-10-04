@@ -13,8 +13,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import dayjs from "dayjs";
 
-const LicenceDialog = (props) => {
-  const { open, onClose } = props;
+const LicenceDialog = ({ open, onClose }) => {
   const [data, setData] = useState({
     artistName: "",
     workName: "",

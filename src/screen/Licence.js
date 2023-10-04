@@ -10,6 +10,9 @@ import {
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import { useState } from "react";
 import LicenceDialog from "../component/licence/LicenceDialog";
+import LicenceItem from "../component/licence/LicenceItem";
+import MOCK_IMAGE1 from "../image/icon/frame.png";
+import MOCK_IMAGE2 from "../image/icon/liberty52.jpg";
 
 const Licence = () => {
   const [open, setOpen] = useState(false);
@@ -18,7 +21,7 @@ const Licence = () => {
       artistName: "colde",
       workName: "미야오",
       stock: "100",
-      licenceImageUrl: "?",
+      licenceImageUrl: MOCK_IMAGE1,
       startDate: "2023-10-04",
       endDate: "2023-11-04",
     },
@@ -26,7 +29,7 @@ const Licence = () => {
       artistName: "grboy",
       workName: "멍",
       stock: "100",
-      licenceImageUrl: "?",
+      licenceImageUrl: MOCK_IMAGE2,
       startDate: "2023-10-04",
       endDate: "2023-11-04",
     },
@@ -72,14 +75,14 @@ const Licence = () => {
           >
             {licences?.map((licence) => {
               return (
-                <>
-                  {licence.artistName}
-                  {licence.workName}
-                  {licence.stock}
-                  {licence.licenceImageUrl}
-                  {licence.startDate}
-                  {licence.endDate}
-                </>
+                <LicenceItem
+                  artistName={licence.artistName}
+                  workName={licence.workName}
+                  stock={licence.stock}
+                  licenceImageUrl={licence.licenceImageUrl}
+                  startDate={licence.startDate}
+                  endDate={licence.endDate}
+                />
               );
             })}
           </ProductBox>
