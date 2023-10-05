@@ -11,4 +11,4 @@ export const NOTICE_EDITOR = `${NOTICE}/editor`;
 export const NOTICE_DETAIL = `${NOTICE}/detail`;
 export const PATH_PRODUCT = `/product`;
 export const PATH_PRODUCT_DETAIL = `${PATH_PRODUCT}/:productId`;
-export const LICENCE = `/licence`;
+export const LICENSE = `/license`;

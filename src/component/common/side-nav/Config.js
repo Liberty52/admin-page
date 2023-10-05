@@ -17,7 +17,7 @@ import {
   ORDER,
   QUESTION,
   NOTICE,
-  LICENCE,
+  LICENSE,
 } from "../../../constants/path";
 
 export const items = [
@@ -85,8 +85,8 @@ export const items = [
     ),
   },
   {
-    title: "Licence",
-    path: LICENCE,
+    title: "License",
+    path: LICENSE,
     icon: (
       <SvgIcon fontSize="small">
         <PhotoIcon />

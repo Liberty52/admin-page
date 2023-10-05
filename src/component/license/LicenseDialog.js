@@ -13,12 +13,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import dayjs from "dayjs";
 
-const LicenceDialog = ({ open, onClose }) => {
+const LicenseDialog = ({ open, onClose }) => {
   const [data, setData] = useState({
     artistName: "",
     workName: "",
     stock: "",
-    licenceImageUrl: "",
+    licenseImageUrl: "",
   });
   const onHandleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -120,4 +120,4 @@ const LicenceDialog = ({ open, onClose }) => {
   );
 };
 
-export default LicenceDialog;
+export default LicenseDialog;

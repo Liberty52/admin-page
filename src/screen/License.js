@@ -8,32 +8,22 @@ import {
   ProductTitle,
 } from "../component/product/styled/Product";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import { useState } from "react";
-import LicenceDialog from "../component/licence/LicenceDialog";
-import LicenceItem from "../component/licence/LicenceItem";
-import MOCK_IMAGE1 from "../image/icon/frame.png";
-import MOCK_IMAGE2 from "../image/icon/liberty52.jpg";
+import { useEffect, useState } from "react";
+import LicenseDialog from "../component/license/LicenseDialog";
+import LicenseItem from "../component/license/LicenseItem";
+import { getLicenseList } from "../axios/License";
 
-const Licence = () => {
+const License = () => {
   const [open, setOpen] = useState(false);
-  const [licences, setLicences] = useState([
-    {
-      artistName: "colde",
-      workName: "미야오",
-      stock: "100",
-      licenceImageUrl: MOCK_IMAGE1,
-      startDate: "2023-10-04",
-      endDate: "2023-11-04",
-    },
-    {
-      artistName: "grboy",
-      workName: "멍",
-      stock: "100",
-      licenceImageUrl: MOCK_IMAGE2,
-      startDate: "2023-10-04",
-      endDate: "2023-11-04",
-    },
-  ]);
+  const [licenses, setLicenses] = useState([]);
+  useEffect(() => {
+    getLicenseList()
+      .then((res) => {
+        // setLicenses(res.data);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   const openDialog = () => {
     setOpen(true);
   };
@@ -73,24 +63,25 @@ const Licence = () => {
             direction={"row"}
             spacing={2}
           >
-            {licences?.map((licence) => {
-              return (
-                <LicenceItem
-                  artistName={licence.artistName}
-                  workName={licence.workName}
-                  stock={licence.stock}
-                  licenceImageUrl={licence.licenceImageUrl}
-                  startDate={licence.startDate}
-                  endDate={licence.endDate}
-                />
-              );
-            })}
+            {licenses?.artistName !== undefined &&
+              licenses?.map((license) => {
+                return (
+                  <LicenseItem
+                    artistName={license.artistName}
+                    workName={license.workName}
+                    stock={license.stock}
+                    licenseImageUrl={license.licenseImageUrl}
+                    startDate={license.startDate}
+                    endDate={license.endDate}
+                  />
+                );
+              })}
           </ProductBox>
-          {open && <LicenceDialog open={open} onClose={closeDialog} />}
+          {open && <LicenseDialog open={open} onClose={closeDialog} />}
         </Container>
       </Box>
     </MainContainer>
   );
 };
 
-export default Licence;
+export default License;

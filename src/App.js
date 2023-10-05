@@ -24,11 +24,11 @@ import {
   NOTICE_EDITOR,
   PATH_PRODUCT,
   PATH_PRODUCT_DETAIL,
-  LICENCE,
+  LICENSE,
 } from "./constants/path";
 import Product from "./screen/product/Product";
 import ProductDetail from "./screen/product/ProductDetail";
-import Licence from "./screen/Licence";
+import License from "./screen/License";
 
 function App() {
   return (
@@ -47,7 +47,7 @@ function App() {
         <Route path={NOTICE_DETAIL} element={<NoticeDetail />} />
         <Route path={PATH_PRODUCT} element={<Product />} />
         <Route path={PATH_PRODUCT_DETAIL} element={<ProductDetail />} />
-        <Route path={LICENCE} element={<Licence />} />
+        <Route path={LICENSE} element={<License />} />
       </Routes>
     </BrowserRouter>
   );
