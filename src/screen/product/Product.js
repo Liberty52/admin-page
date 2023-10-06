@@ -64,6 +64,7 @@ export default function Product() {
                     id={p.id}
                     name={p.name}
                     price={p.price}
+                    stock = {p.stock}
                     rating={p.meanRating}
                     nOfRating={p.ratingCount}
                     img={MOCK_IMAGE}

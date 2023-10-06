@@ -106,15 +106,27 @@ export const ProductOptionItemWrapper = styled.div`
   border-radius: 8px;
   border: 1px solid #d8d8df;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 0 30px;
   background-color: ${(props) => (props.onSale ? "white" : "#B0B0B0")};
 `;
 export const ProductOptionItemName = styled.div`
+  align-items: center;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  width: calc(75% - 1%);
+`;
+export const ProductOptionItemStock = styled.div`
+  position: absolute;
+  left: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: calc(25%);
+  font-size: 8px;
+  color: gray;
 `;
 export const HoverButton = styled.div`
   z-index: 2;
@@ -127,4 +139,11 @@ export const ProductOptionModalTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+`;
+
+export const ProductOptionaModalPriceQuantityName = styled.div`
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
 `;
