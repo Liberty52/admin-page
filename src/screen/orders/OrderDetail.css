@@ -20,11 +20,6 @@
 
 /*//////////*/
 
-.MainContainer {
-  display: flex;
-  flex-direction: row;
-}
-
 .OrderDetail {
   box-shadow: 1px 1px 3px 1px lightgray;
   margin-left: 10rem;

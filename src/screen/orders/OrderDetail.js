@@ -1,8 +1,9 @@
 import { MainContainer } from "../../component/common/MainComponent";
 import SideNav from "../../component/common/side-nav/SideNav";
 import "./OrderDetail.css";
+import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchOrderDetail } from "../../axios/Orders";
 import Button from "../../component/common/Button";
 
@@ -273,12 +274,16 @@ export default function OrderDetail() {
   }
 
   return (
-    <div className="MainContainer">
-      <div className="left-Container">
-        <MainContainer />
-        <SideNav />
-      </div>
-      <div className="Right-Container">
+    <MainContainer>
+      <SideNav />
+      <Box
+        component="main"
+        sx={{
+          padding: "0 5%",
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
         <div className="OrderDetail">
           <OrderTitle />
           <OrderInquiry />
@@ -291,7 +296,7 @@ export default function OrderDetail() {
           <OrderPayment order={order} />
           <ReOrderDetail />
         </div>
-      </div>
-    </div>
+      </Box>
+    </MainContainer>
   );
 }
