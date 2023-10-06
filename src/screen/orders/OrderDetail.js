@@ -2,7 +2,7 @@ import { MainContainer } from "../../component/common/MainComponent";
 import SideNav from "../../component/common/side-nav/SideNav";
 import "./OrderDetail.css";
 import { Box } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { fetchOrderDetail } from "../../axios/Orders";
 import Button from "../../component/common/Button";
@@ -243,8 +243,9 @@ function OrderPayment({ order }) {
   );
 }
 function ReOrderDetail() {
+  const navigate = useNavigate();
   const goBack = () => {
-    window.location.href = "/order";
+    navigate("/order");
   };
 
   return (
