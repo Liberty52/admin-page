@@ -13,6 +13,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { createLicense } from "../../axios/License";
+import Swal from "sweetalert2";
 
 const LicenseDialog = ({ open, onClose }) => {
   const [data, setData] = useState({
@@ -33,11 +34,19 @@ const LicenseDialog = ({ open, onClose }) => {
   const enrollLicense = () => {
     createLicense(data, image)
       .then(() => {
-        console.log("완");
+        Swal.fire({
+          title: "라이센스 등록에 성공했습니다!",
+          text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
+          icon: "success",
+        });
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        Swal.fire({
+          title: "라이센스 등록에 실패했습니다",
+          icon: "error",
+        });
+      });
     onClose();
-    console.log(data, image);
   };
   const datePickerFormat = "YYYY-MM-DD";
   const datePickerUtils = {

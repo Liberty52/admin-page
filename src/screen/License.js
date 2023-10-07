@@ -16,14 +16,11 @@ import { getLicenseList } from "../axios/License";
 const License = () => {
   const [open, setOpen] = useState(false);
   const [licenses, setLicenses] = useState([]);
-  // useEffect(() => {
-  //   getLicenseList()
-  //     .then((res) => {
-  //       // setLicenses(res.data);
-  //       console.log(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    getLicenseList().then((res) => {
+      setLicenses(res.data);
+    });
+  }, []);
   const openDialog = () => {
     setOpen(true);
   };
@@ -63,12 +60,13 @@ const License = () => {
             direction={"row"}
             spacing={2}
           >
-            {licenses?.artistName !== undefined &&
+            {licenses?.id === undefined &&
               licenses?.map((license) => {
                 return (
                   <LicenseItem
+                    id={license.id}
                     artistName={license.artistName}
-                    workName={license.workName}
+                    artName={license.artName}
                     stock={license.stock}
                     licenseImageUrl={license.licenseImageUrl}
                     startDate={license.startDate}
