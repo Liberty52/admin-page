@@ -12,19 +12,32 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { createLicense } from "../../axios/License";
 
 const LicenseDialog = ({ open, onClose }) => {
   const [data, setData] = useState({
     artistName: "",
-    workName: "",
+    artName: "",
     stock: "",
-    licenseImageUrl: "",
   });
+  const [image, setImage] = useState();
   const onHandleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  const onHandleChangeImage = (e) => {
+    setImage(e.target.files[0]);
+  };
   const handleClose = () => {
     onClose();
+  };
+  const enrollLicense = () => {
+    createLicense(data, image)
+      .then(() => {
+        console.log("완");
+      })
+      .catch((err) => console.log(err));
+    onClose();
+    console.log(data, image);
   };
   const datePickerFormat = "YYYY-MM-DD";
   const datePickerUtils = {
@@ -62,7 +75,7 @@ const LicenseDialog = ({ open, onClose }) => {
           <TextField
             autoFocus
             margin="dense"
-            name="workName"
+            name="artName"
             label="작품 이름"
             fullWidth
             variant="outlined"
@@ -105,15 +118,15 @@ const LicenseDialog = ({ open, onClose }) => {
             <input
               type="file"
               accept="image/*"
-              name="imgUrl"
+              name="image"
               hidden
-              onChange={(e) => onHandleChange(e)}
+              onChange={(e) => onHandleChangeImage(e)}
             />
           </Button>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleClose}>등록</Button>
+          <Button onClick={() => enrollLicense()}>등록</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -16,14 +16,14 @@ import { getLicenseList } from "../axios/License";
 const License = () => {
   const [open, setOpen] = useState(false);
   const [licenses, setLicenses] = useState([]);
-  useEffect(() => {
-    getLicenseList()
-      .then((res) => {
-        // setLicenses(res.data);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   getLicenseList()
+  //     .then((res) => {
+  //       // setLicenses(res.data);
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
   const openDialog = () => {
     setOpen(true);
   };
