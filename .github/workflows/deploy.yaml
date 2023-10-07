@@ -3,7 +3,7 @@ name: Liberty52 Admin 페이지 빌드, 배포 및 업데이트
 on:
   push:
     branches:
-      - dev
+      - main
 
 env:
   REGISTRY: ghcr.io
