@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - dev
-      - 78-cicd-워크플로-수정-to-깃옵스
 
 env:
   REGISTRY: ghcr.io
