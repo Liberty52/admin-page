@@ -7,9 +7,18 @@ import {
   GiftIcon,
   ComputerDesktopIcon,
   ArrowLeftOnRectangleIcon,
+  PhotoIcon,
 } from "@heroicons/react/24/solid";
 import { SvgIcon } from "@mui/material";
-import { PATH_PRODUCT } from "../../../constants/path";
+import {
+  PATH_PRODUCT,
+  CUSTOMER,
+  REVIEW,
+  ORDER,
+  QUESTION,
+  NOTICE,
+  LICENSE,
+} from "../../../constants/path";
 
 export const items = [
   {
@@ -23,7 +32,7 @@ export const items = [
   },
   {
     title: "Customers",
-    path: "/customers",
+    path: CUSTOMER,
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -32,7 +41,7 @@ export const items = [
   },
   {
     title: "Review",
-    path: "/review",
+    path: REVIEW,
     icon: (
       <SvgIcon fontSize="small">
         <StarIcon />
@@ -41,7 +50,7 @@ export const items = [
   },
   {
     title: "Order",
-    path: "/order",
+    path: ORDER,
     icon: (
       <SvgIcon fontSize="small">
         <GiftIcon />
@@ -50,7 +59,7 @@ export const items = [
   },
   {
     title: "Question",
-    path: "/question",
+    path: QUESTION,
     icon: (
       <SvgIcon fontSize="small">
         <QuestionMarkCircleIcon />
@@ -59,7 +68,7 @@ export const items = [
   },
   {
     title: "Notice",
-    path: "/notice",
+    path: NOTICE,
     icon: (
       <SvgIcon fontSize="small">
         <ClipboardIcon />
@@ -72,6 +81,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize={"small"}>
         <ComputerDesktopIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "License",
+    path: LICENSE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <PhotoIcon />
       </SvgIcon>
     ),
   },
