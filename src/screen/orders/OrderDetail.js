@@ -4,7 +4,7 @@ import "./OrderDetail.css";
 import { Box } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { fetchOrderDetail } from "../../axios/Orders";
+import { fetchOrderDetail, upscaleImage } from "../../axios/Orders";
 import Button from "../../component/common/Button";
 
 function Border() {
@@ -21,6 +21,8 @@ function OrderTitle() {
 }
 
 function OrderImage({ product }) {
+  const [upscaling, setUpScaling] = useState(false);
+
   const handleImageDownload = async () => {
     try {
       const response = await fetch(product.productUrl, { cache: "no-cache" });
@@ -37,7 +39,19 @@ function OrderImage({ product }) {
     }
   };
 
-  const handleImageUpscale = () => {};
+  const handleImageUpscale = (url) => {
+    setUpScaling(true);
+    upscaleImage(url, 4)
+      .then((res) => {
+        alert("이미지 업스케일링 성공");
+        window.open(res.data.afterUrl, "_blank").focus();
+        setUpScaling(false);
+      })
+      .catch((err) => {
+        alert(err.response.data.error_message);
+        setUpScaling(false);
+      });
+  };
 
   return (
     <div className="OrderIMG">
@@ -49,7 +63,10 @@ function OrderImage({ product }) {
           onClick={() => window.open(product.productUrl, "_blank")}
         />
         <div className="img-button-group">
-          <Button text="이미지 업스케일링" onClick={handleImageUpscale} />
+          <Button
+            text={upscaling ? "업스케일링 진행 중..." : "이미지 업스케일링"}
+            onClick={() => handleImageUpscale(product.productUrl)}
+          />
           <Button text="이미지 다운로드" onClick={handleImageDownload} />
         </div>
       </div>
