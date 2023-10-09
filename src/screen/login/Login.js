@@ -51,6 +51,7 @@ export default function Login() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (sessionStorage.getItem(ACCESS_TOKEN) != null) {
+      console.log(sessionStorage.getItem(ACCESS_TOKEN));
       navigate("/");
     }
     setLoading(false);

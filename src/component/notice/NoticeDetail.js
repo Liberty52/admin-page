@@ -23,9 +23,11 @@ const NoticeDetail = () => {
   const [data, setData] = useState([]);
   const [allowComments, setAllowComments] = useState("");
   useEffect(() => {
+    console.log(state);
     let rawData = getNoticeDetail(state);
     rawData.then((appData) => {
       setData(appData.data);
+      console.log(data);
       setAllowCommentsByData(appData.data.commentable);
     });
   }, []);
