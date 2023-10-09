@@ -1,9 +1,10 @@
 import { MainContainer } from "../../component/common/MainComponent";
 import SideNav from "../../component/common/side-nav/SideNav";
 import "./OrderDetail.css";
-import { useParams } from "react-router-dom";
-import React, { useState, useEffect, useRef } from "react";
-import { fetchOrderDetail } from "../../axios/Orders";
+import { Box } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { fetchOrderDetail, upscaleImage } from "../../axios/Orders";
 import Button from "../../component/common/Button";
 
 function Border() {
@@ -19,28 +20,56 @@ function OrderTitle() {
   );
 }
 
-function OrderImage({ order }) {
+function OrderImage({ product }) {
+  const [upscaling, setUpScaling] = useState(false);
+
   const handleImageDownload = async () => {
-    for (const product of order.products) {
-      try {
-        const response = await fetch(product.productUrl, { cache: "no-cache" });
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", product.name + ".png");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      const response = await fetch(product.productUrl, { cache: "no-cache" });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", product.name + ".png");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+  const handleImageUpscale = (url) => {
+    setUpScaling(true);
+    upscaleImage(url, 4)
+      .then((res) => {
+        alert("이미지 업스케일링 성공");
+        window.open(res.data.afterUrl, "_blank").focus();
+        setUpScaling(false);
+      })
+      .catch((err) => {
+        alert(err.response.data.error_message);
+        setUpScaling(false);
+      });
   };
 
   return (
     <div className="OrderIMG">
-      <Button text="이미지 다운로드" onClick={handleImageDownload} />
+      <h2>배경 이미지</h2>
+      <div>
+        <img
+          src={product.productUrl}
+          alt={product.name}
+          onClick={() => window.open(product.productUrl, "_blank")}
+        />
+        <div className="img-button-group">
+          <Button
+            text={upscaling ? "업스케일링 진행 중..." : "이미지 업스케일링"}
+            onClick={() => handleImageUpscale(product.productUrl)}
+          />
+          <Button text="이미지 다운로드" onClick={handleImageDownload} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -60,15 +89,15 @@ function OrderInquiryDetail({ order }) {
   return (
     <>
       {order.products.map((product, index) => (
-        <div key={index} className="Inquiry-Delivery-wrapper">
-          <div>
-            <img src={product.productUrl} alt={product.name} />
+        <div key={index}>
+          <div className="Inquiry-Delivery-wrapper">
+            <div>{product.name}</div>
+            <div>{product.price}원</div>
+            <div>{order.deliveryFee}원</div>
+            <div>{product.quantity}</div>
+            <div>{product.price * product.quantity}원</div>
           </div>
-          <div>{product.name}</div>
-          <div>{product.price}원</div>
-          <div>{order.deliveryFee}원</div>
-          <div>{product.quantity}</div>
-          <div>{product.price * product.quantity}원</div>
+          <OrderImage product={product} />
         </div>
       ))}
     </>
@@ -87,18 +116,22 @@ function OrderInquiryDelivery({ order }) {
 function OrderInquiryDelivery2({ order }) {
   return (
     <table className="Inquiry-Delivery">
-      <tr className="Inquiry-Delivery-top">
-        <th className="cell-top">상품합계금액</th>
-        <th className="cell-top">배송비</th>
-        <th className="cell-top">지역별배송비</th>
-        <th className="cell-top">총결제금액</th>
-      </tr>
-      <tr className="Inquiry-Delivery-bottom">
-        <td className="cell-bottom">{order.totalProductPrice}원</td>
-        <td className="cell-bottom">{order.deliveryFee}원</td>
-        <td className="cell-bottom">0원</td>
-        <td className="cell-bottom">{order.totalPrice}원</td>
-      </tr>
+      <thead>
+        <tr className="Inquiry-Delivery-top">
+          <th className="cell-top">상품합계금액</th>
+          <th className="cell-top">배송비</th>
+          <th className="cell-top">지역별배송비</th>
+          <th className="cell-top">총결제금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="Inquiry-Delivery-bottom">
+          <td className="cell-bottom">{order.totalProductPrice}원</td>
+          <td className="cell-bottom">{order.deliveryFee}원</td>
+          <td className="cell-bottom">0원</td>
+          <td className="cell-bottom">{order.totalPrice}원</td>
+        </tr>
+      </tbody>
     </table>
   );
 }
@@ -242,8 +275,9 @@ function OrderPayment({ order }) {
   );
 }
 function ReOrderDetail() {
+  const navigate = useNavigate();
   const goBack = () => {
-    window.location.href = "/order";
+    navigate("/order");
   };
 
   return (
@@ -273,17 +307,20 @@ export default function OrderDetail() {
   }
 
   return (
-    <div className="MainContainer">
-      <div className="left-Container">
-        <MainContainer />
-        <SideNav />
-      </div>
-      <div className="Right-Container">
+    <MainContainer>
+      <SideNav />
+      <Box
+        component="main"
+        sx={{
+          padding: "0 5%",
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
         <div className="OrderDetail">
           <OrderTitle />
           <OrderInquiry />
           <OrderInquiryDetail order={order} />
-          <OrderImage order={order} />
           <OrderInquiryDelivery order={order} />
           <OrderInquiryDelivery2 order={order} />
           <OrderPerson order={order} />
@@ -291,7 +328,7 @@ export default function OrderDetail() {
           <OrderPayment order={order} />
           <ReOrderDetail />
         </div>
-      </div>
-    </div>
+      </Box>
+    </MainContainer>
   );
 }

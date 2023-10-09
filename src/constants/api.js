@@ -48,6 +48,10 @@ export const CANCELED_ORDER_DETAILS = (orderId) => {
   return `/admin/orders/cancel/${orderId}`;
 };
 
+export const UPSCALE_IMAGE = () => {
+  return `/product/images/upscaling`;
+};
+
 // 환불 요청 api
 export const APPROVE_CANCEL = () => {
   return `/admin/orders/refund`;
