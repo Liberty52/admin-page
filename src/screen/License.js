@@ -8,7 +8,7 @@ import {
   ProductTitle,
 } from "../component/product/styled/Product";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LicenseDialog from "../component/license/LicenseDialog";
 import LicenseItem from "../component/license/LicenseItem";
 import { getLicenseList } from "../axios/License";
@@ -16,10 +16,21 @@ import { getLicenseList } from "../axios/License";
 const License = () => {
   const [open, setOpen] = useState(false);
   const [licenses, setLicenses] = useState([]);
+  const licensesRef = useRef(licenses);
   useEffect(() => {
-    getLicenseList().then((res) => {
-      setLicenses(res.data);
-    });
+    const fetchData = async () => {
+      try {
+        const res = await getLicenseList();
+        const newLicenses = res.data;
+        if (licensesRef.current !== newLicenses) {
+          setLicenses(newLicenses);
+          licensesRef.current = newLicenses;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
   }, [licenses]);
   const openDialog = () => {
     setOpen(true);
