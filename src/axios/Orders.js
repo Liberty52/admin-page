@@ -150,7 +150,6 @@ export async function updateOrder(
     depositorName,
     depositorAccount,
   };
-  console.log(orderId, depositorBank, depositorName, depositorAccount);
 
   try {
     const response = await request.put(
@@ -163,24 +162,9 @@ export async function updateOrder(
       }
     );
 
-    console.log("Response status:", response.status);
-    console.log(orderId);
-    console.log(
-      "Input values:",
-      depositorBank,
-      depositorName,
-      depositorAccount
-    );
-
-    if (response.status === 200) {
-      console.log("200");
-    } else if (response.status === 400) {
-      console.log("400");
-      console.log(response.data);
-      alert(response.data.message);
-    }
+    alert(response.data.message);
   } catch (error) {
-    console.error("Error:", error);
+    alert("Error:", error);
   }
 }
 
@@ -200,12 +184,8 @@ export async function updateOrderStatus(orderId, orderStatus) {
     );
 
     if (response.status !== 200) {
-      console.error("Error:", response.status, response.data);
-      if (response.data && response.data.message) {
-        console.log(response.data.message);
-      } else {
-        console.log(response.data.message);
-      }
+      alert("Error:", response.status, response.data);
+      alert(response.data.message);
     }
   } catch (error) {
     alert(error.response.data.cause.errorMessage);
