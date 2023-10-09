@@ -20,7 +20,7 @@ const License = () => {
     getLicenseList().then((res) => {
       setLicenses(res.data);
     });
-  }, [licenses]);
+  }, []);
   const openDialog = () => {
     setOpen(true);
   };

@@ -38,7 +38,7 @@ const LicenseDialog = ({ open, onClose }) => {
           title: "라이센스 등록에 성공했습니다!",
           text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
           icon: "success",
-        });
+        }).then(() => window.location.reload());
       })
       .catch(() => {
         Swal.fire({
