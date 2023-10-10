@@ -17,10 +17,13 @@ const License = () => {
   const [open, setOpen] = useState(false);
   const [licenses, setLicenses] = useState([]);
   useEffect(() => {
+    getLicenses();
+  }, []);
+  const getLicenses = () => {
     getLicenseList().then((res) => {
       setLicenses(res.data);
     });
-  }, []);
+  };
   const openDialog = () => {
     setOpen(true);
   };
@@ -75,7 +78,13 @@ const License = () => {
                 );
               })}
           </ProductBox>
-          {open && <LicenseDialog open={open} onClose={closeDialog} />}
+          {open && (
+            <LicenseDialog
+              open={open}
+              onClose={closeDialog}
+              getLicenses={getLicenses}
+            />
+          )}
         </Container>
       </Box>
     </MainContainer>

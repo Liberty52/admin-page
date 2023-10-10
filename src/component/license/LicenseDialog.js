@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import { createLicense } from "../../axios/License";
 import Swal from "sweetalert2";
 
-const LicenseDialog = ({ open, onClose }) => {
+const LicenseDialog = ({ open, onClose, getLicenses }) => {
   const [data, setData] = useState({
     artistName: "",
     artName: "",
@@ -38,7 +38,7 @@ const LicenseDialog = ({ open, onClose }) => {
           title: "라이센스 등록에 성공했습니다!",
           text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
           icon: "success",
-        }).then(() => window.location.reload());
+        }).then(() => getLicenses());
       })
       .catch(() => {
         Swal.fire({
