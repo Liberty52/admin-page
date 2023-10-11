@@ -20,14 +20,8 @@
 
 /*//////////*/
 
-.MainContainer {
-  display: flex;
-  flex-direction: row;
-}
-
 .OrderDetail {
   box-shadow: 1px 1px 3px 1px lightgray;
-  margin-top: 5rem;
   margin-left: 10rem;
   margin-right: 10rem;
   padding-left: 2rem;
@@ -38,7 +32,7 @@
 
 .Inquiry-Detail-wrapper {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   justify-content: start;
   text-align: center;
@@ -49,7 +43,7 @@
 
 .Inquiry-Delivery-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   justify-content: start;
   text-align: center;
@@ -96,12 +90,20 @@
   margin-top: 3rem;
 }
 
-.Inquiry-Delivery-wrapper img {
-  width: 100px;
-  height: 100px;
+.OrderIMG {
+  display: flex;
+  flex-direction: column;
 }
 
-.OrderIMG {
-  width: 200px;
-  margin-left: auto;
+.OrderIMG img {
+  width: 100%;
+  cursor: pointer;
+}
+
+.OrderIMG .img-button-group {
+  display: flex;
+}
+
+.OrderIMG .img-button-group .button:first-child {
+  margin-right: 10px;
 }

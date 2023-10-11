@@ -1,6 +1,6 @@
-
-import axios from './axios';
-import {ACCESS_TOKEN} from "../constants/token";
+import axios from "./axios";
+import { ACCESS_TOKEN } from "../constants/token";
+import { CONTENT_TYPE } from "../constants/content-type";
 import request from "./axios";
 import {
   CANCELED_ORDERS,
@@ -12,6 +12,7 @@ import {
   DELETE_VBANK,
   GET_DEFAULT_DELIVERY_FEE,
   PATCH_DEFAULT_DELIVERY_FEE,
+  UPSCALE_IMAGE,
 } from "../constants/api";
 
 export const fetchOrders = async (page, size) => {
@@ -78,124 +79,125 @@ export const getCanceledOrderDetails = async (orderId) => {
 export const approveCancel = async (dto) => {
   return axios.post(APPROVE_CANCEL(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": `application/json`,
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
 };
 
-
 export const postCreateNewVBank = async (dto) => {
   return axios.post(POST_NEW_VBANK(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
 export const getVBanks = async () => {
   return axios.get(GET_VBANKS(), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
 export const putVBank = async (vbankId, dto) => {
   return axios.put(PUT_VBANK(vbankId), JSON.stringify(dto), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
 export const deleteVBank = async (vbankId) => {
   return axios.delete(DELETE_VBANK(vbankId), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
 export const getDefaultDeliveryFee = async () => {
   return axios.get(GET_DEFAULT_DELIVERY_FEE(), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
 export const patchDefaultDeliveryFee = async (dto) => {
   return axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": 'application/json',
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    }
+    },
   });
-}
+};
 
-export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
+export async function updateOrder(
+  orderId,
+  depositorBank,
+  depositorName,
+  depositorAccount
+) {
   const payload = {
     depositorBank,
     depositorName,
-    depositorAccount
+    depositorAccount,
   };
-  console.log( orderId,depositorBank,
-    depositorName,
-    depositorAccount);
 
   try {
-    const response = await request.put(`/admin/orders/${orderId}/vbank`, payload, {
-      headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
+    const response = await request.put(
+      `/admin/orders/${orderId}/vbank`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
+        },
       }
-    });
+    );
 
-    console.log('Response status:', response.status);
-    console.log(orderId)
-    console.log('Input values:', depositorBank, depositorName, depositorAccount);
-
-    if (response.status === 200) {
-      console.log('200');
-    } else if (response.status === 400) {
-      console.log('400');
-      console.log(response.data);
-      alert(response.data.message);
-    }
-
+    alert(response.data.message);
   } catch (error) {
-    console.error('Error:', error);
-
+    alert("Error:", error);
   }
 }
 
-
 export async function updateOrderStatus(orderId, orderStatus) {
   try {
-    const response = await request.put(`/admin/orders/${orderId}/status`, null, {
-      headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`
-      },
-      params: {
-        orderStatus
+    const response = await request.put(
+      `/admin/orders/${orderId}/status`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
+        },
+        params: {
+          orderStatus,
+        },
       }
-    });
+    );
 
     if (response.status !== 200) {
-      console.error('Error:', response.status, response.data);
-      if (response.data && response.data.message) {
-        console.log(response.data.message);
-      } else {
-        console.log(response.data.message);
-      }
+      alert("Error:", response.status, response.data);
+      alert(response.data.message);
     }
   } catch (error) {
     alert(error.response.data.cause.errorMessage);
   }
 }
 
+export const upscaleImage = (url, scale) => {
+  const dto = { url, scale };
+  return request.post(UPSCALE_IMAGE(), JSON.stringify(dto), {
+    headers: {
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};

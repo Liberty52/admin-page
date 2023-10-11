@@ -109,7 +109,6 @@ export const postNotice = (value, editorState, commentable) => {
     content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     commentable: commentable,
   };
-  console.log(data);
   axios
     .post("https://liberty52.com:444/admin/notices", data, header)
     .then((res) => {
