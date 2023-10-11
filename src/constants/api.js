@@ -95,3 +95,5 @@ export const PATCH_DEFAULT_DELIVERY_FEE = () =>
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
 export const CREATE_LICENSE = () => `/admin/licenseImage`;
+export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
