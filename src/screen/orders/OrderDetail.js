@@ -43,8 +43,13 @@ function OrderImage({ product }) {
     setUpScaling(true);
     upscaleImage(url, 4)
       .then((res) => {
-        alert("이미지 업스케일링 성공");
-        window.open(res.data.afterUrl, "_blank").focus();
+        const afterUrl = res.data.afterUrl;
+        if (afterUrl === "") {
+          alert("[사용 제한] 잠시 후 다시 이용해주세요.");
+        } else {
+          alert("이미지 업스케일링 성공");
+          window.open(afterUrl, "_blank").focus();
+        }
         setUpScaling(false);
       })
       .catch((err) => {
