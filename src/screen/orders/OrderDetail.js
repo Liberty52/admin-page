@@ -48,7 +48,16 @@ function OrderImage({ product }) {
           alert("[사용 제한] 잠시 후 다시 이용해주세요.");
         } else {
           alert("이미지 업스케일링 성공");
-          window.open(afterUrl, "_blank").focus();
+          const showImageWindow = setInterval(function () {
+            fetch(afterUrl)
+              .then((res) => {
+                if (res.status === 200) {
+                  window.open(afterUrl, "_blank").focus();
+                  clearInterval(showImageWindow);
+                }
+              })
+              .catch((e) => alert(e));
+          }, 1000);
         }
         setUpScaling(false);
       })
