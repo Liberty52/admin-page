@@ -27,6 +27,7 @@ export const ReviewDialog = (props) => {
   useEffect(() => {
     if (id === undefined) return;
     retrieveReviewDetailData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const retrieveDetail = (prevData, id) => {
@@ -35,11 +36,12 @@ export const ReviewDialog = (props) => {
       setData(prevData);
       setMode("ADD");
       for (var i = 0; prevData?.replies.length; i++) {
-        if (prevData?.replies[i].authorId == ADMINID) {
+        if (prevData?.replies[i].authorId === ADMINID) {
           setTextAreaValue(prevData.replies[i].content);
           setAdminReply(prevData.replies[i]);
+          setMode("EDIT");
+          return;
         }
-        setMode("EDIT");
       }
     });
   };
@@ -70,7 +72,7 @@ export const ReviewDialog = (props) => {
   };
   const onUpdateModeButtonClicked = () => {
     if (mode === "EDIT") {
-      if (textAreaValue === data.replies.content) {
+      if (textAreaValue === adminReply?.content) {
         alert("내용을 변경해주세요.");
         return;
       }
