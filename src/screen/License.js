@@ -77,7 +77,6 @@ const License = () => {
                     startDate={license.startDate}
                     endDate={license.endDate}
                     getLicenses={getLicenses}
-                    mode = {LicenseModalMode.MODIFY}
                   />
                 );
               })}
