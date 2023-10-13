@@ -27,9 +27,9 @@ export const createLicense = (dto, image) => {
 };
 
 
-export const modifyLicense = (dto, licenseImageId, image ) => {
+export const modifyLicense = (dto, licenseImageId, imageFile ) => {
   const formData = new FormData();
-  formData.append("images", image);
+  formData.append("images", imageFile);
   formData.append(
     "dto",
     new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson })
@@ -60,6 +60,7 @@ export const modifyDetailLicense = (id) => {
   return request.get(MODIFY_DETAIL_LICENSE(id), {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      "Content-Type": CONTENT_TYPE.MultipartFormData,
     },
   });
 }

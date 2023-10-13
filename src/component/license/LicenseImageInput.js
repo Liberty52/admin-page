@@ -1,4 +1,4 @@
-import './ImageInput.css';
+// import './ImageInput.css';
 import Button from '../common/Button';
 import plus from '../../image/icon/plus.png';
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 export default function LicenseImageInput(props) {
   const [imgFile, setImgFile] = useState(props.image);
   const { width, height } = props
+  const [visible ,setVisible] = useState(false);
 
   const reader = new FileReader();
   return (
@@ -15,9 +16,9 @@ export default function LicenseImageInput(props) {
         type="file"
         name="file"
         accept="image/*"
-        onClick={e => {
-          if (props.readOnly) e.preventDefault();
-        }}
+        // onClick={e => {
+        //   if (props.readOnly) e.preventDefault();
+        // }}
         onChange={e => {
           const file = e.currentTarget.files[0];
           if (file) {
@@ -32,6 +33,7 @@ export default function LicenseImageInput(props) {
       />
       <div className="image-crop" style={{width: width, height: height}}>
         <Button
+          
           type="button"
           text="삭제"
           onClick={e => {
@@ -40,7 +42,10 @@ export default function LicenseImageInput(props) {
             input.value = '';
             setImgFile(undefined);
           }}
-        />
+          setVisible = {setVisible}
+        >
+            
+        </Button>
         <img
           className="image-preview"
           src={imgFile ? imgFile : plus}

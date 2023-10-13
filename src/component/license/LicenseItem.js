@@ -34,7 +34,8 @@ const LicenseItem = ({
   const [image, setImage] = useState();
   const [licenseImageId, setLicenseImageId] = useState(id);
   const [modeModify, setModeModify] = useState("VIEW");
-
+  const [imageUrl, setImageUrl] = useState(licenseImageUrl);
+  const [imageChange, setImageChange] = useState(imageUrl);
 
   const [dto, setDto] = useState({
     artistName: "",
@@ -63,14 +64,20 @@ const LicenseItem = ({
   const onCloseAction = () => {
     setOpen(false);
     
-    console.log("licenseIamgeUrl"+licenseImageUrl);
-    console.log(artistName);
+    // console.log("licenseIamgeUrl"+licenseImageUrl);
+    // console.log(artistName);
+}
+
+const updateImage = () => {
+  console.log("가져온이미지"+imageUrl);
+  setImageChange(imageUrl);
+  setImageUrl(imageUrl);
 }
 
 
 const modifyLicenseClick = () => {
   setOpen(false);
-  console.log(id);
+  // console.log(id);
 }
 
 
@@ -79,12 +86,12 @@ const OptionModify = () =>{
 }
 
 
+
   return (
     <MainContainer>
-
-
-     
-    <LicenseDialog open={open} onClose = {closeDialog}  licenseImageId={licenseImageId}  getLicenses={getLicenses} OptionModify = {OptionModify}/>
+  
+    <LicenseDialog open={open} onClose = {closeDialog}  licenseImageId={licenseImageId} setLicenseImageId={setLicenseImageId} getLicenses={getLicenses} OptionModify = {OptionModify} imageUrl = {licenseImageUrl} imageUpdate = {updateImage}  >
+    </LicenseDialog>
      <ProductCard variant="outlined" sx={{ width: 320 }} onClick={cardClicked}>
 
        <CardImage src={licenseImageUrl} loading="lazy" />

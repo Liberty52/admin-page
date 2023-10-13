@@ -3,6 +3,7 @@ import {
   Card,
   Dialog,
   DialogActions,
+  DialogTitle,
   Stack,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import {
   updateQuestionReply,
 } from "../../axios/Question";
 import { Editor } from "@toast-ui/editor";
+import styled from "styled-components";
 import { convertQuestionStatus } from "../../utils";
 import { Textarea } from "@mui/joy";
 import { QuestionDetailTitle, QuestionDialogTitle } from "./index";
@@ -74,7 +76,7 @@ export const QuestionDialog = (props) => {
       .catch((err) => console.error(err));
   };
 
-  const   onUpdateModeButtonClicked = () => {
+  const onUpdateModeButtonClicked = () => {
     if (mode === "EDIT") {
       if (textAreaValue === data.questionReplyResponse.replyContent) {
         alert("내용을 변경해주세요.");
@@ -85,7 +87,6 @@ export const QuestionDialog = (props) => {
         alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)");
         return;
       }
-
 
       updateQuestionReply(data.questionReplyResponse.replyId, textAreaValue)
         .then(() => {
@@ -150,7 +151,7 @@ export const QuestionDialog = (props) => {
               <Textarea
                 placeholder={"답변을 추가해주세요"}
                 readOnly={mode === "VIEW"}
-                // onChange={onTextAreaChanged}
+                onChange={onTextAreaChanged}
                 value={textAreaValue}
                 sx={{ padding: "10px 25px" }}
               />
