@@ -48,13 +48,17 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
   const fileInput = useRef(null);
   const [updateImage, setUpdateImage] = useState("");
+  const [optionMode, SetOptionMode] = useState(LicenseModalMode.MODIFY);
 
   useEffect(()=>{
-    retrieveLicenseDetailDataAndSetState();
-  }, []);
+    {mode === LicenseModalMode.ENROLL? 
+    <></>:
+    retrieveLicenseDetailDataAndSetState()
+    }
+  }, [licenseImageId]);
   
-
   const retrieveLicenseDetail = (prevData, licenseImageId) => {
+      SetOptionMode(mode);
       modifyDetailLicense(licenseImageId).then((res) => {
         prevData = res.data;
         setArtistNameValue(prevData.artistName);
@@ -68,43 +72,65 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   function retrieveLicenseDetailDataAndSetState() {
     let prevData;
     try {
-      console.log("retrieveLicenseDetailDataAndSetState");
       retrieveLicenseDetail(prevData, licenseImageId);
     }catch (err){
       console.error(err);
     }
     setDto(prevData);
   }
-
-  const ImageChange = (e) => {
-
-    console.log("imagechange전:"+imageFile);
+  const onChangeImage = async (e) => {
     const reader = new FileReader();
-    console.log("setImageFile:"+imageFile);
-    reader.onload = () => {
-      if(reader.readyState === 2){
-        setImageFile(reader.result);
-        setUpdateImage({[e.target.name]: e.target.value});
-      }
+    const file = fileInput.current.files[1];
+    console.log(e.target.files[1]);
+    console.log("e"+image);
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageFile(reader.result);
+      setImage(e.target.files[1]);
+    };
+    if (e.target.files[0]) {
+      const image = new FormData();
+      image.append('image', e.target.files[1]);
+      // await dispatch(__patchProfileImage(image));
+      // await dispatch(__getMyPage());
     }
-    if(imageFile){
-    reader.readAsDataURL(e.target.files[0]);
-    }
+  };
 
-  }
+
+  
+  // const ImageChange = (e) => {
+  //   const reader = new FileReader();
+    
+  //   reader.onload = () => {
+  //     if(reader.readyState === 2){
+  //       setImageFile(reader.result);
+  //       setImage(reader.result);
+  //       // console.log("dd"+image);
+  //       // setUpdateImage({[e.target.name]: e.target.value});
+  //     }
+  //   }
+  //   if(imageFile){
+  //   reader.readAsDataURL(e.target.files[0]);
+  //   }
+  //   if(image){
+  //     reader.readAsDataURL(e.target.filds[0]);
+  //     console.log("dd"+image);
+  //   }
+
+  // }
 
   const onHandleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
   };
   const onHandleChangeImage = (e) => {
-    {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImageFile(e.target.files[0])};
+    {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImage({[e.target.name]:e.target.value})};
 
   };
   const handleClose = () => {
     onClose();
   };
   const enrollLicense = () => {
-    console.log(data.startDate);
+    console.log(image);
     createLicense(data, image)
       .then(() => {
         Swal.fire({
@@ -123,8 +149,10 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     onClose();
   };
   const editLicense = () =>{
-    modifyLicense(dto, licenseImageId, imageFile )
+    console.log("edit"+image);
+    modifyLicense(dto, licenseImageId, image )
       .then(() => {
+        // console.log("editLicense"+imageFile);
         retrieveLicenseDetailDataAndSetState();
         Swal.fire({
           title: "라이센스 수정에 성공했습니다!",
@@ -208,8 +236,16 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     setStock(e.target.value);
     setDto({ ...dto, [e.target.name]: e.target.value });  
   }
-  const check = () =>{
-    console.log("check"+imageFile);
+  const onClickButton = () =>{
+    // <input 
+    // type='file' 
+    // style={{display:'none'}}
+    // accept='image/*' 
+    // name='imageFile'
+    // onChange={ImageChange}
+    // ref={fileInput}
+    // />
+     editLicense();
   }
 
 
@@ -357,11 +393,11 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
               type='file' 
               style={{display:'none'}}
               accept='image/*' 
-              name='updateImage'
-              onChange={ImageChange}
+              name='imageFile'
+              onChange={onChangeImage}
               ref={fileInput}
               />
-
+          
             <Avatar
               src={imageFile}
               style={{margin:'20px'}} 
@@ -369,6 +405,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
               onClick={()=>{fileInput.current.click()}}
               
             />  
+   
             </>
 
             )
@@ -382,10 +419,10 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 </>
               ) : (
                 <>
-                  <Button onClick={editLicense}>
+                  <Button onClick={editLicense} >
                     수정하기
                   </Button>
-                  <Button color={"error"} onClick={DeleteLicense}>
+                  <Button  color={"error"} onClick={DeleteLicense}>
                     삭제하기
                   </Button>
                   <Button onClick={handleClose}> 취소</Button>
@@ -399,6 +436,5 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
 };
 
 export default LicenseDialog
-
 
 
