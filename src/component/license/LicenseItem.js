@@ -39,37 +39,40 @@ const LicenseItem = ({
     setModifyOpen(true);
   }
 
+  const handleImageChange = () => {
+    setImageUrl(imageUrl);
+  }
 
   const onCloseAction = () => {
     setOpen(false);
     
-}
+  }
 
-const updateImage = () => {
+  const updateImage = () => {
   console.log("가져온이미지"+imageUrl);
   setImageChange(imageUrl);
   setImageUrl(imageUrl);
-}
+  }
 
 
-const modifyLicenseClick = () => {
+  const modifyLicenseClick = () => {
   setOpen(false);
-  // console.log(id);
-}
+  }
 
 
-const OptionModify = () =>{
+  const OptionModify = () =>{
   setModeModify("VIEW");
-}
+  }
 
   return (
     <MainContainer>
   
     <LicenseDialog open={open} onClose = {closeDialog}  licenseImageId={licenseImageId} setLicenseImageId={setLicenseImageId} getLicenses={getLicenses} mode = {modeOption} OptionModify = {OptionModify}  imageUrl = {licenseImageUrl} imageUpdate = {updateImage}  >
     </LicenseDialog>
+    <div onChange = {updateImage}></div>
      <ProductCard variant="outlined" sx={{ width: 320 }} onClick={cardClicked}>
 
-       <CardImage src={imageUrl} loading="lazy" />
+       <CardImage  src={licenseImageUrl} loading="lazy" />
        
        <Box sx={{ display: "flex" }}>
          <div key={id}>

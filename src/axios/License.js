@@ -27,9 +27,9 @@ export const createLicense = (dto, image) => {
 };
 
 
-export const modifyLicense = (dto, licenseImageId, imageFile ) => {
+export const modifyLicense = (dto, licenseImageId, image ) => {
   const formData = new FormData();
-  formData.append("images", imageFile);
+  formData.append("image", image);
   formData.append(
     "dto",
     new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson })

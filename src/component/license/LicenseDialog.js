@@ -20,11 +20,8 @@ import { useEffect } from "react";
 import { modifyDetailLicense } from "../../axios/License";
 import { deleteLicense } from "../../axios/License";
 import { Toast } from "../../utils/Toast";
-import { arTN } from "date-fns/locale";
 import Avatar from "antd/es/avatar/avatar";
-import LicenseImageInput from "./LicenseImageInput";
 import { useRef } from "react";
-import { Error } from "@mui/icons-material";
 
 const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageUrl,imageUpdate }) => {
   const [data, setData] = useState({
@@ -46,9 +43,9 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const [stock, setStock] = useState("");
   const [startDate, setStartDate] = useState("YYYY-MM-DD");
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
-  const fileInput = useRef(null);
-  const [updateImage, setUpdateImage] = useState("");
+  const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(LicenseModalMode.MODIFY);
+ 
 
   useEffect(()=>{
     {mode === LicenseModalMode.ENROLL? 
@@ -78,59 +75,38 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     }
     setDto(prevData);
   }
-  const onChangeImage = async (e) => {
-    const reader = new FileReader();
-    const file = fileInput.current.files[1];
-    console.log(e.target.files[1]);
-    console.log("e"+image);
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImageFile(reader.result);
-      setImage(e.target.files[1]);
-    };
-    if (e.target.files[0]) {
-      const image = new FormData();
-      image.append('image', e.target.files[1]);
-      // await dispatch(__patchProfileImage(image));
-      // await dispatch(__getMyPage());
+
+
+
+  let reader = new FileReader(); 
+  const ImageChange = e => {
+    e.preventDefault();
+
+    console.log(image);
+    const file = e.target.files[0]; 
+    setImage( e.target.files[0]);
+    console.log(file);
+    if (file) {
+      reader.readAsDataURL(file); 
+      reader.onloadend = () => {
+        setImageFile( reader.result);
+        e.target.value = '';
+      }; 
     }
   };
 
-
-  
-  // const ImageChange = (e) => {
-  //   const reader = new FileReader();
-    
-  //   reader.onload = () => {
-  //     if(reader.readyState === 2){
-  //       setImageFile(reader.result);
-  //       setImage(reader.result);
-  //       // console.log("dd"+image);
-  //       // setUpdateImage({[e.target.name]: e.target.value});
-  //     }
-  //   }
-  //   if(imageFile){
-  //   reader.readAsDataURL(e.target.files[0]);
-  //   }
-  //   if(image){
-  //     reader.readAsDataURL(e.target.filds[0]);
-  //     console.log("dd"+image);
-  //   }
-
-  // }
 
   const onHandleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
   };
   const onHandleChangeImage = (e) => {
-    {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImage({[e.target.name]:e.target.value})};
+    {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImage(e.target.files[0])};
 
   };
   const handleClose = () => {
     onClose();
   };
   const enrollLicense = () => {
-    console.log(image);
     createLicense(data, image)
       .then(() => {
         Swal.fire({
@@ -148,11 +124,10 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
 
     onClose();
   };
+
   const editLicense = () =>{
-    console.log("edit"+image);
     modifyLicense(dto, licenseImageId, image )
       .then(() => {
-        // console.log("editLicense"+imageFile);
         retrieveLicenseDetailDataAndSetState();
         Swal.fire({
           title: "라이센스 수정에 성공했습니다!",
@@ -236,18 +211,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     setStock(e.target.value);
     setDto({ ...dto, [e.target.name]: e.target.value });  
   }
-  const onClickButton = () =>{
-    // <input 
-    // type='file' 
-    // style={{display:'none'}}
-    // accept='image/*' 
-    // name='imageFile'
-    // onChange={ImageChange}
-    // ref={fileInput}
-    // />
-     editLicense();
-  }
-
 
   return (
     <>
@@ -368,7 +331,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                   endDateOption(newValue);
                 }}
                 value={dayjs(endDate)}
-
               />
               </>
           }
@@ -388,26 +350,44 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
             
             </Button>
             ): (        
+              <>     
+              <Button></Button>
               <>
-            <input 
+            <input
               type='file' 
               style={{display:'none'}}
               accept='image/*' 
-              name='imageFile'
-              onChange={onChangeImage}
+              name='ImageFile'
+              onChange={ImageChange}
               ref={fileInput}
-              />
-          
+
+              />    
             <Avatar
               src={imageFile}
               style={{margin:'20px'}} 
               size={200} 
               onClick={()=>{fileInput.current.click()}}
-              
-            />  
-   
+               />  
+         
             </>
-
+            <img 
+                src={image}
+                alt=""
+                ></img>
+              <Button
+            type="button"
+            text="삭제"
+            onClick={(e) => {
+              const label = e.target.parentNode.parentNode;
+              const input = label.children[0];
+              input.value = "";
+              setImageFile(null);
+              setImage(null);
+            }}>
+              삭제
+              </Button>     
+   
+            </>     
             )
             }
         </DialogContent>
@@ -419,14 +399,17 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 </>
               ) : (
                 <>
-                  <Button onClick={editLicense} >
+                  <Button onClick = {() => {  
+                     editLicense();}} >
                     수정하기
                   </Button>
                   <Button  color={"error"} onClick={DeleteLicense}>
                     삭제하기
                   </Button>
-                  <Button onClick={handleClose}> 취소</Button>
-
+                  <Button onClick={()=>{
+                   
+                    handleClose()
+                    }}> 취소</Button>
                 </>
               )}
         </DialogActions>
