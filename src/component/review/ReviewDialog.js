@@ -15,12 +15,13 @@ import {
   deleteReviewReply,
   deleteCustomerReview,
 } from "../../axios/Review";
+import { ModalMode } from "../../constants/mode";
 
 export const ReviewDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
   const ADMINID = "ADMIN-001";
   const [data, setData] = useState();
-  const [mode, setMode] = useState("VIEW");
+  const [mode, setMode] = useState(ModalMode.VIEW);
   const [adminReply, setAdminReply] = useState([]);
   const [textAreaValue, setTextAreaValue] = useState("");
 
@@ -34,12 +35,12 @@ export const ReviewDialog = (props) => {
     getReviewDetail(id).then((res) => {
       prevData = res.data.content;
       setData(prevData);
-      setMode("ADD");
+      setMode(ModalMode.ADD);
       for (var i = 0; prevData?.replies.length; i++) {
         if (prevData?.replies[i].authorId === ADMINID) {
           setTextAreaValue(prevData.replies[i].content);
           setAdminReply(prevData.replies[i]);
-          setMode("EDIT");
+          setMode(ModalMode.EDIT);
           return;
         }
       }
@@ -71,7 +72,7 @@ export const ReviewDialog = (props) => {
       .catch((err) => console.errer(err));
   };
   const onUpdateModeButtonClicked = () => {
-    if (mode === "EDIT") {
+    if (mode === ModalMode.EDIT) {
       if (textAreaValue === adminReply?.content) {
         alert("내용을 변경해주세요.");
         return;
@@ -85,7 +86,7 @@ export const ReviewDialog = (props) => {
         })
         .catch((err) => console.err(err));
     } else {
-      setMode("EDIT");
+      setMode(ModalMode.EDIT);
     }
   };
   const onDeleteButtonClicked = () => {
@@ -105,7 +106,7 @@ export const ReviewDialog = (props) => {
   };
   const onCloseButtonClicked = () => {
     handleClose();
-    setMode("VIEW");
+    setMode(ModalMode.VIEW);
     setTextAreaValue("");
   };
   return (
@@ -145,21 +146,21 @@ export const ReviewDialog = (props) => {
           <div>
             <Textarea
               placeholder={"댓글을 작성해주세요"}
-              readOnly={mode === "VIEW"}
+              readOnly={mode === ModalMode.VIEW}
               onChange={onTextAreaChanged}
               value={textAreaValue}
               sx={{ padding: "10px 25px" }}
             />
           </div>
           <DialogActions>
-            {mode === "ADD" ? (
+            {mode === ModalMode.ADD ? (
               <>
                 <Button onClick={onAddButtonClicked}>댓글달기</Button>
               </>
             ) : (
               <>
                 <Button onClick={onUpdateModeButtonClicked}>
-                  {mode === "EDIT" && "수정하기"}
+                  {mode === ModalMode.EDIT && "수정하기"}
                 </Button>
                 <Button color={"error"} onClick={onDeleteButtonClicked}>
                   댓글 삭제하기

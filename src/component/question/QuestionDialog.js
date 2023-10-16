@@ -18,6 +18,7 @@ import styled from "styled-components";
 import { convertQuestionStatus } from "../../utils";
 import { Textarea } from "@mui/joy";
 import { QuestionDetailTitle, QuestionDialogTitle } from "./index";
+import { ModalMode } from "../../constants/mode";
 
 export const QuestionDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
@@ -34,7 +35,11 @@ export const QuestionDialog = (props) => {
     getQuestionDetail(id).then((res) => {
       prevData = res.data;
       setData(prevData);
-      setMode(prevData?.questionReplyResponse === null ? "ADD" : "EDIT");
+      setMode(
+        prevData?.questionReplyResponse === null
+          ? ModalMode.ADD
+          : ModalMode.EDIT
+      );
       setTextAreaValue(prevData?.questionReplyResponse?.replyContent);
       const viewer = new Editor.factory({
         el: document.querySelector("#viewer"),
@@ -110,7 +115,7 @@ export const QuestionDialog = (props) => {
   };
   const onCloseButtonClicked = () => {
     handleClose();
-    setMode("VIEW");
+    setMode(ModalMode.VIEW);
     setTextAreaValue("");
   };
 
@@ -150,7 +155,7 @@ export const QuestionDialog = (props) => {
               />
             </div>
             <DialogActions>
-              {mode === "ADD" ? (
+              {mode === ModalMode.ADD ? (
                 <>
                   <Button onClick={onAddButtonClicked}>답변달기</Button>
                 </>
