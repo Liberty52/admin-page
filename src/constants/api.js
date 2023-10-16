@@ -88,9 +88,9 @@ export const DELETE_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
 
 // 배송비 관리 api
 export const GET_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/product/options/delivery/fee`;
+  `/product/options/delivery/fee`;
 export const PATCH_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/product/options/delivery/fee`;
+  `/admin/options/delivery/fee`;
 
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
