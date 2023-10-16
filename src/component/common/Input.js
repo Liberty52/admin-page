@@ -30,6 +30,9 @@ export default function Input(props) {
         checked={props.checked}
         onChange={(e) => {
           setValue(e.target.value);
+          if (props.onChange) {
+                props.onChange(e);
+          }
         }}
         onClick={props.onClick}
         autoComplete="off"
