@@ -29,6 +29,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     stock: "",
     startDate: "",
     endDate: "",
+   
   });
   const [dto, setDto] = useState({
     artistName: "",
@@ -73,7 +74,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     }catch (err){
       console.error(err);
     }
-    setDto(prevData);
+    setData(prevData);
   }
 
   let reader = new FileReader(); 
@@ -92,6 +93,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   };
 
   const onHandleChange = (e) => {
+
     setData({ ...data, [e.target.name]: e.target.value })   
   };
   const onHandleChangeImage = (e) => {
@@ -126,18 +128,16 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   };
 
   const editLicense = () =>{
-    
-
-    if(dto.startDate> dto.endDate){
+    if(data.startDate> data.endDate){
       alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
       return;
     }else{
-    modifyLicense(dto, licenseImageId, image )
+    modifyLicense(data, licenseImageId, image )
       .then(() => {
         retrieveLicenseDetailDataAndSetState();
         Swal.fire({
           title: "라이센스 수정에 성공했습니다!",
-          text: `행사 기간은: ${dto.startDate} ~ ${dto.endDate}까지 입니다`,
+          text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
           icon: "success",
         }).then(() => getLicenses());
       })
@@ -183,41 +183,33 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   
   const startDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
-    {mode === ModalMode.ADD?  setData((data) => ({
+    setData((data) => ({
       ...data,
       startDate: formattedDate,
-    })):  setDto((dto) => ({
-      ...dto,
-      startDate: formattedDate,
-    })) };
+    }))
   }
 
   
   const endDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
-
-    {mode === ModalMode.ADD?   setData((data) => ({
+    setData((data) => ({
       ...data,
       endDate: formattedDate,
-    })): setDto((dto) => ({
-      ...dto,
-      endDate: formattedDate,
-    })) }
+    }))
     ;
   }
  
   const textChangeArtistName = (e) => {
     setArtistNameValue(e.target.value);
-    setDto({ ...dto, [e.target.name]: e.target.value });  
-
+    setData({...data, [e.target.name] : e.target.value});
   }
   const textChangeArtName = (e) => {
     setArtName(e.target.value);
-    setDto({ ...dto, [e.target.name]: e.target.value });  
+    setData({...data, [e.target.name] : e.target.value});
   }
   const textChangeStock = (e) => {
     setStock(e.target.value);
-    setDto({ ...dto, [e.target.name]: e.target.value });  
+    setData({...data, [e.target.name] : e.target.value});
   }
 
   return (
@@ -258,7 +250,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
           fullWidth
           variant="outlined"
           onChange={(e) => onHandleChange(e)}
-          
           />
           </>       
            : 
