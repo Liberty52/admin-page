@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import LicenseDialog from "../component/license/LicenseDialog";
 import LicenseItem from "../component/license/LicenseItem";
 import { getLicenseList } from "../axios/License";
-import { LicenseModalMode } from "../constants/mode";
+import { ModalMode } from "../constants/mode";
 
 
 const License = () => {
@@ -86,7 +86,7 @@ const License = () => {
               open={open}
               onClose={closeDialog}
               getLicenses={getLicenses}
-              mode={LicenseModalMode.ENROLL}
+              mode={ModalMode.ADD}
 
             />
           )}

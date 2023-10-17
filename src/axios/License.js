@@ -1,4 +1,4 @@
-import { CREATE_LICENSE, LICENSE_LIST, MODIFY_LICENSE, DELETE_LICENSE, MODIFY_DETAIL_LICENSE} from "../constants/api";
+import { CREATE_LICENSE, LICENSE_LIST, MODIFY_LICENSE, DELETE_LICENSE, GET_DETAIL_LICENSE} from "../constants/api";
 import { CONTENT_TYPE } from "../constants/content-type";
 import { ACCESS_TOKEN } from "../constants/token";
 import request from "./axios";
@@ -54,8 +54,8 @@ export const deleteLicense = (id) => {
   });
 };
 
-export const modifyDetailLicense = (id) => {
-  return request.get(MODIFY_DETAIL_LICENSE(id), {
+export const getDetatilLicense = (id) => {
+  return request.get(GET_DETAIL_LICENSE(id), {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       "Content-Type": CONTENT_TYPE.MultipartFormData,

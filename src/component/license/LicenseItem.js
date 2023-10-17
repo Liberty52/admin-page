@@ -3,7 +3,8 @@ import { CardImage, ProductCard } from "../product/styled/Product";
 import { useState } from "react";
 import LicenseDialog from "./LicenseDialog";
 import { MainContainer } from "../common/MainComponent";
-import { LicenseModalMode } from "../../constants/mode";
+// import { LicenseModalMode } from "../../constants/mode";
+import { ModalMode } from "../../constants/mode";
 
 const LicenseItem = ({
   id,
@@ -16,24 +17,22 @@ const LicenseItem = ({
   getLicenses,
   
 }) => {   
-  const [modifyOpen, setModifyOpen] = useState(false);
-  const [modeOption, setModeOption] = useState(LicenseModalMode.MODIFY);
+  // const [modifyOpen, setModifyOpen] = useState(false);
+  const [modeOption, setModeOption] = useState(ModalMode.EDIT);
   const [open, setOpen] = useState(false);
   const [licenseImageId, setLicenseImageId] = useState(id);
   const [imageUrl, setImageUrl] = useState(licenseImageUrl);
-  const [imageChange, setImageChange] = useState(imageUrl);
 
   const cardClicked = () => {
     setOpen(true); 
-    setModeOption(LicenseModalMode.MODIFY);
+    setModeOption(ModalMode.EDIT);
   }
   const closeDialog = () => {
-    setModifyOpen(false);
+    // setModifyOpen(false);
     modifyLicenseClick();
   }
 
   const updateImage = () => {
-  setImageChange(imageUrl);
   setImageUrl(imageUrl);
   }
 

@@ -12,16 +12,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React, { useState } from "react";
 import dayjs from "dayjs";
-import { createLicense } from "../../axios/License";
+import { createLicense, getDetatilLicense,deleteLicense } from "../../axios/License";
 import Swal from "sweetalert2";
-import { LicenseModalMode } from "../../constants/mode";
 import { modifyLicense } from "../../axios/License";
 import { useEffect } from "react";
-import { modifyDetailLicense } from "../../axios/License";
-import { deleteLicense } from "../../axios/License";
 import { Toast } from "../../utils/Toast";
 import Avatar from "antd/es/avatar/avatar";
 import { useRef } from "react";
+import { ModalMode } from "../../constants/mode";
+
 
 const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageUrl }) => {
   const [data, setData] = useState({
@@ -46,10 +45,10 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const [startDate, setStartDate] = useState("YYYY-MM-DD");
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
   const fileInput = useRef(image);
-  const [optionMode, SetOptionMode] = useState(LicenseModalMode.MODIFY);
+  const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
 
   useEffect(()=>{
-    {mode === LicenseModalMode.ENROLL? 
+    {mode === ModalMode.ADD? 
     <></>:
     retrieveLicenseDetailDataAndSetState()
     }
@@ -57,7 +56,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   
   const retrieveLicenseDetail = (prevData, licenseImageId) => {
       SetOptionMode(mode);
-      modifyDetailLicense(licenseImageId).then((res) => {
+        getDetatilLicense(licenseImageId).then((res) => {
         prevData = res.data;
         setArtistNameValue(prevData.artistName);
         setArtName(prevData.artName);
@@ -96,13 +95,17 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     setData({ ...data, [e.target.name]: e.target.value })   
   };
   const onHandleChangeImage = (e) => {
-    {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImage(e.target.files[0])};
+    {mode === ModalMode.ADD?  setImage(e.target.files[0]): setImage(e.target.files[0])};
 
   };
   const handleClose = () => {
     onClose();
   };
   const enrollLicense = () => {
+    if(data.startDate> data.endDate){
+      alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
+      return;
+    }else{
     createLicense(data, image)
       .then(() => {
         Swal.fire({
@@ -117,11 +120,18 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
           icon: "error",
         });
       });
+    };
 
     onClose();
   };
 
   const editLicense = () =>{
+    
+
+    if(dto.startDate> dto.endDate){
+      alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
+      return;
+    }else{
     modifyLicense(dto, licenseImageId, image )
       .then(() => {
         retrieveLicenseDetailDataAndSetState();
@@ -137,6 +147,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
           icon: "error",
         })
       });
+    }
     onClose();
   }
   const DeleteLicense = () => {
@@ -172,7 +183,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   
   const startDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
-    {mode === LicenseModalMode.ENROLL?  setData((data) => ({
+    {mode === ModalMode.ADD?  setData((data) => ({
       ...data,
       startDate: formattedDate,
     })):  setDto((dto) => ({
@@ -185,7 +196,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const endDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
 
-    {mode === LicenseModalMode.ENROLL?   setData((data) => ({
+    {mode === ModalMode.ADD?   setData((data) => ({
       ...data,
       endDate: formattedDate,
     })): setDto((dto) => ({
@@ -213,11 +224,11 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {mode === LicenseModalMode.ENROLL? "작가 포토폴리오 등록" : "작가 포트폴리오 수정"}
+          {mode === ModalMode.ADD? "작가 포토폴리오 등록" : "작가 포트폴리오 수정"}
          </DialogTitle>
          <DialogContent>
          <>
-        {mode === LicenseModalMode.ENROLL? 
+        {mode === ModalMode.ADD? 
           <>
           <TextField
            autoFocus
@@ -291,7 +302,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
             dateFormats={datePickerUtils}
           >
             <DemoContainer components={["DatePicker"]}>
-            {mode === LicenseModalMode.ENROLL? 
+            {mode === ModalMode.ADD? 
               <>
               <DatePicker
                 name="startDate"
@@ -321,9 +332,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                   startDateOption(newValue);
                 }}
                 value={dayjs(startDate)}
-                
-               
-
               />
               
               <DatePicker
@@ -332,7 +340,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 format="YYYY-MM-DD"
                 startDate = {startDate}
                 onChange={(newValue) => {
-                  endDateOption(newValue, startDate);
+                  endDateOption(newValue);
                 }}
                 value={dayjs(endDate)}
                
@@ -343,7 +351,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
             </DemoContainer>
           
           </LocalizationProvider>
-          {mode === LicenseModalMode.ENROLL ? (
+          {mode === ModalMode.ADD ? (
           <Button variant="contained" component="label">
             Upload File
             <input
@@ -386,11 +394,12 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
             }
         </DialogContent>
         <DialogActions>
-          {mode === LicenseModalMode.ENROLL ? (
+          {mode === ModalMode.ADD ? (
                 <>
                   <Button onClick={() => {
                       enrollLicense();
-                  }} disabled={startDate>endDate}>
+                  }} 
+                  >
                     등록하기
                   </Button>
                   <Button onClick={handleClose}> 취소</Button>
@@ -399,7 +408,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 <>
                   <Button onClick = {() => {  
                      editLicense();}}
-                     disabled={startDate>endDate}
                       >
                     수정하기
                   </Button>

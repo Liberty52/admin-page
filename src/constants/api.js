@@ -97,4 +97,4 @@ export const LICENSE_LIST = () => `/admin/licenseImage`;
 export const CREATE_LICENSE = () => `/admin/licenseImage`;
 export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
 export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
-export const MODIFY_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
