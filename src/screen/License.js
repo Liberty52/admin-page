@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import LicenseDialog from "../component/license/LicenseDialog";
 import LicenseItem from "../component/license/LicenseItem";
 import { getLicenseList } from "../axios/License";
+import { ModalMode } from "../constants/mode";
+
 
 const License = () => {
   const [open, setOpen] = useState(false);
@@ -74,6 +76,7 @@ const License = () => {
                     licenseImageUrl={license.licenseImageUrl}
                     startDate={license.startDate}
                     endDate={license.endDate}
+                    getLicenses={getLicenses}
                   />
                 );
               })}
@@ -83,6 +86,8 @@ const License = () => {
               open={open}
               onClose={closeDialog}
               getLicenses={getLicenses}
+              mode={ModalMode.ADD}
+
             />
           )}
         </Container>
