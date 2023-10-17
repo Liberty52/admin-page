@@ -46,9 +46,7 @@ export const modifyLicense = (dto, licenseImageId, image ) => {
 
 
 export const deleteLicense = (id) => {
-  return request({
-    url: DELETE_LICENSE(id),
-    method: "DELETE",
+  return request.delete(DELETE_LICENSE(id), {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       "Content-Type": CONTENT_TYPE.MultipartFormData,

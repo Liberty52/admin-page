@@ -23,11 +23,13 @@ import { Toast } from "../../utils/Toast";
 import Avatar from "antd/es/avatar/avatar";
 import { useRef } from "react";
 
-const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageUrl,imageUpdate }) => {
+const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageUrl }) => {
   const [data, setData] = useState({
     artistName: "",
     artName: "",
     stock: "",
+    startDate: "",
+    endDate: "",
   });
   const [dto, setDto] = useState({
     artistName: "",
@@ -45,14 +47,13 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(LicenseModalMode.MODIFY);
- 
 
   useEffect(()=>{
     {mode === LicenseModalMode.ENROLL? 
     <></>:
     retrieveLicenseDetailDataAndSetState()
     }
-  }, [licenseImageId]);
+  }, []);
   
   const retrieveLicenseDetail = (prevData, licenseImageId) => {
       SetOptionMode(mode);
@@ -76,16 +77,12 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     setDto(prevData);
   }
 
-
-
   let reader = new FileReader(); 
   const ImageChange = e => {
     e.preventDefault();
 
-    console.log(image);
     const file = e.target.files[0]; 
     setImage( e.target.files[0]);
-    console.log(file);
     if (file) {
       reader.readAsDataURL(file); 
       reader.onloadend = () => {
@@ -95,9 +92,8 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     }
   };
 
-
   const onHandleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
+    setData({ ...data, [e.target.name]: e.target.value })   
   };
   const onHandleChangeImage = (e) => {
     {mode === LicenseModalMode.ENROLL?  setImage(e.target.files[0]): setImage(e.target.files[0])};
@@ -160,7 +156,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
             };  
                 deleteLicense(licenseImageId, data).then(() => {
                   getLicenses()
-                  console.log(licenseImageId);
               Toast.fire({
                 icon: "success",
                 title: "삭제가 완료되었습니다",
@@ -174,9 +169,9 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     format: datePickerFormat,
     parse: (value) => dayjs(value, datePickerFormat, true).toDate(),
   };
+  
   const startDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
-  
     {mode === LicenseModalMode.ENROLL?  setData((data) => ({
       ...data,
       startDate: formattedDate,
@@ -184,18 +179,20 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
       ...dto,
       startDate: formattedDate,
     })) };
-
   }
+
+  
   const endDateOption = (date) =>{
     const formattedDate = dayjs(date).format(datePickerFormat);
-  
+
     {mode === LicenseModalMode.ENROLL?   setData((data) => ({
       ...data,
       endDate: formattedDate,
     })): setDto((dto) => ({
       ...dto,
       endDate: formattedDate,
-    })) };
+    })) }
+    ;
   }
  
   const textChangeArtistName = (e) => {
@@ -250,6 +247,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
           fullWidth
           variant="outlined"
           onChange={(e) => onHandleChange(e)}
+          
           />
           </>       
            : 
@@ -318,19 +316,27 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 name="startDate"
                 label="Start"
                 format="YYYY-MM-DD"
+                startDate = {startDate}
                 onChange={(newValue) => {
                   startDateOption(newValue);
                 }}
                 value={dayjs(startDate)}
+                
+               
+
               />
+              
               <DatePicker
                 name="endDate"
                 label="End"
                 format="YYYY-MM-DD"
+                startDate = {startDate}
                 onChange={(newValue) => {
-                  endDateOption(newValue);
+                  endDateOption(newValue, startDate);
                 }}
                 value={dayjs(endDate)}
+               
+
               />
               </>
           }
@@ -374,19 +380,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
                 src={image}
                 alt=""
                 ></img>
-              <Button
-            type="button"
-            text="삭제"
-            onClick={(e) => {
-              const label = e.target.parentNode.parentNode;
-              const input = label.children[0];
-              input.value = "";
-              setImageFile(null);
-              setImage(null);
-            }}>
-              삭제
-              </Button>     
-   
+
             </>     
             )
             }
@@ -394,13 +388,19 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
         <DialogActions>
           {mode === LicenseModalMode.ENROLL ? (
                 <>
-                  <Button onClick={enrollLicense}>등록하기</Button>
+                  <Button onClick={() => {
+                      enrollLicense();
+                  }} disabled={startDate>endDate}>
+                    등록하기
+                  </Button>
                   <Button onClick={handleClose}> 취소</Button>
                 </>
               ) : (
                 <>
                   <Button onClick = {() => {  
-                     editLicense();}} >
+                     editLicense();}}
+                     disabled={startDate>endDate}
+                      >
                     수정하기
                   </Button>
                   <Button  color={"error"} onClick={DeleteLicense}>
@@ -419,5 +419,3 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
 };
 
 export default LicenseDialog
-
-
