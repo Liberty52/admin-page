@@ -81,17 +81,20 @@ export const ADD_PRODUCT_INTRODUCTION = (productId) =>
   `/admin/product/${productId}/introduction`;
 
 // 가상계좌 관리 api
-export const POST_NEW_VBANK = () => `/admin/product/vbanks`;
-export const GET_VBANKS = () => `/admin/product/vbanks`;
-export const PUT_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
-export const DELETE_VBANK = (vbankId) => `/admin/product/vbanks/${vbankId}`;
+export const POST_NEW_VBANK = () => `/admin/vbanks`;
+export const GET_VBANKS = () => `/product/vbanks`;
+export const PUT_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
+export const DELETE_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
 
 // 배송비 관리 api
 export const GET_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/product/options/delivery/fee`;
+  `/product/options/delivery/fee`;
 export const PATCH_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/product/options/delivery/fee`;
+  `/admin/options/delivery/fee`;
 
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
 export const CREATE_LICENSE = () => `/admin/licenseImage`;
+export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;

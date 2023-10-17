@@ -3,3 +3,8 @@ export const ModalMode = {
   EDIT: "EDIT",
   VIEW: "VIEW",
 };
+
+export const LicenseModalMode = {
+    MODIFY: "MODIFY",
+    ENROLL: "ENROLL"
+};

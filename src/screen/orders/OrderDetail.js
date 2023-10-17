@@ -43,8 +43,22 @@ function OrderImage({ product }) {
     setUpScaling(true);
     upscaleImage(url, 4)
       .then((res) => {
-        alert("이미지 업스케일링 성공");
-        window.open(res.data.afterUrl, "_blank").focus();
+        const afterUrl = res.data.afterUrl;
+        if (afterUrl === "") {
+          alert("[사용 제한] 잠시 후 다시 이용해주세요.");
+        } else {
+          alert("이미지 업스케일링 성공");
+          const showImageWindow = setInterval(function () {
+            fetch(afterUrl)
+              .then((res) => {
+                if (res.status === 200) {
+                  window.open(afterUrl, "_blank").focus();
+                  clearInterval(showImageWindow);
+                }
+              })
+              .catch((e) => alert(e));
+          }, 1000);
+        }
         setUpScaling(false);
       })
       .catch((err) => {
