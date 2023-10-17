@@ -3,7 +3,6 @@ import { CardImage, ProductCard } from "../product/styled/Product";
 import { useState } from "react";
 import LicenseDialog from "./LicenseDialog";
 import { MainContainer } from "../common/MainComponent";
-// import { LicenseModalMode } from "../../constants/mode";
 import { ModalMode } from "../../constants/mode";
 
 const LicenseItem = ({
@@ -17,7 +16,6 @@ const LicenseItem = ({
   getLicenses,
   
 }) => {   
-  // const [modifyOpen, setModifyOpen] = useState(false);
   const [modeOption, setModeOption] = useState(ModalMode.EDIT);
   const [open, setOpen] = useState(false);
   const [licenseImageId, setLicenseImageId] = useState(id);
@@ -28,7 +26,6 @@ const LicenseItem = ({
     setModeOption(ModalMode.EDIT);
   }
   const closeDialog = () => {
-    // setModifyOpen(false);
     modifyLicenseClick();
   }
 
