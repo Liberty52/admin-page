@@ -10,7 +10,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import dayjs from "dayjs";
 import { createLicense, getDetatilLicense,deleteLicense } from "../../axios/License";
 import Swal from "sweetalert2";
@@ -18,7 +18,6 @@ import { modifyLicense } from "../../axios/License";
 import { useEffect } from "react";
 import { Toast } from "../../utils/Toast";
 import Avatar from "antd/es/avatar/avatar";
-import { useRef } from "react";
 import { ModalMode } from "../../constants/mode";
 
 
@@ -31,19 +30,12 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     endDate: "",
    
   });
-  const [dto, setDto] = useState({
-    artistName: "",
-    artName: "",
-    startDate: "",
-    endDate: "",
-    stock: "",
-  });
   const [image, setImage] = useState();
   const [imageFile, setImageFile] = useState(imageUrl);
   const [artistNameValue, setArtistNameValue] = useState("");
   const [artName, setArtName] = useState("");
   const [stock, setStock] = useState("");
-  const [startDate, setstartDate] = useState("YYYY-MM-DD");
+  const [startDate, setStartDate] = useState("YYYY-MM-DD");
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
@@ -62,7 +54,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
         setArtistNameValue(prevData.artistName);
         setArtName(prevData.artName);
         setStock(prevData.stock);
-        setstartDate(prevData.startDate);
+        setStartDate(prevData.startDate);
         setEndDate(prevData.endDate);
       });
   }
