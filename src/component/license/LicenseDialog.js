@@ -43,7 +43,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
   const [artistNameValue, setArtistNameValue] = useState("");
   const [artName, setArtName] = useState("");
   const [stock, setStock] = useState("");
-  const [startDate, setStartDate] = useState("YYYY-MM-DD");
+  const [startDate, setstartDate] = useState("YYYY-MM-DD");
   const [endDate, setEndDate] = useState("YYYY-MM-DD");
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
@@ -62,7 +62,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
         setArtistNameValue(prevData.artistName);
         setArtName(prevData.artName);
         setStock(prevData.stock);
-        setStartDate(prevData.startDate);
+        setstartDate(prevData.startDate);
         setEndDate(prevData.endDate);
       });
   }
@@ -97,8 +97,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
     setData({ ...data, [e.target.name]: e.target.value })   
   };
   const onHandleChangeImage = (e) => {
-    {mode === ModalMode.ADD?  setImage(e.target.files[0]): setImage(e.target.files[0])};
-
+    setImage(e.target.files[0])
   };
   const handleClose = () => {
     onClose();
