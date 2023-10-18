@@ -18,6 +18,7 @@ import styled from "styled-components";
 import { convertQuestionStatus } from "../../utils";
 import { Textarea } from "@mui/joy";
 import { QuestionDetailTitle, QuestionDialogTitle } from "./index";
+import { ModalMode } from "../../constants/mode";
 
 export const QuestionDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
@@ -34,7 +35,11 @@ export const QuestionDialog = (props) => {
     getQuestionDetail(id).then((res) => {
       prevData = res.data;
       setData(prevData);
-      setMode(prevData?.questionReplyResponse === null ? "ADD" : "VIEW");
+      setMode(
+        prevData?.questionReplyResponse === null
+          ? ModalMode.ADD
+          : ModalMode.EDIT
+      );
       setTextAreaValue(prevData?.questionReplyResponse?.replyContent);
       const viewer = new Editor.factory({
         el: document.querySelector("#viewer"),
@@ -76,48 +81,41 @@ export const QuestionDialog = (props) => {
       .catch((err) => console.error(err));
   };
 
-  const onUpdateModeButtonClicked = () => {
-    if (mode === "EDIT") {
-      if (textAreaValue === data.questionReplyResponse.replyContent) {
-        alert("내용을 변경해주세요.");
-        return;
-      }
+  const onUpdateButtonClicked = () => {
+    if (textAreaValue === data.questionReplyResponse.replyContent) {
+      alert("내용을 변경해주세요.");
+      return;
+    }
 
-      if (textAreaValue.length > 1000) {
-        alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)");
-        return;
-      }
+    if (textAreaValue.length > 1000) {
+      alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)");
+      return;
+    }
 
-      updateQuestionReply(data.questionReplyResponse.replyId, textAreaValue)
-        .then(() => {
-          alert("수정했습니다.");
-          isChanged(true);
-          retrieveQuestionDetailDataAndSetState();
-        })
-        .catch((err) => console.error(err));
-    } else setMode("EDIT");
+    updateQuestionReply(data.questionReplyResponse.replyId, textAreaValue)
+      .then(() => {
+        alert("수정했습니다.");
+        isChanged(true);
+        retrieveQuestionDetailDataAndSetState();
+      })
+      .catch((err) => console.error(err));
   };
   const onTextAreaChanged = (e) => {
     setTextAreaValue(e.target.value);
   };
   const onDeleteButtonClicked = () => {
-    if (mode === "EDIT") {
-      setTextAreaValue(data?.questionReplyResponse?.replyContent);
-      setMode("VIEW");
-    } else {
-      deleteQuestionReply(data.questionReplyResponse.replyId)
-        .then(() => {
-          alert("삭제되었습니다.");
-          isChanged(true);
-          retrieveQuestionDetailDataAndSetState();
-          setTextAreaValue("");
-        })
-        .catch((err) => console.error(err));
-    }
+    deleteQuestionReply(data.questionReplyResponse.replyId)
+      .then(() => {
+        alert("삭제되었습니다.");
+        isChanged(true);
+        retrieveQuestionDetailDataAndSetState();
+        setTextAreaValue("");
+      })
+      .catch((err) => console.error(err));
   };
   const onCloseButtonClicked = () => {
     handleClose();
-    setMode("VIEW");
+    setMode(ModalMode.VIEW);
     setTextAreaValue("");
   };
 
@@ -157,21 +155,19 @@ export const QuestionDialog = (props) => {
               />
             </div>
             <DialogActions>
-              {mode === "ADD" ? (
+              {mode === ModalMode.ADD ? (
                 <>
-                  <Button onClick={onAddButtonClicked}>추가하기</Button>
+                  <Button onClick={onAddButtonClicked}>답변달기</Button>
                 </>
               ) : (
                 <>
-                  <Button onClick={onUpdateModeButtonClicked}>
-                    {mode === "VIEW" ? "수정모드" : "수정하기"}
-                  </Button>
+                  <Button onClick={onUpdateButtonClicked}>수정하기</Button>
                   <Button color={"error"} onClick={onDeleteButtonClicked}>
-                    {mode === "VIEW" ? "삭제하기" : "취소하기"}
+                    답변 삭제하기
                   </Button>
                 </>
               )}
-              <Button onClick={onCloseButtonClicked}>돌아가기</Button>
+              <Button onClick={onCloseButtonClicked}>나가기</Button>
             </DialogActions>
           </Stack>
         </>

@@ -162,9 +162,8 @@ export async function updateOrder(
       }
     );
 
-    alert(response.data.message);
   } catch (error) {
-    alert("Error:", error);
+    alert("error: " + error.response.data.errorMessage);
   }
 }
 

@@ -65,7 +65,7 @@ export default function ProductDetail() {
           <div>
             <CardDetailImage
               src={
-                "https://liberty53.s3.us-west-2.amazonaws.com/product/represent/liberty52-frame.png"
+                "https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png"
               }
             />
           </div>
