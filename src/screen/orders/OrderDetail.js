@@ -44,7 +44,7 @@ function OrderImage({ product }) {
     upscaleImage(url, 4)
       .then((res) => {
         const afterUrl = res.data.afterUrl;
-        if (afterUrl === "") {
+        if (afterUrl === "" || afterUrl === null) {
           alert("[사용 제한] 잠시 후 다시 이용해주세요.");
         } else {
           alert("이미지 업스케일링 성공");
