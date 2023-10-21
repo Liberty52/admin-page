@@ -1,5 +1,5 @@
-import axios from "axios";
-import request from "./axios";
+import axios from 'axios';
+import request from './axios';
 import {
   CREATE_QUESTION_REPLY,
   DELETE_QUESTION_REPLY,
@@ -11,11 +11,11 @@ import {
   UPLOAD_NOTICE_IMAGE,
   NOTICE_LIST,
   NOTICE_DETAIL,
-} from "../constants/api";
-import { ACCESS_TOKEN } from "../constants/token";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
-import { CONTENT_TYPE } from "../constants/content-type";
+} from '../constants/api';
+import { ACCESS_TOKEN } from '../constants/token';
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
+import { CONTENT_TYPE } from '../constants/content-type';
 
 export const getQuestionList = async (page) => {
   return request.get(QUESTION_LIST(page, 10), {
@@ -43,7 +43,7 @@ export const createQuestionReply = (id, content) => {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       },
-    }
+    },
   );
 };
 
@@ -57,7 +57,7 @@ export const updateQuestionReply = (id, content) => {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       },
-    }
+    },
   );
 };
 
@@ -99,7 +99,7 @@ export const deleteNotice = (id) => {
       },
     })
     .then(() => {
-      window.location.replace("/notice");
+      window.location.replace('/notice');
     });
 };
 
@@ -110,12 +110,12 @@ export const postNotice = (value, editorState, commentable) => {
     commentable: commentable,
   };
   axios
-    .post("https://liberty52.com:444/admin/notices", data, header)
+    .post('https://liberty52.com:444/admin/notices', data, header)
     .then((res) => {
-      window.location.href = "/notice";
+      window.location.href = '/notice';
     })
     .catch((err) => {
-      alert("에러가 발생했습니다.");
+      alert('에러가 발생했습니다.');
     });
 };
 
@@ -123,22 +123,13 @@ const todayTime = () => {
   let now = new Date();
   let todayMonth = now.getMonth() + 1;
   let todayDate = now.getDate();
-  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const week = ['일', '월', '화', '수', '목', '금', '토'];
   let dayOfWeek = week[now.getDay()];
   let hours = now.getHours();
   let minutes = now.getMinutes();
 
   return (
-    todayMonth +
-    "월 " +
-    todayDate +
-    "일 " +
-    dayOfWeek +
-    "요일 " +
-    hours +
-    "시 " +
-    minutes +
-    "분"
+    todayMonth + '월 ' + todayDate + '일 ' + dayOfWeek + '요일 ' + hours + '시 ' + minutes + '분'
   );
 };
 
@@ -170,11 +161,11 @@ export const updateNotice = (data, next, id) => {
 
 export const uploadImage = (file) => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
   return request.post(UPLOAD_NOTICE_IMAGE(), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": CONTENT_TYPE.MultipartFormData,
+      'Content-Type': CONTENT_TYPE.MultipartFormData,
     },
   });
 };

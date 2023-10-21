@@ -1,7 +1,7 @@
-import axios from "./axios";
-import { ACCESS_TOKEN } from "../constants/token";
-import { CONTENT_TYPE } from "../constants/content-type";
-import request from "./axios";
+import axios from './axios';
+import { ACCESS_TOKEN } from '../constants/token';
+import { CONTENT_TYPE } from '../constants/content-type';
+import request from './axios';
 import {
   CANCELED_ORDERS,
   CANCELED_ORDER_DETAILS,
@@ -13,18 +13,15 @@ import {
   GET_DEFAULT_DELIVERY_FEE,
   PATCH_DEFAULT_DELIVERY_FEE,
   UPSCALE_IMAGE,
-} from "../constants/api";
+} from '../constants/api';
 
 export const fetchOrders = async (page, size) => {
   try {
-    const response = await axios.get(
-      `/admin/orders?page=${page}&size=${size}`,
-      {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        },
-      }
-    );
+    const response = await axios.get(`/admin/orders?page=${page}&size=${size}`, {
+      headers: {
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    });
 
     if (response.status === 200) {
       return response.data;
@@ -79,7 +76,7 @@ export const getCanceledOrderDetails = async (orderId) => {
 export const approveCancel = async (dto) => {
   return axios.post(APPROVE_CANCEL(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -88,7 +85,7 @@ export const approveCancel = async (dto) => {
 export const postCreateNewVBank = async (dto) => {
   return axios.post(POST_NEW_VBANK(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -97,7 +94,7 @@ export const postCreateNewVBank = async (dto) => {
 export const getVBanks = async () => {
   return axios.get(GET_VBANKS(), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -106,7 +103,7 @@ export const getVBanks = async () => {
 export const putVBank = async (vbankId, dto) => {
   return axios.put(PUT_VBANK(vbankId), JSON.stringify(dto), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -115,7 +112,7 @@ export const putVBank = async (vbankId, dto) => {
 export const deleteVBank = async (vbankId) => {
   return axios.delete(DELETE_VBANK(vbankId), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -124,7 +121,7 @@ export const deleteVBank = async (vbankId) => {
 export const getDefaultDeliveryFee = async () => {
   return axios.get(GET_DEFAULT_DELIVERY_FEE(), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
@@ -133,18 +130,13 @@ export const getDefaultDeliveryFee = async () => {
 export const patchDefaultDeliveryFee = async (dto) => {
   return axios.patch(PATCH_DEFAULT_DELIVERY_FEE(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
 };
 
-export async function updateOrder(
-  orderId,
-  depositorBank,
-  depositorName,
-  depositorAccount
-) {
+export async function updateOrder(orderId, depositorBank, depositorName, depositorAccount) {
   const payload = {
     depositorBank,
     depositorName,
@@ -152,38 +144,29 @@ export async function updateOrder(
   };
 
   try {
-    const response = await request.put(
-      `/admin/orders/${orderId}/vbank`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
-        },
-      }
-    );
-
+    const response = await request.put(`/admin/orders/${orderId}/vbank`, payload, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
+      },
+    });
   } catch (error) {
-    alert("error: " + error.response.data.errorMessage);
+    alert('error: ' + error.response.data.errorMessage);
   }
 }
 
 export async function updateOrderStatus(orderId, orderStatus) {
   try {
-    const response = await request.put(
-      `/admin/orders/${orderId}/status`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
-        },
-        params: {
-          orderStatus,
-        },
-      }
-    );
+    const response = await request.put(`/admin/orders/${orderId}/status`, null, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
+      },
+      params: {
+        orderStatus,
+      },
+    });
 
     if (response.status !== 200) {
-      alert("Error:", response.status, response.data);
+      alert('Error:', response.status, response.data);
       alert(response.data.message);
     }
   } catch (error) {
@@ -195,7 +178,7 @@ export const upscaleImage = (url, scale) => {
   const dto = { url, scale };
   return request.post(UPSCALE_IMAGE(), JSON.stringify(dto), {
     headers: {
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });

@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import ArrowPathIcon from "@heroicons/react/24/solid/ArrowPathIcon";
-import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
+import PropTypes from 'prop-types';
+import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
+import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import {
   Button,
   Card,
@@ -9,31 +9,28 @@ import {
   CardHeader,
   Divider,
   SvgIcon,
-} from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
-import { Chart } from "../common/Chart";
+} from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import { Chart } from '../common/Chart';
 
 const useChartOptions = () => {
   const theme = useTheme();
 
   return {
     chart: {
-      background: "transparent",
+      background: 'transparent',
       stacked: false,
       toolbar: {
         show: false,
       },
     },
-    colors: [
-      theme.palette.primary.main,
-      alpha(theme.palette.primary.main, 0.25),
-    ],
+    colors: [theme.palette.primary.main, alpha(theme.palette.primary.main, 0.25)],
     dataLabels: {
       enabled: false,
     },
     fill: {
       opacity: 1,
-      type: "solid",
+      type: 'solid',
     },
     grid: {
       borderColor: theme.palette.divider,
@@ -54,11 +51,11 @@ const useChartOptions = () => {
     },
     plotOptions: {
       bar: {
-        columnWidth: "40px",
+        columnWidth: '40px',
       },
     },
     stroke: {
-      colors: ["transparent"],
+      colors: ['transparent'],
       show: true,
       width: 2,
     },
@@ -75,18 +72,18 @@ const useChartOptions = () => {
         show: true,
       },
       categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ],
       labels: {
         offsetY: 5,
@@ -116,10 +113,10 @@ export const OverviewSales = (props) => {
       <CardHeader
         action={
           <Button
-            color="inherit"
-            size="small"
+            color='inherit'
+            size='small'
             startIcon={
-              <SvgIcon fontSize="small">
+              <SvgIcon fontSize='small'>
                 <ArrowPathIcon />
               </SvgIcon>
             }
@@ -127,27 +124,21 @@ export const OverviewSales = (props) => {
             Sync
           </Button>
         }
-        title="Sales"
+        title='Sales'
       />
       <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={chartSeries}
-          type="bar"
-          width="100%"
-        />
+        <Chart height={350} options={chartOptions} series={chartSeries} type='bar' width='100%' />
       </CardContent>
       <Divider />
-      <CardActions sx={{ justifyContent: "flex-end" }}>
+      <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
-          color="inherit"
+          color='inherit'
           endIcon={
-            <SvgIcon fontSize="small">
+            <SvgIcon fontSize='small'>
               <ArrowRightIcon />
             </SvgIcon>
           }
-          size="small"
+          size='small'
         >
           Overview
         </Button>

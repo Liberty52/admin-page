@@ -1,4 +1,4 @@
-import request from "./axios";
+import request from './axios';
 import {
   REVIEW_LIST,
   REVIEW_DETAIL,
@@ -6,8 +6,8 @@ import {
   DELETE_REVIEW_REPLY,
   UPDATE_REVIEW_REPLY,
   DELETE_CUSTOMER_REVIEW,
-} from "../constants/api";
-import { ACCESS_TOKEN } from "../constants/token";
+} from '../constants/api';
+import { ACCESS_TOKEN } from '../constants/token';
 
 export const getReviewList = async (page) => {
   return request.get(REVIEW_LIST(page, 20), {
@@ -35,7 +35,7 @@ export const createReviewReply = (id, content) => {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       },
-    }
+    },
   );
 };
 
@@ -49,7 +49,7 @@ export const updateReviewReply = (reviewId, replyId, content) => {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       },
-    }
+    },
   );
 };
 

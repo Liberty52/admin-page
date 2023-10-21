@@ -1,17 +1,17 @@
-import { MainContainer } from "../../component/common/MainComponent";
-import SideNav from "../../component/common/side-nav/SideNav";
-import { Box, Container } from "@mui/material";
-import ProductItem from "../../component/product/ProductItem";
-import { MOCK_IMAGE } from "../../utils/MockData";
+import { MainContainer } from '../../component/common/MainComponent';
+import SideNav from '../../component/common/side-nav/SideNav';
+import { Box, Container } from '@mui/material';
+import ProductItem from '../../component/product/ProductItem';
+import { MOCK_IMAGE } from '../../utils/MockData';
 import {
   ProductAddButtonWrapper,
   ProductBox,
   ProductHeaderWrapper,
   ProductTitle,
-} from "../../component/product/styled/Product";
-import { useEffect, useState } from "react";
-import { retrieveProduct } from "../../axios/Product";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
+} from '../../component/product/styled/Product';
+import { useEffect, useState } from 'react';
+import { retrieveProduct } from '../../axios/Product';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 export default function Product() {
   const [product, setProduct] = useState([]);
@@ -33,18 +33,18 @@ export default function Product() {
       <MainContainer>
         <SideNav />
         <Box
-          component="main"
+          component='main'
           sx={{
-            padding: "0 5%",
+            padding: '0 5%',
             flexGrow: 1,
             py: 8,
           }}
         >
-          <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+          <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
             <ProductHeaderWrapper
-              direction={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
             >
               <ProductTitle>상품 관리</ProductTitle>
               <ProductAddButtonWrapper>
@@ -52,19 +52,14 @@ export default function Product() {
               </ProductAddButtonWrapper>
             </ProductHeaderWrapper>
 
-            <ProductBox
-              useFlexGap
-              flexWrap={"wrap"}
-              direction={"row"}
-              spacing={2}
-            >
+            <ProductBox useFlexGap flexWrap={'wrap'} direction={'row'} spacing={2}>
               {product !== undefined ? (
                 product?.map((p) => (
                   <ProductItem
                     id={p.id}
                     name={p.name}
                     price={p.price}
-                    stock = {p.stock}
+                    stock={p.stock}
                     rating={p.meanRating}
                     nOfRating={p.ratingCount}
                     img={MOCK_IMAGE}

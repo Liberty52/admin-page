@@ -1,4 +1,4 @@
-import request from "./axios";
+import request from './axios';
 import {
   ADD_PRODUCT_OPTION,
   ADD_PRODUCT_OPTION_DETAIL,
@@ -10,8 +10,8 @@ import {
   PRODUCT_OPTION_LIST,
   UPDATE_PRODUCT_OPTION,
   UPDATE_PRODUCT_OPTION_DETAIL,
-} from "../constants/api";
-import { ACCESS_TOKEN } from "../constants/token";
+} from '../constants/api';
+import { ACCESS_TOKEN } from '../constants/token';
 
 export const retrieveProduct = () => {
   return request.get(PRODUCT_LIST(), {
@@ -56,10 +56,10 @@ export const updateOptionDetail = (optionDetailId, data) => {
 export const changeOptionDetailOnSale = (optionDetailId) => {
   return request({
     url: CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE(optionDetailId),
-    method: "PUT",
+    method: 'PUT',
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 };
@@ -83,32 +83,32 @@ export const updateProductOption = (optionId, data) => {
 export const changeProductOptionOnSale = (optionId) => {
   return request({
     url: CHANGE_PRODUCT_ON_SALE(optionId),
-    method: "PUT",
+    method: 'PUT',
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 };
 
 export const addProductIntroduction = (productId, imageFile) => {
   const formData = new FormData();
-  formData.append("images", imageFile);
+  formData.append('images', imageFile);
   return request.post(ADD_PRODUCT_INTRODUCTION(productId), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 };
 
 export const modifyProductIntroduction = (productId, imageFile) => {
   const formData = new FormData();
-  formData.append("images", imageFile);
+  formData.append('images', imageFile);
   return request.patch(ADD_PRODUCT_INTRODUCTION(productId), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 };

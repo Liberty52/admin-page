@@ -1,13 +1,12 @@
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import { blue } from "@mui/material/colors";
-import EditIcon from "@mui/icons-material/Edit";
-import { useState, useEffect } from "react";
-import {getDefaultDeliveryFee, patchDefaultDeliveryFee} from "../../../axios/Orders";
+import { Box, Button, IconButton, Stack, TextField } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import EditIcon from '@mui/icons-material/Edit';
+import { useState, useEffect } from 'react';
+import { getDefaultDeliveryFee, patchDefaultDeliveryFee } from '../../../axios/Orders';
 
 export default function DeliveryFeeInfoSection() {
-
   const [editMode, setEditMode] = useState(false);
-  const [fee, setFee] = useState("");
+  const [fee, setFee] = useState('');
   const [originFee, setOriginFee] = useState(0);
   const [isEditChanged, setIsEditChanged] = useState(false);
   const [editFee, setEditFee] = useState(0);
@@ -18,11 +17,11 @@ export default function DeliveryFeeInfoSection() {
 
   const fetchDefaultFee = () => {
     getDefaultDeliveryFee()
-        .then((res) => {
-          setFee(res.data.fee);
-        })
-        .catch((err) => alert(`배송비 조회 실패.\n${err.response.data.errorMessage}`));
-  }
+      .then((res) => {
+        setFee(res.data.fee);
+      })
+      .catch((err) => alert(`배송비 조회 실패.\n${err.response.data.errorMessage}`));
+  };
 
   const resetEditMode = () => {
     setIsEditChanged(false);
@@ -32,7 +31,7 @@ export default function DeliveryFeeInfoSection() {
   };
 
   const handleEditFee = () => {
-    const nFee = fee.replaceAll(",", "");
+    const nFee = fee.replaceAll(',', '');
     setOriginFee(Number(nFee));
     setEditMode(true);
   };
@@ -44,12 +43,12 @@ export default function DeliveryFeeInfoSection() {
   };
 
   const handleEdit = () => {
-    patchDefaultDeliveryFee({fee: editFee})
-        .then((res) => {
-          fetchDefaultFee();
-          resetEditMode();
-        })
-        .catch((err) => alert(`배송비 수정 실패.\n${err.response.data.errorMessage}`));
+    patchDefaultDeliveryFee({ fee: editFee })
+      .then((res) => {
+        fetchDefaultFee();
+        resetEditMode();
+      })
+      .catch((err) => alert(`배송비 수정 실패.\n${err.response.data.errorMessage}`));
     resetEditMode();
   };
 
@@ -60,44 +59,43 @@ export default function DeliveryFeeInfoSection() {
   return (
     <>
       <Stack
-          direction={"row"} spacing={2}
+        direction={'row'}
+        spacing={2}
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <h2>배송비 관리</h2>
+        <IconButton
+          aria-label='edit'
+          id='edit-button'
+          onClick={handleEditFee}
           sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
+            color: blue[500],
           }}
         >
-          <h2>배송비 관리</h2>
-          <IconButton
-            aria-label="edit"
-            id="edit-button"
-            onClick={handleEditFee}
-            sx={{
-              color: blue[500],
-            }}
-          >
-            <EditIcon />
-          </IconButton>
+          <EditIcon />
+        </IconButton>
       </Stack>
-      <Box sx={{ display: "flex", justifyContent: "flex-start",}}>
-        <Stack direction={"row"} spacing={2} sx={{alignItems: "center"}}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <Stack direction={'row'} spacing={2} sx={{ alignItems: 'center' }}>
           <p>현재 배송비: </p>
           {editMode ? (
-              <TextField
-                  type="number"
-                  defaultValue={originFee}
-                  onChange={handleFeeChanged}
-              />
+            <TextField type='number' defaultValue={originFee} onChange={handleFeeChanged} />
           ) : (
-              <p>{`${fee}원`}</p>
+            <p>{`${fee}원`}</p>
           )}
           {editMode ? (
-              <Stack direction="row" spacing={1}>
-                <Button disabled={!isEditChanged} onClick={handleEdit} sx={{minWidth: "50px"}}>
-                  수정
-                </Button>
-                <Button onClick={handleCancelEditMode} sx={{minWidth: "50px"}}>취소</Button>
-              </Stack>
+            <Stack direction='row' spacing={1}>
+              <Button disabled={!isEditChanged} onClick={handleEdit} sx={{ minWidth: '50px' }}>
+                수정
+              </Button>
+              <Button onClick={handleCancelEditMode} sx={{ minWidth: '50px' }}>
+                취소
+              </Button>
+            </Stack>
           ) : null}
         </Stack>
       </Box>
