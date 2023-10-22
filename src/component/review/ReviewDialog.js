@@ -67,6 +67,7 @@ export const ReviewDialog = (props) => {
       .then(() => {
         alert("댓글을 작성하셨습니다.");
         isChanged(true);
+        setTextAreaValue("");
         handleClose();
       })
       .catch((err) => console.errer(err));
