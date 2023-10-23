@@ -41,7 +41,6 @@ function OrderImage({ product }) {
 
   const handleImageUpscale = (url) => {
     if (!upscaling) {
-      console.log("업스케일링");
       setUpScaling(true);
       upscaleImage(url, 4)
         .then((res) => {
