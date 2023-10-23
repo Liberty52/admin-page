@@ -40,31 +40,34 @@ function OrderImage({ product }) {
   };
 
   const handleImageUpscale = (url) => {
-    setUpScaling(true);
-    upscaleImage(url, 4)
-      .then((res) => {
-        const afterUrl = res.data.afterUrl;
-        if (afterUrl === "" || afterUrl === null) {
-          alert("[사용 제한] 잠시 후 다시 이용해주세요.");
-        } else {
-          alert("이미지 업스케일링 성공");
-          const showImageWindow = setInterval(function () {
-            fetch(afterUrl)
-              .then((res) => {
-                if (res.status === 200) {
-                  window.open(afterUrl, "_blank").focus();
-                  clearInterval(showImageWindow);
-                }
-              })
-              .catch((e) => alert(e));
-          }, 1000);
-        }
-        setUpScaling(false);
-      })
-      .catch((err) => {
-        alert(err.response.data.error_message);
-        setUpScaling(false);
-      });
+    if (!upscaling) {
+      console.log("업스케일링");
+      setUpScaling(true);
+      upscaleImage(url, 4)
+        .then((res) => {
+          const afterUrl = res.data.afterUrl;
+          if (afterUrl === "" || afterUrl === null) {
+            alert("[사용 제한] 잠시 후 다시 이용해주세요.");
+          } else {
+            alert("이미지 업스케일링 성공");
+            const showImageWindow = setInterval(function () {
+              fetch(afterUrl)
+                .then((res) => {
+                  if (res.status === 200) {
+                    window.open(afterUrl, "_blank").focus();
+                    clearInterval(showImageWindow);
+                  }
+                })
+                .catch((e) => alert(e));
+            }, 1000);
+          }
+          setUpScaling(false);
+        })
+        .catch((err) => {
+          alert(err.response.data.error_message);
+          setUpScaling(false);
+        });
+    }
   };
 
   return (
