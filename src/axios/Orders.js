@@ -13,6 +13,7 @@ import {
   GET_DEFAULT_DELIVERY_FEE,
   PATCH_DEFAULT_DELIVERY_FEE,
   UPSCALE_IMAGE,
+  CHANGE_ORDER_STATUS,
 } from "../constants/api";
 
 export const fetchOrders = async (page, size) => {
@@ -161,34 +162,20 @@ export async function updateOrder(
         },
       }
     );
-
   } catch (error) {
     alert("error: " + error.response.data.errorMessage);
   }
 }
 
 export async function updateOrderStatus(orderId, orderStatus) {
-  try {
-    const response = await request.put(
-      `/admin/orders/${orderId}/status`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
-        },
-        params: {
-          orderStatus,
-        },
-      }
-    );
-
-    if (response.status !== 200) {
-      alert("Error:", response.status, response.data);
-      alert(response.data.message);
-    }
-  } catch (error) {
-    alert(error.response.data.cause.errorMessage);
-  }
+  return request.put(CHANGE_ORDER_STATUS(orderId), null, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+    params: {
+      orderStatus,
+    },
+  });
 }
 
 export const upscaleImage = (url, scale) => {
