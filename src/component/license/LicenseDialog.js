@@ -466,10 +466,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode,licenseImageId, imageU
       SetOptionMode(mode);
         getDetatilLicense(licenseImageId).then((res) => {
         prevData = res.data;
-        setData({...data, artName : prevData.artName});
-        setData({...data, stock : prevData.stock});
-        setData({...data, startDate : prevData.startDate});
-        setData({...data, endDate : prevData.endDate});
         setArtistName(prevData.artistName);
         setArtName(prevData.artName);
         setStock(prevData.stock);
