@@ -98,3 +98,6 @@ export const CREATE_LICENSE = () => `/admin/licenseImage`;
 export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
 export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
 export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+
+//상품 라이센스 옵션 api
+export const CUSTOM_LICENSE = () => `/admin/product`;
