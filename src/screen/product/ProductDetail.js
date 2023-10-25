@@ -1,5 +1,5 @@
 // components
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, TableContainer, Table, TableCell, TableRow} from "@mui/material";
 import { MainContainer } from "../../component/common/MainComponent";
 import SideNav from "../../component/common/side-nav/SideNav";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,11 +16,14 @@ import { useEffect, useState } from "react";
 import { PATH_PRODUCT } from "../../constants/path";
 // axios
 import { retrieveProductDetail } from "../../axios/Product";
+import { LicenseTable } from "../../component/license/LicenseTable";
 
 export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
+  const [text, setText] = useState();
+  const [mode, setMode] = useState();
 
   const detailEffect = async () => {
     try {
@@ -38,6 +41,11 @@ export default function ProductDetail() {
   const onBackButtonClicked = () => {
     navigate(PATH_PRODUCT);
   };
+  const firstImage = () => {
+    if(product.id === "LIB-001"){
+      product.pictureUrl="https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png"
+    }
+  }
 
   if (product === undefined) {
     return <div>Loading...</div>;
@@ -62,15 +70,27 @@ export default function ProductDetail() {
             </PointeredBox>
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
-          <div>
+          <div alignItems="flex-start">
             <CardDetailImage
-              src={
-                "https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png"
-              }
+              check={firstImage()}
+              src={product.pictureUrl}
             />
+            <>
+        <Stack>
+             <LicenseTable
+                name={product.name}
+                price={product.price}
+                nOfRating={product.ratingCount}
+                state={product.state}
+                meanRate={product.meanRating}
+                custom={product.custom}
+              />
+        </Stack>
+            </>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
           <ProductTab introductionImageUrl={product.introductionImageUrl} />
+          
           <Box />
         </Stack>
       </Box>
