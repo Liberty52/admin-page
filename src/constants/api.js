@@ -56,6 +56,8 @@ export const CHANGE_ORDER_STATUS = (orderId) =>
 // 송장 api
 export const DELIVERY_COMPANY_LIST = (international) =>
   `/admin/orders/courier-companies?international=${international}`;
+export const CREATE_TRACKING_INFO = (orderId) =>
+  `/admin/orders/${orderId}/delivery`;
 
 // 환불 요청 api
 export const APPROVE_CANCEL = () => {

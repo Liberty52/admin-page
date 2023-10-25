@@ -15,6 +15,7 @@ import {
   UPSCALE_IMAGE,
   CHANGE_ORDER_STATUS,
   DELIVERY_COMPANY_LIST,
+  CREATE_TRACKING_INFO,
 } from "../constants/api";
 
 export const fetchOrders = async (page, size) => {
@@ -189,8 +190,15 @@ export const upscaleImage = (url, scale) => {
   });
 };
 
+// 송장 관련
 export const getDeliveryCompanies = async (international) => {
   return request.get(DELIVERY_COMPANY_LIST(international), {
+    headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
+  });
+};
+
+export const createTrackingInfo = (orderId, dto) => {
+  return request.post(CREATE_TRACKING_INFO(orderId), dto, {
     headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
   });
 };

@@ -12,7 +12,10 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getDeliveryCompanies } from "../../../axios/Orders";
+import {
+  createTrackingInfo,
+  getDeliveryCompanies,
+} from "../../../axios/Orders";
 
 const DeliveryDialog = ({ open, onClose, orderId }) => {
   const [international, setInternational] = useState(false);
@@ -26,7 +29,6 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   const getDeliveryList = (international) => {
     getDeliveryCompanies(international).then((res) => {
       const prevData = res?.data;
-      setInternational(prevData.meta.international);
       setDeliveryCompanies(prevData.documents);
     });
   };
@@ -38,12 +40,34 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   const handleChangeInternational = (e) => {
     const prevData = e.target.value;
     setInternational(prevData);
+    setDeliveryCompanies([]);
     getDeliveryList(international);
   };
 
   const handleChangeDeliveryInfo = (e) => {
-    console.log(e.target.value, orderId);
-    setDeliveryInfo({ [e.target.name]: e.target.value });
+    setDeliveryInfo({ ...deliveryInfo, [e.target.name]: e.target.value });
+  };
+
+  const matchCompanyCode = () => {
+    for (var i = 0; deliveryCompanies.length; i++) {
+      if (
+        deliveryCompanies[i]?.courierName === deliveryInfo.courierCompanyName
+      ) {
+        const prevData = {
+          ...deliveryInfo,
+          courierCompanyCode: deliveryCompanies[i].courierCode,
+        };
+        setDeliveryInfo(prevData);
+        return;
+      }
+    }
+  };
+  const createDeliveryInfo = (dto) => {
+    matchCompanyCode();
+    createTrackingInfo(orderId, dto).then(
+      alert("송장이 성공적으로 등록되었습니다!")
+    );
+    onClose();
   };
 
   return (
@@ -96,8 +120,8 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Ok</Button>
+        <Button onClick={() => handleClose()}>Cancel</Button>
+        <Button onClick={() => createDeliveryInfo(deliveryInfo)}>Ok</Button>
       </DialogActions>
     </Dialog>
   );
