@@ -14,6 +14,7 @@ import {
   PATCH_DEFAULT_DELIVERY_FEE,
   UPSCALE_IMAGE,
   CHANGE_ORDER_STATUS,
+  DELIVERY_COMPANY_LIST,
 } from "../constants/api";
 
 export const fetchOrders = async (page, size) => {
@@ -185,5 +186,11 @@ export const upscaleImage = (url, scale) => {
       "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
+  });
+};
+
+export const getDeliveryCompanies = async (international) => {
+  return request.get(DELIVERY_COMPANY_LIST(international), {
+    headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
   });
 };

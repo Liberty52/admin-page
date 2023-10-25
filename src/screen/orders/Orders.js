@@ -93,6 +93,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const handleStatusChange = async () => {
     for (const orderId of selectedOrders) {
       await updateOrderStatus(orderId, newOrderStatus);
+      setCurrentOrderId(orderId);
     }
     if (newOrderStatus === "DELIVERING") {
       setDeliveryOpen(true);
@@ -105,6 +106,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
 
     setSelectedOrders([]);
     setNewOrderStatus("");
+  };
+
+  const closeDeliveryDialog = () => {
+    setDeliveryOpen(false);
   };
 
   return (
@@ -188,7 +193,13 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           ))}
         </div>
       </div>
-      {deliveryOpen && <DeliveryDialog open={deliveryOpen} />}
+      {deliveryOpen && (
+        <DeliveryDialog
+          orderId={currentOrderId}
+          open={deliveryOpen}
+          onClose={closeDeliveryDialog}
+        />
+      )}
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleCloseModal}
