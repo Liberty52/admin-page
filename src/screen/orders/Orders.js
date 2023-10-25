@@ -11,6 +11,7 @@ import Modal from "react-modal";
 import Button from "../../component/common/Button";
 import Input from "../../component/common/Input";
 import Select from "../../component/common/Select";
+import DeliveryDialog from "../../component/order/delivery/DeliveryDialog";
 
 function Border() {
   return <div className="order-border"></div>;
@@ -38,6 +39,8 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const [depositorName, setDepositorName] = useState("");
   const [depositorAccount, setDepositorAccount] = useState("");
   const [newOrderStatus, setNewOrderStatus] = useState("");
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+  const [deliveryOpen, setDeliveryOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,8 +57,6 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const handleOrderClick = (orderId) => {
     navigate(`/order/${orderId}`);
   };
-
-  const [currentOrderId, setCurrentOrderId] = useState(null);
 
   const handleOpenModal = (orderId) => {
     setCurrentOrderId(orderId);
@@ -92,8 +93,11 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const handleStatusChange = async () => {
     for (const orderId of selectedOrders) {
       await updateOrderStatus(orderId, newOrderStatus);
+      setCurrentOrderId(orderId);
     }
-
+    if (newOrderStatus === "DELIVERING") {
+      setDeliveryOpen(true);
+    }
     const data = await fetchOrders(currentPage, 10);
     if (data) {
       setOrders(data.orders);
@@ -102,6 +106,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
 
     setSelectedOrders([]);
     setNewOrderStatus("");
+  };
+
+  const closeDeliveryDialog = () => {
+    setDeliveryOpen(false);
   };
 
   return (
@@ -185,7 +193,13 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           ))}
         </div>
       </div>
-
+      {deliveryOpen && (
+        <DeliveryDialog
+          orderId={currentOrderId}
+          open={deliveryOpen}
+          onClose={closeDeliveryDialog}
+        />
+      )}
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleCloseModal}
