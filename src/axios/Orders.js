@@ -13,6 +13,9 @@ import {
   GET_DEFAULT_DELIVERY_FEE,
   PATCH_DEFAULT_DELIVERY_FEE,
   UPSCALE_IMAGE,
+  CHANGE_ORDER_STATUS,
+  DELIVERY_COMPANY_LIST,
+  CREATE_TRACKING_INFO,
 } from "../constants/api";
 
 export const fetchOrders = async (page, size) => {
@@ -161,34 +164,20 @@ export async function updateOrder(
         },
       }
     );
-
   } catch (error) {
     alert("error: " + error.response.data.errorMessage);
   }
 }
 
 export async function updateOrderStatus(orderId, orderStatus) {
-  try {
-    const response = await request.put(
-      `/admin/orders/${orderId}/status`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem(ACCESS_TOKEN)}`,
-        },
-        params: {
-          orderStatus,
-        },
-      }
-    );
-
-    if (response.status !== 200) {
-      alert("Error:", response.status, response.data);
-      alert(response.data.message);
-    }
-  } catch (error) {
-    alert(error.response.data.cause.errorMessage);
-  }
+  return request.put(CHANGE_ORDER_STATUS(orderId), null, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+    params: {
+      orderStatus,
+    },
+  });
 }
 
 export const upscaleImage = (url, scale) => {
@@ -198,5 +187,18 @@ export const upscaleImage = (url, scale) => {
       "Content-Type": CONTENT_TYPE.ApplicationJson,
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
+  });
+};
+
+// 송장 관련
+export const getDeliveryCompanies = async (international) => {
+  return request.get(DELIVERY_COMPANY_LIST(international), {
+    headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
+  });
+};
+
+export const createTrackingInfo = (orderId, dto) => {
+  return request.post(CREATE_TRACKING_INFO(orderId), dto, {
+    headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
   });
 };

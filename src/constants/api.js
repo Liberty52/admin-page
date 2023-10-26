@@ -43,14 +43,21 @@ export const CUSTOMER_LIST = (size, page, sort) => {
 export const CANCELED_ORDERS = (size, page, type) => {
   return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
 };
-
 export const CANCELED_ORDER_DETAILS = (orderId) => {
   return `/admin/orders/cancel/${orderId}`;
 };
-
 export const UPSCALE_IMAGE = () => {
   return `/product/images/upscaling`;
 };
+
+export const CHANGE_ORDER_STATUS = (orderId) =>
+  `/admin/orders/${orderId}/status`;
+
+// 송장 api
+export const DELIVERY_COMPANY_LIST = (international) =>
+  `/admin/orders/courier-companies?international=${international}`;
+export const CREATE_TRACKING_INFO = (orderId) =>
+  `/admin/orders/${orderId}/delivery`;
 
 // 환불 요청 api
 export const APPROVE_CANCEL = () => {
@@ -87,10 +94,8 @@ export const PUT_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
 export const DELETE_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
 
 // 배송비 관리 api
-export const GET_DEFAULT_DELIVERY_FEE = () =>
-  `/product/options/delivery/fee`;
-export const PATCH_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/options/delivery/fee`;
+export const GET_DEFAULT_DELIVERY_FEE = () => `/product/options/delivery/fee`;
+export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/options/delivery/fee`;
 
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
@@ -98,3 +103,6 @@ export const CREATE_LICENSE = () => `/admin/licenseImage`;
 export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
 export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
 export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+
+//상품 라이센스 옵션 api
+export const CUSTOM_LICENSE = () => `/admin/product`;
