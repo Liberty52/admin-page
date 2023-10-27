@@ -67,7 +67,7 @@ export default function ProductIntroEditor({ content }) {
     const response = await patchProductIntroduction(productId, data);
     if (response.status === 204) {
       alert("소개글 업로드 성공!");
-      content = data;
+      window.location.reload();
     } else {
       alert(`[${response.status} ERROR] 소개글 업로드 실패.`);
     }
@@ -88,6 +88,7 @@ export default function ProductIntroEditor({ content }) {
     const response = await deleteProductIntroduction(productId);
     if (response.status === 200) {
       alert("소개글 삭제 완료!");
+      window.location.reload();
     } else {
       alert(`[${response.status} ERROR] 소개글 삭제 실패.`);
     }
