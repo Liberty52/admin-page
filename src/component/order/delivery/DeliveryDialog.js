@@ -24,7 +24,7 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
 
   useEffect(() => {
     getDeliveryList(international);
-  }, []);
+  }, [international]);
 
   const getDeliveryList = (international) => {
     getDeliveryCompanies(international).then((res) => {
@@ -41,7 +41,6 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
     const prevData = e.target.value;
     setInternational(prevData);
     setDeliveryCompanies([]);
-    getDeliveryList(international);
   };
 
   const handleChangeDeliveryInfo = (e) => {
