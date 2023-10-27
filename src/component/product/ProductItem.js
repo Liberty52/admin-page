@@ -29,6 +29,7 @@ export default function ProductItem({ id, name, price, rating, nOfRating, img })
           <Typography fontSize='lg' fontWeight='lg'>
             ￦{price.toLocaleString()}
           </Typography>
+
           <ProductRatingBox>
             <Rating readOnly name='half-rating' defaultValue={rating} precision={0.5} />
             <ProductRatingText>({nOfRating})</ProductRatingText>

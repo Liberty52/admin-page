@@ -41,24 +41,26 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   };
 
   const handleChangeDeliveryInfo = (e) => {
-    setDeliveryInfo({ ...deliveryInfo, [e.target.name]: e.target.value });
-  };
-
-  const matchCompanyCode = () => {
-    for (var i = 0; deliveryCompanies.length; i++) {
-      if (deliveryCompanies[i]?.courierName === deliveryInfo.courierCompanyName) {
-        const prevData = {
-          ...deliveryInfo,
-          courierCompanyCode: deliveryCompanies[i].courierCode,
-        };
-        setDeliveryInfo(prevData);
-        return;
-      }
+    if (e.target.name === undefined) {
+      const prevData = e.target.value;
+      setDeliveryInfo(prevData);
+    } else {
+      setDeliveryInfo({ ...deliveryInfo, [e.target.name]: e.target.value });
     }
   };
-  const createDeliveryInfo = (dto) => {
-    matchCompanyCode();
-    createTrackingInfo(orderId, dto).then(alert('송장이 성공적으로 등록되었습니다!'));
+
+  const changeDeliveryInfoKey = () => {
+    deliveryInfo.courierCompanyCode = deliveryInfo.courierCode;
+    deliveryInfo.courierCompanyName = deliveryInfo.courierName;
+    delete deliveryInfo.courierCode;
+    delete deliveryInfo.courierName;
+  };
+
+  const createDeliveryInfo = () => {
+    changeDeliveryInfoKey();
+    createTrackingInfo(orderId, deliveryInfo).then(() => {
+      alert('송장이 성공적으로 등록되었습니다!');
+    });
     onClose();
   };
 
@@ -72,8 +74,8 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             <Select
               id='international-label'
               labelId='international-label'
-              value={international}
               label='국내/외'
+              value={international}
               onChange={handleChangeInternational}
             >
               <MenuItem value={false}>국내</MenuItem>
@@ -87,16 +89,11 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
               labelId='delivery-company-label'
               label='택배사'
               onChange={handleChangeDeliveryInfo}
-              name='courierCompanyName'
             >
-              {deliveryCompanies?.map((deliveryComapany) => {
+              {deliveryCompanies?.map((deliveryCompany) => {
                 return (
-                  <MenuItem
-                    key={deliveryComapany.courierCode}
-                    value={deliveryComapany?.courierName}
-                    name='courierCompanyName'
-                  >
-                    {deliveryComapany?.courierName}
+                  <MenuItem key={deliveryCompany.courierCode} value={deliveryCompany}>
+                    {deliveryCompany?.courierName}
                   </MenuItem>
                 );
               })}
@@ -113,7 +110,7 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleClose()}>Cancel</Button>
-        <Button onClick={() => createDeliveryInfo(deliveryInfo)}>Ok</Button>
+        <Button onClick={() => createDeliveryInfo()}>Ok</Button>
       </DialogActions>
     </Dialog>
   );
