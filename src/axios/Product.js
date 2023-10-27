@@ -62,7 +62,7 @@ export const changeOptionDetailOnSale = (optionDetailId) => {
     method: "PUT",
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "application/json",
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
     },
   });
 };
@@ -89,7 +89,7 @@ export const changeProductOptionOnSale = (optionId) => {
     method: "PUT",
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": "application/json",
+      "Content-Type": CONTENT_TYPE.ApplicationJson,
     },
   });
 };
