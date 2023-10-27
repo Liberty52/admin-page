@@ -40,23 +40,15 @@ export const CUSTOMER_LIST = (size, page, sort) => {
 };
 
 // 주문 조회 api
-export const CANCELED_ORDERS = (size, page, type) => {
-  return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
-};
+export const CANCELED_ORDERS = (size, page, type) =>
+  `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
+export const CANCELED_ORDER_DETAILS = (orderId) =>
+  `/admin/orders/cancel/${orderId}`;
 
-export const CANCELED_ORDER_DETAILS = (orderId) => {
-  return `/admin/orders/cancel/${orderId}`;
-};
-
-export const UPSCALE_IMAGE = () => {
-  return `/product/images/upscaling`;
-};
-
+// 업스케일링
+export const UPSCALE_IMAGE = () => `/product/images/upscaling`;
 // 환불 요청 api
-export const APPROVE_CANCEL = () => {
-  return `/admin/orders/refund`;
-};
-
+export const APPROVE_CANCEL = () => `/admin/orders/refund`;
 // 상품 관리 api
 export const PRODUCT_LIST = () => `/admin/productInfo`;
 export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
