@@ -8,13 +8,19 @@ export default function ProductItem({id, name, price, rating, nOfRating, img}){
     const cardClicked = () => {
         navigate(`/product/${id}`);
     }
+    
+    const firstImage = () => {
+        if(id==="LIB-001"){
+            img="https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png"
+        }
+    }
 
     return (
         <ProductCard variant="outlined" sx={{ width: 320 }} onClick={cardClicked}>
             {/*<Typography variant="h5">Liberty52-Frame</Typography>*/}
             <CardImage
+                firstImage={firstImage()}
                 src={img}
-                srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
                 loading="lazy"
                 alt=""
             />
@@ -24,6 +30,7 @@ export default function ProductItem({id, name, price, rating, nOfRating, img}){
                     <Typography fontSize="lg" fontWeight="lg">
                         ￦{price.toLocaleString()}
                     </Typography>
+                
                     <ProductRatingBox>
                         <Rating readOnly name="half-rating" defaultValue={rating} precision={0.5} />
                         <ProductRatingText>({nOfRating})</ProductRatingText>
