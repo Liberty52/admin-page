@@ -8,8 +8,8 @@ import {
   ComputerDesktopIcon,
   ArrowLeftOnRectangleIcon,
   PhotoIcon,
-} from "@heroicons/react/24/solid";
-import { SvgIcon } from "@mui/material";
+} from '@heroicons/react/24/solid';
+import { SvgIcon } from '@mui/material';
 import {
   PATH_PRODUCT,
   CUSTOMER,
@@ -18,88 +18,88 @@ import {
   QUESTION,
   NOTICE,
   LICENSE,
-} from "../../../constants/path";
+} from '../../../constants/path';
 
 export const items = [
   {
-    title: "Overview",
-    path: "/",
+    title: 'Overview',
+    path: '/',
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <ChartBarIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Customers",
+    title: 'Customers',
     path: CUSTOMER,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <UsersIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Review",
+    title: 'Review',
     path: REVIEW,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <StarIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Order",
+    title: 'Order',
     path: ORDER,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <GiftIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Question",
+    title: 'Question',
     path: QUESTION,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <QuestionMarkCircleIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Notice",
+    title: 'Notice',
     path: NOTICE,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <ClipboardIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Product",
+    title: 'Product',
     path: PATH_PRODUCT,
     icon: (
-      <SvgIcon fontSize={"small"}>
+      <SvgIcon fontSize={'small'}>
         <ComputerDesktopIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "License",
+    title: 'License',
     path: LICENSE,
     icon: (
-      <SvgIcon fontSize="small">
+      <SvgIcon fontSize='small'>
         <PhotoIcon />
       </SvgIcon>
     ),
   },
   {
-    title: "Logout",
+    title: 'Logout',
     onClick: () => {
       onLogoutClicked();
     },
     icon: (
-      <SvgIcon fontSize={"small"}>
+      <SvgIcon fontSize={'small'}>
         <ArrowLeftOnRectangleIcon />
       </SvgIcon>
     ),
@@ -107,9 +107,9 @@ export const items = [
 ];
 
 function onLogoutClicked() {
-  if (window.confirm("로그아웃 하시겠습니까?")) {
+  if (window.confirm('로그아웃 하시겠습니까?')) {
     sessionStorage.clear();
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = '/';
   }
 }

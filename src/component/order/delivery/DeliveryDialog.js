@@ -10,12 +10,9 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  createTrackingInfo,
-  getDeliveryCompanies,
-} from "../../../axios/Orders";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { createTrackingInfo, getDeliveryCompanies } from '../../../axios/Orders';
 
 const DeliveryDialog = ({ open, onClose, orderId }) => {
   const [international, setInternational] = useState(false);
@@ -49,9 +46,7 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
 
   const matchCompanyCode = () => {
     for (var i = 0; deliveryCompanies.length; i++) {
-      if (
-        deliveryCompanies[i]?.courierName === deliveryInfo.courierCompanyName
-      ) {
+      if (deliveryCompanies[i]?.courierName === deliveryInfo.courierCompanyName) {
         const prevData = {
           ...deliveryInfo,
           courierCompanyCode: deliveryCompanies[i].courierCode,
@@ -63,24 +58,22 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   };
   const createDeliveryInfo = (dto) => {
     matchCompanyCode();
-    createTrackingInfo(orderId, dto).then(
-      alert("송장이 성공적으로 등록되었습니다!")
-    );
+    createTrackingInfo(orderId, dto).then(alert('송장이 성공적으로 등록되었습니다!'));
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>송장 등록</DialogTitle>
-      <DialogContent style={{ padding: "10px" }}>
-        <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+      <DialogContent style={{ padding: '10px' }}>
+        <Box component='form' sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="international-label">국내/외</InputLabel>
+            <InputLabel id='international-label'>국내/외</InputLabel>
             <Select
-              id="international-label"
-              labelId="international-label"
+              id='international-label'
+              labelId='international-label'
               value={international}
-              label="국내/외"
+              label='국내/외'
               onChange={handleChangeInternational}
             >
               <MenuItem value={false}>국내</MenuItem>
@@ -88,20 +81,20 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             </Select>
           </FormControl>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="delivery-company-label">택배사</InputLabel>
+            <InputLabel id='delivery-company-label'>택배사</InputLabel>
             <Select
-              id="delivery-company-label"
-              labelId="delivery-company-label"
-              label="택배사"
+              id='delivery-company-label'
+              labelId='delivery-company-label'
+              label='택배사'
               onChange={handleChangeDeliveryInfo}
-              name="courierCompanyName"
+              name='courierCompanyName'
             >
               {deliveryCompanies?.map((deliveryComapany) => {
                 return (
                   <MenuItem
                     key={deliveryComapany.courierCode}
                     value={deliveryComapany?.courierName}
-                    name="courierCompanyName"
+                    name='courierCompanyName'
                   >
                     {deliveryComapany?.courierName}
                   </MenuItem>
@@ -110,10 +103,10 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             </Select>
           </FormControl>
           <TextField
-            id="outlined-basic"
-            label="송장 번호"
-            variant="outlined"
-            name="trackingNumber"
+            id='outlined-basic'
+            label='송장 번호'
+            variant='outlined'
+            name='trackingNumber'
             onChange={handleChangeDeliveryInfo}
           />
         </Box>

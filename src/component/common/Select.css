@@ -1,27 +1,27 @@
 .select-block {
-    display: inline-block;
-    position: relative;
+  display: inline-block;
+  position: relative;
 }
 
 .select {
-    padding: 8px 16px;
-    font-size: 13px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-size: 16px 16px;
-    cursor: pointer;
-    font-family: GmarketSansMedium;
+  padding: 8px 16px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-size: 16px 16px;
+  cursor: pointer;
+  font-family: GmarketSansMedium;
 }
 
 .select:hover {
-    border-color: #999;
+  border-color: #999;
 }
 
 .select:focus {
-    outline: none;
-    border-color: black;
-    box-shadow: 0 0 4px gray;
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 4px gray;
 }
