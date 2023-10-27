@@ -114,7 +114,7 @@ export default function ProductIntroEditor({ content }) {
         stack.push(content.charAt(i));
       } else if (content.charAt(i) === ">") {
         stack = [];
-      } else if (stack.length == 0) v = v + content.charAt(i);
+      } else if (stack.length === 0) v = v + content.charAt(i);
     }
     return v.trim().length === 0;
   }
