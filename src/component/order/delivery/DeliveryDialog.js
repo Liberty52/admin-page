@@ -94,13 +94,13 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
               label="택배사"
               onChange={handleChangeDeliveryInfo}
             >
-              {deliveryCompanies?.map((deliveryComapany) => {
+              {deliveryCompanies?.map((deliveryCompany) => {
                 return (
                   <MenuItem
-                    key={deliveryComapany.courierCode}
-                    value={deliveryComapany}
+                    key={deliveryCompany.courierCode}
+                    value={deliveryCompany}
                   >
-                    {deliveryComapany?.courierName}
+                    {deliveryCompany?.courierName}
                   </MenuItem>
                 );
               })}
