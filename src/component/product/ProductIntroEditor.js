@@ -132,7 +132,6 @@ export default function ProductIntroEditor({ content }) {
           type="button"
           sx={{ marginRight: 1, color: "black", borderColor: "black" }}
           variant="outlined"
-          // disabled={imgFile === null}
           onClick={() => {
             // [TODO] 상품 소개 미리보기
             window.alert("구현되지 않은 기능입니다.");
@@ -148,7 +147,6 @@ export default function ProductIntroEditor({ content }) {
         <Button
           sx={{ marginRight: 1, fontWeight: "bold" }}
           variant="outlined"
-          // disabled={imgFile === previousImg}
           onClick={uploadButtonClicked}
         >
           업로드
@@ -158,7 +156,6 @@ export default function ProductIntroEditor({ content }) {
           sx={{ marginRight: 1 }}
           color="error"
           variant="outlined"
-          // disabled={imgFile === null}
           onClick={deleteButtonClicked}
         >
           삭제하기
