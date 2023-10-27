@@ -76,10 +76,13 @@ export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
   `/admin/optionDetailOnSale/${optionDetailId}`;
 export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) =>
   `/admin/optionDetail/${optionDetailId}`;
-// - 소개 관리
-export const ADD_PRODUCT_INTRODUCTION = (productId) =>
-  `/admin/product/${productId}/introduction`;
 
+// - 소개 관리
+export const PATCH_PRODUCT_INTRODUCTION = (productId) =>
+  `/admin/product/${productId}/introduction`;
+export const DELETE_PRODUCT_INTRODUCTION = (productId) =>
+  `/admin/product/${productId}/introduction`;
+export const UPLOAD_PRODUCT_IMAGE = () => `/admin/productIntroduction/img`;
 // 가상계좌 관리 api
 export const POST_NEW_VBANK = () => `/admin/vbanks`;
 export const GET_VBANKS = () => `/product/vbanks`;
@@ -87,14 +90,15 @@ export const PUT_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
 export const DELETE_VBANK = (vbankId) => `/admin/vbanks/${vbankId}`;
 
 // 배송비 관리 api
-export const GET_DEFAULT_DELIVERY_FEE = () =>
-  `/product/options/delivery/fee`;
-export const PATCH_DEFAULT_DELIVERY_FEE = () =>
-  `/admin/options/delivery/fee`;
+export const GET_DEFAULT_DELIVERY_FEE = () => `/product/options/delivery/fee`;
+export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/options/delivery/fee`;
 
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
 export const CREATE_LICENSE = () => `/admin/licenseImage`;
-export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
-export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
-export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const DELETE_LICENSE = (licenseImageId) =>
+  `/admin/licenseImage/${licenseImageId}`;
+export const MODIFY_LICENSE = (licenseImageId) =>
+  `/admin/licenseImage/${licenseImageId}`;
+export const GET_DETAIL_LICENSE = (licenseImageId) =>
+  `/admin/licenseImage/${licenseImageId}`;

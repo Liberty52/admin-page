@@ -70,7 +70,7 @@ export default function ProductDetail() {
             />
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
-          <ProductTab introductionImageUrl={product.introductionImageUrl} />
+          <ProductTab content={product.content} />
           <Box />
         </Stack>
       </Box>

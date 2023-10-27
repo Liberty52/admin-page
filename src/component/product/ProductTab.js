@@ -33,7 +33,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ProductTab({ introductionImageUrl }) {
+export default function ProductTab({ content }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -44,9 +44,7 @@ export default function ProductTab({ introductionImageUrl }) {
     {
       value: "intro",
       label: "상품 소개 관리",
-      content: (
-        <ProductIntroPanel introductionImageUrl={introductionImageUrl} />
-      ),
+      content: <ProductIntroPanel content={content} />,
     },
     {
       value: "option",
