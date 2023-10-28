@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Card, Input } from "@mui/joy";
-import { Stack } from "@mui/material";
+import styled from 'styled-components';
+import { Card, Input } from '@mui/joy';
+import { Stack } from '@mui/material';
 
 export const ProductCard = styled(Card)`
   :hover {
@@ -65,8 +65,8 @@ export const ProductOptionTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  text-decoration: ${(props) => (props.onSale ? "none" : "line-through")};
-  color: ${(props) => (props.onSale ? "black" : "rgba(0,0,0,0.3)")};
+  text-decoration: ${(props) => (props.onSale ? 'none' : 'line-through')};
+  color: ${(props) => (props.onSale ? 'black' : 'rgba(0,0,0,0.3)')};
 `;
 
 export const ProductOptionDetailAddButton = styled.div`
@@ -109,7 +109,7 @@ export const ProductOptionItemWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
-  background-color: ${(props) => (props.onSale ? "white" : "#B0B0B0")};
+  background-color: ${(props) => (props.onSale ? 'white' : '#B0B0B0')};
 `;
 export const ProductOptionItemName = styled.div`
   align-items: center;

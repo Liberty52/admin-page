@@ -1,10 +1,10 @@
-import SideNav from "../component/common/side-nav/SideNav";
-import { MainContainer } from "../component/common/MainComponent";
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { ReviewTable } from "../component/review/ReviewTable";
-import { ReviewDialog } from "../component/review/ReviewDialog";
-import { getReviewList } from "../axios/Review";
+import SideNav from '../component/common/side-nav/SideNav';
+import { MainContainer } from '../component/common/MainComponent';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { ReviewTable } from '../component/review/ReviewTable';
+import { ReviewDialog } from '../component/review/ReviewDialog';
+import { getReviewList } from '../axios/Review';
 
 export default function Review() {
   const [data, setData] = useState();
@@ -46,20 +46,20 @@ export default function Review() {
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
       >
-        <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+        <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
           <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" spacing={4}>
+            <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography
-                  sx={{ "font-family": "'Gothic A1', sans-serif !important;" }}
-                  variant="h4"
+                  sx={{ 'font-family': "'Gothic A1', sans-serif !important;" }}
+                  variant='h4'
                 >
                   리뷰
                 </Typography>
@@ -79,12 +79,7 @@ export default function Review() {
           </Stack>
         </Container>
       </Box>
-      <ReviewDialog
-        isChanged={setIsChanged}
-        open={open}
-        handleClose={handleClose}
-        id={reviewId}
-      />
+      <ReviewDialog isChanged={setIsChanged} open={open} handleClose={handleClose} id={reviewId} />
     </MainContainer>
   );
 }

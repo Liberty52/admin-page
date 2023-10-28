@@ -1,24 +1,21 @@
-import "./Orders.css";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  fetchOrders,
-  updateOrder,
-  updateOrderStatus,
-} from "../../axios/Orders";
-import { Checkbox, colors } from "@mui/material";
-import Modal from "react-modal";
-import Button from "../../component/common/Button";
-import Input from "../../component/common/Input";
-import Select from "../../component/common/Select";
+import './Orders.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchOrders, updateOrder, updateOrderStatus } from '../../axios/Orders';
+import { Checkbox, colors } from '@mui/material';
+import Modal from 'react-modal';
+import Button from '../../component/common/Button';
+import Input from '../../component/common/Input';
+import Select from '../../component/common/Select';
+import DeliveryDialog from '../../component/order/delivery/DeliveryDialog';
 
 function Border() {
-  return <div className="order-border"></div>;
+  return <div className='order-border'></div>;
 }
 
 function OrderInquiry() {
   return (
-    <div className="Order-Inquiry-wrapper">
+    <div className='Order-Inquiry-wrapper'>
       <div>주문번호</div>
       <div>주문일시</div>
       <div>상품명</div>
@@ -34,10 +31,12 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   const [totalLastPage, setTotalLastPage] = useState(0);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [depositorBank, setDepositorBank] = useState("");
-  const [depositorName, setDepositorName] = useState("");
-  const [depositorAccount, setDepositorAccount] = useState("");
-  const [newOrderStatus, setNewOrderStatus] = useState("");
+  const [depositorBank, setDepositorBank] = useState('');
+  const [depositorName, setDepositorName] = useState('');
+  const [depositorAccount, setDepositorAccount] = useState('');
+  const [newOrderStatus, setNewOrderStatus] = useState('');
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+  const [deliveryOpen, setDeliveryOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,14 +54,12 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
     navigate(`/order/${orderId}`);
   };
 
-  const [currentOrderId, setCurrentOrderId] = useState(null);
-
   const handleOpenModal = (orderId) => {
     setCurrentOrderId(orderId);
     setModalOpen(true);
-    setDepositorBank("");
-    setDepositorName("");
-    setDepositorAccount("");
+    setDepositorBank('');
+    setDepositorName('');
+    setDepositorAccount('');
   };
 
   const handleCloseModal = async () => {
@@ -76,24 +73,22 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
   };
 
   const handleConfirm = async () => {
-    await updateOrder(
-      currentOrderId,
-      depositorBank,
-      depositorName,
-      depositorAccount
-    );
+    await updateOrder(currentOrderId, depositorBank, depositorName, depositorAccount);
     setCurrentOrderId(null);
-    setDepositorBank("");
-    setDepositorName("");
-    setDepositorAccount("");
+    setDepositorBank('');
+    setDepositorName('');
+    setDepositorAccount('');
     handleCloseModal();
   };
 
   const handleStatusChange = async () => {
     for (const orderId of selectedOrders) {
       await updateOrderStatus(orderId, newOrderStatus);
+      setCurrentOrderId(orderId);
     }
-
+    if (newOrderStatus === 'DELIVERING') {
+      setDeliveryOpen(true);
+    }
     const data = await fetchOrders(currentPage, 10);
     if (data) {
       setOrders(data.orders);
@@ -101,26 +96,30 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
     }
 
     setSelectedOrders([]);
-    setNewOrderStatus("");
+    setNewOrderStatus('');
+  };
+
+  const closeDeliveryDialog = () => {
+    setDeliveryOpen(false);
   };
 
   return (
     <>
-      <div className="order-change-status">
+      <div className='order-change-status'>
         <Select
           value={newOrderStatus}
           onChange={setNewOrderStatus}
           options={[
-            { value: "", label: "주문 상태 선택" },
-            { value: "MAKING", label: "제작중" },
-            { value: "DELIVERING", label: "배송시작" },
-            { value: "COMPLETE", label: "배송완료" },
+            { value: '', label: '주문 상태 선택' },
+            { value: 'MAKING', label: '제작중' },
+            { value: 'DELIVERING', label: '배송시작' },
+            { value: 'COMPLETE', label: '배송완료' },
           ]}
         />
-        <Button onClick={handleStatusChange} text="변경" />
+        <Button onClick={handleStatusChange} text='변경' />
       </div>
 
-      <div className="order-select">
+      <div className='order-select'>
         <OrderInquiry />
         <Border />
         {orders.length > 0 ? (
@@ -130,7 +129,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
               key={order.orderId}
               onClick={() => handleOrderClick(order.orderId)}
             >
-              <div className="order_select_checkbox">
+              <div className='order_select_checkbox'>
                 <Checkbox
                   onClick={(e) => e.stopPropagation()}
                   onChange={(e) => {
@@ -149,22 +148,20 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
               <p>{order.orderDate}</p>
               <p>{order.productName}</p>
 
-              {order.orderStatus === "입금대기" ? (
-                <div className="OrderStatus">
+              {order.orderStatus === '입금대기' ? (
+                <div className='OrderStatus'>
                   <p>{order.orderStatus}</p>
                   <Button
-                    className="orderStatus-Button"
+                    className='orderStatus-Button'
                     onClick={(e) => {
                       e.stopPropagation();
                       handleOpenModal(order.orderId);
                     }}
-                    text="입금 확인"
+                    text='입금 확인'
                   />
                 </div>
               ) : (
-                <p className={`order-status ${order.orderStatus}`}>
-                  {order.orderStatus}
-                </p>
+                <p className={`order-status ${order.orderStatus}`}>{order.orderStatus}</p>
               )}
               <p>{order.customerName}</p>
             </button>
@@ -173,10 +170,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           <p>데이터가 없습니다.</p>
         )}
 
-        <div className="pagination">
+        <div className='pagination'>
           {[...Array(totalLastPage)].map((_, i) => (
             <button
-              className={`paginationBT ${currentPage === i ? "active" : ""}`}
+              className={`paginationBT ${currentPage === i ? 'active' : ''}`}
               key={i}
               onClick={() => setCurrentPage(i)}
             >
@@ -185,19 +182,25 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
           ))}
         </div>
       </div>
-
+      {deliveryOpen && (
+        <DeliveryDialog
+          orderId={currentOrderId}
+          open={deliveryOpen}
+          onClose={closeDeliveryDialog}
+        />
+      )}
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Update Order Modal"
-        className="myContent"
+        contentLabel='Update Order Modal'
+        className='myContent'
       >
-        <h2 className="order-modal-h2">가상 계좌 정보 입력</h2>
+        <h2 className='order-modal-h2'>가상 계좌 정보 입력</h2>
         <Input
-          type="text"
-          name="Bank"
-          label="Bank"
-          placeholder="Bank"
+          type='text'
+          name='Bank'
+          label='Bank'
+          placeholder='Bank'
           value={depositorBank}
           onChange={(e) => {
             setDepositorBank(e.target.value);
@@ -205,10 +208,10 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         />
 
         <Input
-          type="text"
-          name="Name"
-          label="Name"
-          placeholder="Name"
+          type='text'
+          name='Name'
+          label='Name'
+          placeholder='Name'
           value={depositorName}
           onChange={(e) => {
             setDepositorName(e.target.value);
@@ -216,18 +219,18 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
         />
 
         <Input
-          type="text"
-          name="Account"
-          label="Account"
-          placeholder="Account"
+          type='text'
+          name='Account'
+          label='Account'
+          placeholder='Account'
           value={depositorAccount}
           onChange={(e) => {
             setDepositorAccount(e.target.value);
           }}
         />
 
-        <Button onClick={handleConfirm} text="제출" />
-        <Button onClick={handleCloseModal} text="취소" />
+        <Button onClick={handleConfirm} text='제출' />
+        <Button onClick={handleCloseModal} text='취소' />
       </Modal>
     </>
   );
@@ -235,12 +238,7 @@ function OrderSelect({ selectedOrders, setSelectedOrders }) {
 
 export default function Orders() {
   const [selectedOrders, setSelectedOrders] = useState([]);
-  const [newOrderStatus, setNewOrderStatus] = useState("");
+  const [newOrderStatus, setNewOrderStatus] = useState('');
 
-  return (
-    <OrderSelect
-      selectedOrders={selectedOrders}
-      setSelectedOrders={setSelectedOrders}
-    />
-  );
+  return <OrderSelect selectedOrders={selectedOrders} setSelectedOrders={setSelectedOrders} />;
 }

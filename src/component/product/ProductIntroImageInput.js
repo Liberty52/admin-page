@@ -1,22 +1,22 @@
-import "./ProductIntroImageInput.css";
-import Button from "../common/Button";
-import plus from "../../image/icon/plus.png";
+import './ProductIntroImageInput.css';
+import Button from '../common/Button';
+import plus from '../../image/icon/plus.png';
 
 export default function ImageInput(props) {
   const { imgFile, setImgFile } = props;
 
   const reader = new FileReader();
   return (
-    <div id="product-intro-image-input">
+    <div id='product-intro-image-input'>
       <label
-        style={{ width: imgFile ? "70%" : 300 }}
-        className={imgFile ? "image-input value" : "image-input"}
+        style={{ width: imgFile ? '70%' : 300 }}
+        className={imgFile ? 'image-input value' : 'image-input'}
       >
         <input
-          className="image-input-input"
-          type="file"
-          name="file"
-          accept="image/*"
+          className='image-input-input'
+          type='file'
+          name='file'
+          accept='image/*'
           onChange={(e) => {
             const file = e.currentTarget.files[0];
             if (file) {
@@ -29,21 +29,21 @@ export default function ImageInput(props) {
             }
           }}
         />
-        <div className="image-crop">
+        <div className='image-crop'>
           <Button
-            type="button"
-            text="삭제"
+            type='button'
+            text='삭제'
             onClick={(e) => {
               const label = e.target.parentNode.parentNode;
               const input = label.children[0];
-              input.value = "";
+              input.value = '';
               setImgFile(null);
             }}
           />
           <img
-            className="image-preview"
+            className='image-preview'
             src={imgFile ? imgFile : plus}
-            alt="product-introduction-img"
+            alt='product-introduction-img'
           />
         </div>
       </label>

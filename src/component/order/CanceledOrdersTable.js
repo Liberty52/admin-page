@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Paper,
   Table,
@@ -9,10 +9,10 @@ import {
   TableRow,
   IconButton,
   Checkbox,
-} from "@mui/material";
-import { PageContainer, Page } from "./index";
-import { getCanceledOrders } from "../../axios/Orders";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { PageContainer, Page } from './index';
+import { getCanceledOrders } from '../../axios/Orders';
+import { useNavigate } from 'react-router-dom';
 
 export default function CanceledOrdersTable({
   page,
@@ -49,7 +49,7 @@ export default function CanceledOrdersTable({
             d.customerName,
             d.reqAt,
             d.canceledAt,
-            d.approvedAdminName
+            d.approvedAdminName,
           );
           setRows((rows) => [...rows, row]);
           setOrderIds((orderIds) => [...orderIds, d.orderId]);
@@ -67,7 +67,7 @@ export default function CanceledOrdersTable({
     customerName,
     reqAt,
     canceledAt,
-    approvedAdminName
+    approvedAdminName,
   ) {
     return {
       orderId,
@@ -83,28 +83,28 @@ export default function CanceledOrdersTable({
   }
 
   const columns = [
-    { id: "orderNumber", label: "주문번호" },
-    { id: "orderDate", label: "주문일시" },
-    { id: "productName", label: "상품명" },
+    { id: 'orderNumber', label: '주문번호' },
+    { id: 'orderDate', label: '주문일시' },
+    { id: 'productName', label: '상품명' },
     {
-      id: "orderStatus",
-      label: "주문상태",
+      id: 'orderStatus',
+      label: '주문상태',
     },
     {
-      id: "customerName",
-      label: "구매자명",
+      id: 'customerName',
+      label: '구매자명',
     },
     {
-      id: "reqAt",
-      label: "요청일시",
+      id: 'reqAt',
+      label: '요청일시',
     },
     {
-      id: "canceledAt",
-      label: "취소일시",
+      id: 'canceledAt',
+      label: '취소일시',
     },
     {
-      id: "approvedAdminName",
-      label: "담당자명",
+      id: 'approvedAdminName',
+      label: '담당자명',
     },
   ];
 
@@ -124,7 +124,7 @@ export default function CanceledOrdersTable({
     if (checkedOrderId.includes(orderId)) return true;
     return false;
   };
-  
+
   const handleChangePage = (e, newPage) => {
     e.preventDefault();
     setPage(newPage);
@@ -134,7 +134,7 @@ export default function CanceledOrdersTable({
     return (
       <PageContainer>
         <IconButton
-          sx={{ visibility: !hasPage.hasPrev && "hidden" }}
+          sx={{ visibility: !hasPage.hasPrev && 'hidden' }}
           onClick={(e) => {
             handleChangePage(e, page - 1);
           }}
@@ -143,7 +143,7 @@ export default function CanceledOrdersTable({
         </IconButton>
         <Page>{page}</Page>
         <IconButton
-          sx={{ visibility: !hasPage.hasNext && "hidden" }}
+          sx={{ visibility: !hasPage.hasNext && 'hidden' }}
           onClick={(e) => {
             handleChangePage(e, page + 1);
           }}
@@ -155,9 +155,9 @@ export default function CanceledOrdersTable({
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer>
-        <Table aria-label="customer table">
+        <Table aria-label='customer table'>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -168,7 +168,7 @@ export default function CanceledOrdersTable({
                       selectAllOrders();
                     }}
                     inputProps={{
-                      "aria-label": "select all orders",
+                      'aria-label': 'select all orders',
                     }}
                   />
                 )}
@@ -176,7 +176,7 @@ export default function CanceledOrdersTable({
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align="center"
+                  align='center'
                   style={{
                     minWidth: column.minWidth,
                     maxWidth: column.maxWidth,
@@ -189,9 +189,7 @@ export default function CanceledOrdersTable({
           </TableHead>
           <TableBody>
             {rows.length === 0 ? (
-              <TableRow sx={{ display: "block", padding: "16px" }}>
-                데이터가 없습니다
-              </TableRow>
+              <TableRow sx={{ display: 'block', padding: '16px' }}>데이터가 없습니다</TableRow>
             ) : (
               rows.map((row) => {
                 return (
@@ -212,7 +210,7 @@ export default function CanceledOrdersTable({
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align="center">
+                        <TableCell key={column.id} align='center'>
                           {value}
                         </TableCell>
                       );
