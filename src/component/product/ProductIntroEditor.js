@@ -15,7 +15,7 @@ import {
 } from "../../axios/Product";
 import { useParams } from "react-router-dom";
 
-export default function ProductIntroEditor({ content }) {
+export default function ProductIntroEditor({ content, setContent }) {
   const { productId } = useParams();
 
   const MAX_HTML_SIZE = 10000;
@@ -67,7 +67,7 @@ export default function ProductIntroEditor({ content }) {
     const response = await patchProductIntroduction(productId, data);
     if (response.status === 204) {
       alert("소개글 업로드 성공!");
-      window.location.reload();
+      setContent(data);
     } else {
       alert(`[${response.status} ERROR] 소개글 업로드 실패.`);
     }
@@ -88,7 +88,8 @@ export default function ProductIntroEditor({ content }) {
     const response = await deleteProductIntroduction(productId);
     if (response.status === 200) {
       alert("소개글 삭제 완료!");
-      window.location.reload();
+      editor.setHTML("");
+      setContent("");
     } else {
       alert(`[${response.status} ERROR] 소개글 삭제 실패.`);
     }

@@ -33,7 +33,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ProductTab({ content }) {
+export default function ProductTab({ content, setContent }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -44,7 +44,7 @@ export default function ProductTab({ content }) {
     {
       value: "intro",
       label: "상품 소개 관리",
-      content: <ProductIntroPanel content={content} />,
+      content: <ProductIntroPanel content={content} setContent={setContent} />,
     },
     {
       value: "option",

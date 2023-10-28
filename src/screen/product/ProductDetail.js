@@ -21,11 +21,13 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
+  const [introContent, setIntroContent] = useState("");
 
   const detailEffect = async () => {
     try {
       const response = await retrieveProductDetail(productId);
       setProduct(response.data);
+      setIntroContent(response.data.content);
     } catch (e) {
       console.error(e);
     }
@@ -70,7 +72,7 @@ export default function ProductDetail() {
             />
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
-          <ProductTab content={product.content} />
+          <ProductTab content={introContent} setContent={setIntroContent} />
           <Box />
         </Stack>
       </Box>
