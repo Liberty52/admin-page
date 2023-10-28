@@ -124,8 +124,9 @@ export default function ProductOptionPanel() {
       </Stack>
       {/*옵션 공간*/}
       <Stack direction={"row"} flexWrap={"wrap"} useFlexGap spacing={2}>
-        {options.map((o) => (
+        {options.map((o, i) => (
           <ProductOption
+            key={i}
             option={o}
             onOptionDetailAddButtonClicked={onOptionDetailAddButtonClicked}
             onOptionDetailEditButtonClicked={onOptionDetailModifyButtonClicked}

@@ -31,10 +31,10 @@ export default function Product() {
 
   const getProduct = () => {
     effect();
-  }
+  };
   const openLicenseOpen = () => {
     setOpen(true);
-  }
+  };
   const closeLicenseOption = () => {
     setOpen(false);
   };
@@ -63,7 +63,7 @@ export default function Product() {
                   sx={{ fontWeight: "bold" }}
                   variant="outlined"
                   onClick={openLicenseOpen}
-                 />
+                />
               </ProductAddButtonWrapper>
             </ProductHeaderWrapper>
 
@@ -76,10 +76,11 @@ export default function Product() {
               {product !== undefined ? (
                 product?.map((p) => (
                   <ProductItem
+                    key={p.id}
                     id={p.id}
                     name={p.name}
                     price={p.price}
-                    stock = {p.stock}
+                    stock={p.stock}
                     rating={p.meanRating}
                     nOfRating={p.ratingCount}
                     img={p.pictureUrl}
@@ -93,9 +94,9 @@ export default function Product() {
             </ProductBox>
             <Stack>
               <LicenseOption
-              open={open}
-              onClose={closeLicenseOption}
-              getProduct={getProduct}
+                open={open}
+                onClose={closeLicenseOption}
+                getProduct={getProduct}
               />
             </Stack>
           </Container>
@@ -104,5 +105,3 @@ export default function Product() {
     </>
   );
 }
-
-

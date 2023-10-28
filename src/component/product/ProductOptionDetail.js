@@ -60,7 +60,7 @@ export default function ProductOptionDetail({
         onMouseEnter={onMouseOn}
         onMouseLeave={onMouseOut}
       >
-        <ProductOptionItemWrapper onSale={detail.onSale}>
+        <ProductOptionItemWrapper>
           <ProductOptionItemName>
             {detail.optionDetailName}
           </ProductOptionItemName>

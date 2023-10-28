@@ -64,6 +64,7 @@ export const NoticeTable = (props) => {
             {items.map((notice, idx) => {
               return (
                 <PointeredRow
+                  key={idx}
                   hover
                   onClick={() => navigateDetail(notice.noticeId)}
                 >
@@ -95,6 +96,7 @@ export const NoticeTable = (props) => {
         ></Button>
         {pageNumberArray.map((i) => (
           <Button
+            key={i}
             variant={page + 1 === i ? "contained" : "text"}
             onClick={onPageChange}
           >
