@@ -22,6 +22,7 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
+  const [introContent, setIntroContent] = useState("");
 
   const detailEffect = async () => {
     try {
