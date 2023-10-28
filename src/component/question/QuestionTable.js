@@ -4,15 +4,11 @@ import {
   Card,
   Stack,
   SvgIcon,
-  Table,
   TableBody,
-  TableCell,
   TableHead,
-  TableRow,
-} from "@mui/material";
-import styled from "styled-components";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import { convertQuestionStatus } from "../../utils";
+} from '@mui/material';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
+import { convertQuestionStatus } from '../../utils';
 import {
   MediumTableCell,
   PointeredRow,
@@ -20,7 +16,7 @@ import {
   QuestionTableHeader,
   QuestionTableWrapper,
   SmallTableCell,
-} from "./index";
+} from './index';
 
 export const QuestionTable = (props) => {
   const {
@@ -58,9 +54,7 @@ export const QuestionTable = (props) => {
                   {/*제목*/}
                   <QuestionTableCell>{question.title}</QuestionTableCell>
                   {/*상태*/}
-                  <SmallTableCell>
-                    {convertQuestionStatus(question.status)}
-                  </SmallTableCell>
+                  <SmallTableCell>{convertQuestionStatus(question.status)}</SmallTableCell>
                   {/*작성시간*/}
                   <SmallTableCell>{question.createdAt}</SmallTableCell>
                 </PointeredRow>
@@ -69,12 +63,7 @@ export const QuestionTable = (props) => {
           </TableBody>
         </QuestionTableWrapper>
       </Box>
-      <Stack
-        sx={{ padding: "15px 0px" }}
-        direction={"row"}
-        justifyContent={"center"}
-        spacing={1}
-      >
+      <Stack sx={{ padding: '15px 0px' }} direction={'row'} justifyContent={'center'} spacing={1}>
         <Button
           startIcon={
             <SvgIcon>
@@ -84,11 +73,7 @@ export const QuestionTable = (props) => {
           onClick={onMinusPageButtonClicked}
         ></Button>
         {pageNumberArray.map((i) => (
-          <Button
-            key={i}
-            variant={page + 1 === i ? "contained" : "text"}
-            onClick={onPageChange}
-          >
+          <Button key={i} variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
             {i}
           </Button>
         ))}

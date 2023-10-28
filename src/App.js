@@ -1,15 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Main from "./screen/Main";
-import Question from "./screen/Question";
-import Review from "./screen/Review";
-import Order from "./screen/Order";
-import OrderDetail from "./screen/orders/OrderDetail";
-import "./App.css";
-import Login from "./screen/login/Login";
-import Customer from "./screen/Customer";
-import Notice from "./screen/Notice";
-import NoticeEditor from "./component/notice/NoticeEditor";
-import NoticeDetail from "./component/notice/NoticeDetail";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Main from './screen/Main';
+import Question from './screen/Question';
+import Review from './screen/Review';
+import Order from './screen/Order';
+import OrderDetail from './screen/orders/OrderDetail';
+import './App.css';
+import Login from './screen/login/Login';
+import Customer from './screen/Customer';
+import Notice from './screen/Notice';
+import NoticeEditor from './component/notice/NoticeEditor';
+import NoticeDetail from './component/notice/NoticeDetail';
 import {
   MAIN,
   LOGIN,
@@ -25,10 +25,10 @@ import {
   PATH_PRODUCT,
   PATH_PRODUCT_DETAIL,
   LICENSE,
-} from "./constants/path";
-import Product from "./screen/product/Product";
-import ProductDetail from "./screen/product/ProductDetail";
-import License from "./screen/License";
+} from './constants/path';
+import Product from './screen/product/Product';
+import ProductDetail from './screen/product/ProductDetail';
+import License from './screen/License';
 
 function App() {
   return (

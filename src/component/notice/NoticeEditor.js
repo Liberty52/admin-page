@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   CurrentHtmlSizeSpan,
   HTMLEditor,
@@ -10,28 +10,23 @@ import {
   QuestionEditorHeader,
   QuestionPageButton,
   QuestionPageButtonWrapper,
-} from "./style/QuestionComponent";
-import { Input } from "antd";
-import { Editor } from "@toast-ui/editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
-import { ModalMode } from "../../constants/mode";
-import { useNavigate } from "react-router";
-import {
-  createNotice,
-  getNoticeDetail,
-  updateNotice,
-  uploadImage,
-} from "../../axios/Notice";
-import "./NoticeEditor.css";
+} from './style/QuestionComponent';
+import { Input } from 'antd';
+import { Editor } from '@toast-ui/editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
+import { ModalMode } from '../../constants/mode';
+import { useNavigate } from 'react-router';
+import { createNotice, getNoticeDetail, updateNotice, uploadImage } from '../../axios/Notice';
+import './NoticeEditor.css';
 
 export default function NoticeEditor() {
   const MAX_HTML_SIZE = 10000;
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [htmlSize, setHtmlSize] = useState(0);
   const [exceed, setExceed] = useState(false);
   const [prevData, setPrevData] = useState();
@@ -44,7 +39,7 @@ export default function NoticeEditor() {
     const mode = location.state.mode;
     let data;
     if (mode === ModalMode.ADD) {
-      data = " ";
+      data = ' ';
     } else {
       let PREV_DATA;
       await getNoticeDetail(location.state.id).then((res) => {
@@ -59,19 +54,19 @@ export default function NoticeEditor() {
       setAllowComments(PREV_DATA.commentable);
     }
     editor = new Editor({
-      el: document.querySelector("#editor"),
-      previewStyle: "vertical",
-      height: "500px",
-      initialEditType: "wysiwyg",
+      el: document.querySelector('#editor'),
+      previewStyle: 'vertical',
+      height: '500px',
+      initialEditType: 'wysiwyg',
       initialValue: data,
-      language: "ko-KR",
+      language: 'ko-KR',
       hideModeSwitch: true,
       autofocus: false,
       toolbarItems: [
-        ["heading", "bold", "italic", "strike"],
-        ["hr", "quote"],
-        ["ul", "ol", "task"],
-        ["table", "image", "link"],
+        ['heading', 'bold', 'italic', 'strike'],
+        ['hr', 'quote'],
+        ['ul', 'ol', 'task'],
+        ['table', 'image', 'link'],
       ],
       events: {
         change: editorHTMLChanged,
@@ -80,7 +75,7 @@ export default function NoticeEditor() {
         addImageBlobHook: (blob, callback) => uploadImages(blob, callback),
       },
     });
-    if (isMobile) editor.setHeight("300px");
+    if (isMobile) editor.setHeight('300px');
   };
   useEffect(() => {
     effect();
@@ -109,7 +104,7 @@ export default function NoticeEditor() {
   }
 
   function updateQuestionButtonClikced() {
-    alert("수정됐습니다!");
+    alert('수정됐습니다!');
     const data = {
       title: title,
       content: content,
@@ -119,7 +114,7 @@ export default function NoticeEditor() {
   }
 
   function addQuestion() {
-    alert("공지사항이 추가되었습니다!");
+    alert('공지사항이 추가되었습니다!');
 
     const data = {
       title: title,
@@ -130,11 +125,11 @@ export default function NoticeEditor() {
   }
   const validateTitle = () => {
     if (title.length < 1) {
-      alert("제목을 작성해주세요!");
+      alert('제목을 작성해주세요!');
       return false;
     }
     if (title.length > 50) {
-      alert("제목은 50자를 초과할 수 없습니다.");
+      alert('제목은 50자를 초과할 수 없습니다.');
       return false;
     }
     return true;
@@ -153,7 +148,7 @@ export default function NoticeEditor() {
 
   function validateContent() {
     if (contentValidator()) {
-      alert("내용을 입력해주세요");
+      alert('내용을 입력해주세요');
       return false;
     }
     return true;
@@ -161,11 +156,11 @@ export default function NoticeEditor() {
 
   function contentValidator() {
     let stack = [];
-    let v = "";
+    let v = '';
     for (let i = 0; i < content.length; i++) {
-      if (content.charAt(i) === "<") {
+      if (content.charAt(i) === '<') {
         stack.push(content.charAt(i));
-      } else if (content.charAt(i) === ">") {
+      } else if (content.charAt(i) === '>') {
         stack = [];
       } else if (stack.length === 0) v = v + content.charAt(i);
     }
@@ -189,50 +184,44 @@ export default function NoticeEditor() {
         <QuestEditorTitleInput
           autoFocus
           value={title}
-          type={"text"}
-          placeholder={"제목을 입력해주세요"}
+          type={'text'}
+          placeholder={'제목을 입력해주세요'}
           onChange={titleInputChanged}
         />
-        <HTMLEditor id={"editor"}></HTMLEditor>
+        <HTMLEditor id={'editor'}></HTMLEditor>
         <HTMLSizeLimiter>
           <div>
-            <CurrentHtmlSizeSpan isExeed={exceed}>
-              {htmlSize}
-            </CurrentHtmlSizeSpan>
+            <CurrentHtmlSizeSpan isExeed={exceed}>{htmlSize}</CurrentHtmlSizeSpan>
             <span> / {MAX_HTML_SIZE}</span>
           </div>
         </HTMLSizeLimiter>
         <div
           style={{
-            display: "flex",
-            width: "100%",
+            display: 'flex',
+            width: '100%',
           }}
         >
           <label
             style={{
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
             }}
           >
-            <span style={{ width: "initial", marginRight: "10px" }}>
-              댓글 작성 허용
-            </span>
+            <span style={{ width: 'initial', marginRight: '10px' }}>댓글 작성 허용</span>
             <Input
-              type="checkbox"
+              type='checkbox'
               onChange={(e) => {
                 onChangeCheck(e.target.checked);
               }}
-              style={{ width: "initial" }}
+              style={{ width: 'initial' }}
             />
           </label>
         </div>
         <QuestionPageButtonWrapper>
-          <MoveToListButton onClick={moveToListButtonClicked}>
-            뒤로가기
-          </MoveToListButton>
+          <MoveToListButton onClick={moveToListButtonClicked}>뒤로가기</MoveToListButton>
           <QuestionPageButton onClick={editorActionButtonClicked}>
-            {location.state.mode === ModalMode.EDIT ? "수정하기" : "작성하기"}
+            {location.state.mode === ModalMode.EDIT ? '수정하기' : '작성하기'}
           </QuestionPageButton>
         </QuestionPageButtonWrapper>
       </QuestionContainer>

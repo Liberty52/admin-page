@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Paper,
   Table,
@@ -9,9 +9,9 @@ import {
   TableRow,
   Avatar,
   IconButton,
-} from "@mui/material";
-import { PageContainer, Page } from "./index";
-import { getCustomerList } from "../../axios/Customer";
+} from '@mui/material';
+import { PageContainer, Page } from './index';
+import { getCustomerList } from '../../axios/Customer';
 
 export const CustomerTable = (props) => {
   const [rows, setRows] = useState([]);
@@ -33,7 +33,7 @@ export const CustomerTable = (props) => {
             i + 1,
             <Avatar
               key={i}
-              alt="프로필 이미지"
+              alt='프로필 이미지'
               src={d.profileUrl}
               sx={{ width: 45, height: 45 }}
             >
@@ -42,7 +42,7 @@ export const CustomerTable = (props) => {
             d.name,
             d.email,
             d.phoneNumber,
-            d.createdAt
+            d.createdAt,
           );
           setRows((rows) => [...rows, row]);
         });
@@ -55,22 +55,22 @@ export const CustomerTable = (props) => {
   }
 
   const columns = [
-    { id: "n", label: "No.", maxWidth: 50 },
-    { id: "profileUrl", label: "프로필", minWidth: 70 },
-    { id: "name", label: "이름", maxWidth: 150 },
+    { id: 'n', label: 'No.', maxWidth: 50 },
+    { id: 'profileUrl', label: '프로필', minWidth: 70 },
+    { id: 'name', label: '이름', maxWidth: 150 },
     {
-      id: "email",
-      label: "이메일",
+      id: 'email',
+      label: '이메일',
       minWidth: 170,
     },
     {
-      id: "phoneNumber",
-      label: "전화번호",
+      id: 'phoneNumber',
+      label: '전화번호',
       minWidth: 120,
     },
     {
-      id: "createdAt",
-      label: "가입 날짜",
+      id: 'createdAt',
+      label: '가입 날짜',
       minWidth: 110,
     },
   ];
@@ -84,16 +84,16 @@ export const CustomerTable = (props) => {
     e.preventDefault();
     if (sort[key] === undefined) isDesc = false;
     switch (key) {
-      case "name":
+      case 'name':
         setSort({ name: isDesc });
         break;
-      case "email":
+      case 'email':
         setSort({ email: isDesc });
         break;
-      case "phoneNumber":
+      case 'phoneNumber':
         setSort({ phoneNumber: isDesc });
         break;
-      case "createdAt":
+      case 'createdAt':
         setSort({ createdAt: isDesc });
         break;
     }
@@ -103,7 +103,7 @@ export const CustomerTable = (props) => {
     return (
       <PageContainer>
         <IconButton
-          sx={{ visibility: !hasPage.hasPrev && "hidden" }}
+          sx={{ visibility: !hasPage.hasPrev && 'hidden' }}
           onClick={(e) => {
             handleChangePage(e, page - 1);
           }}
@@ -112,7 +112,7 @@ export const CustomerTable = (props) => {
         </IconButton>
         <Page>{page}</Page>
         <IconButton
-          sx={{ visibility: !hasPage.hasNext && "hidden" }}
+          sx={{ visibility: !hasPage.hasNext && 'hidden' }}
           onClick={(e) => {
             handleChangePage(e, page + 1);
           }}
@@ -124,9 +124,9 @@ export const CustomerTable = (props) => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer>
-        <Table aria-label="customer table">
+        <Table aria-label='customer table'>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -143,10 +143,8 @@ export const CustomerTable = (props) => {
                 >
                   {column.label}
                   {sort[column.id] !== undefined && (
-                    <IconButton
-                      sx={{ fontSize: 15, position: "relative", bottom: 3 }}
-                    >
-                      {sort[column.id] ? "↑" : "↓"}
+                    <IconButton sx={{ fontSize: 15, position: 'relative', bottom: 3 }}>
+                      {sort[column.id] ? '↑' : '↓'}
                     </IconButton>
                   )}
                 </TableCell>
@@ -155,9 +153,7 @@ export const CustomerTable = (props) => {
           </TableHead>
           <TableBody>
             {rows.length === 0 ? (
-              <TableRow sx={{ display: "block", padding: "16px" }}>
-                데이터가 없습니다
-              </TableRow>
+              <TableRow sx={{ display: 'block', padding: '16px' }}>데이터가 없습니다</TableRow>
             ) : (
               <></>
             )}

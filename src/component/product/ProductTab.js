@@ -1,15 +1,15 @@
-import { Box, Tabs, Tab } from "@mui/material";
-import PropTypes from "prop-types";
-import { useState } from "react";
-import ProductIntroPanel from "./ProductIntroPanel";
-import ProductOptionPanel from "./ProductOptionPanel";
+import { Box, Tabs, Tab } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import ProductIntroPanel from './ProductIntroPanel';
+import ProductOptionPanel from './ProductOptionPanel';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`product-tabpanel-${index}`}
       aria-labelledby={`product-tab-${index}`}
@@ -29,7 +29,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `product-tab-${index}`,
-    "aria-controls": `product-tabpanel-${index}`,
+    'aria-controls': `product-tabpanel-${index}`,
   };
 }
 
@@ -42,31 +42,26 @@ export default function ProductTab({ content, setContent }) {
 
   const tabConfigs = [
     {
-      value: "intro",
-      label: "상품 소개 관리",
+      value: 'intro',
+      label: '상품 소개 관리',
       content: <ProductIntroPanel content={content} setContent={setContent} />,
     },
     {
-      value: "option",
-      label: "상품 옵션 관리",
+      value: 'option',
+      label: '상품 옵션 관리',
       content: <ProductOptionPanel />,
     },
   ];
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          sx={{ mt: 7 }}
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs sx={{ mt: 7 }} value={value} onChange={handleChange} aria-label='basic tabs example'>
           {tabConfigs.map((t, i, arr) => {
             return (
               <Tab
                 key={i}
-                sx={{ fontSize: 20, fontWeight: "bold" }}
+                sx={{ fontSize: 20, fontWeight: 'bold' }}
                 label={t.label}
                 {...a11yProps(i)}
               />

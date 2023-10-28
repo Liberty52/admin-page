@@ -1,9 +1,9 @@
-import axios from "axios";
-import { TOKEN_REFRESH } from "../constants/api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/token";
-import { GLOBAL_ERROR } from "../constants/error-name";
+import axios from 'axios';
+import { TOKEN_REFRESH } from '../constants/api';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token';
+import { GLOBAL_ERROR } from '../constants/error-name';
 
-const request = axios.create({ baseURL: "https://liberty52.com:444/" });
+const request = axios.create({ baseURL: 'https://liberty52.com:444/' });
 
 request.interceptors.response.use(
   (response) => {
@@ -11,16 +11,14 @@ request.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 401) {
-      if (
-        error.response.data.error_name === GLOBAL_ERROR.ACCESS_TOKEN_EXPIRED
-      ) {
+      if (error.response.data.error_name === GLOBAL_ERROR.ACCESS_TOKEN_EXPIRED) {
         const originalRequest = error.config;
         const refreshToken = localStorage.getItem(REFRESH_TOKEN);
         if (refreshToken === null) {
-          alert("인증 토큰이 만료되었습니다. 다시 로그인 후 이용해주세요.");
+          alert('인증 토큰이 만료되었습니다. 다시 로그인 후 이용해주세요.');
           sessionStorage.removeItem(ACCESS_TOKEN);
           localStorage.removeItem(REFRESH_TOKEN);
-          window.location.href = "/";
+          window.location.href = '/';
           return Promise.reject(error);
         }
         try {
@@ -28,9 +26,9 @@ request.interceptors.response.use(
             TOKEN_REFRESH(), // token refresh api
             {
               headers: {
-                "LB-RefreshToken": refreshToken,
+                'LB-RefreshToken': refreshToken,
               },
-            }
+            },
           );
           sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
           localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
@@ -40,13 +38,13 @@ request.interceptors.response.use(
         } catch (e) {
           sessionStorage.removeItem(ACCESS_TOKEN);
           localStorage.removeItem(REFRESH_TOKEN);
-          alert("다시 로그인해주세요");
-          window.location.href = "/login";
+          alert('다시 로그인해주세요');
+          window.location.href = '/login';
         }
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default request;

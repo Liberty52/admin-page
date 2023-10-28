@@ -4,15 +4,12 @@ import {
   Card,
   Stack,
   SvgIcon,
-  Table,
   TableBody,
-  TableCell,
   TableHead,
-  TableRow,
-} from "@mui/material";
-import styled from "styled-components";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import { convertQuestionStatus } from "../../utils";
+} from '@mui/material';
+import styled from 'styled-components';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
+import { convertQuestionStatus } from '../../utils';
 import {
   MediumTableCell,
   PointeredRow,
@@ -20,9 +17,9 @@ import {
   QuestionTableHeader,
   QuestionTableWrapper,
   SmallTableCell,
-} from "./index";
-import { useNavigate } from "react-router-dom";
-import { ModalMode } from "../../constants/mode";
+} from './index';
+import { useNavigate } from 'react-router-dom';
+import { ModalMode } from '../../constants/mode';
 
 export const NoticeTable = (props) => {
   const {
@@ -38,7 +35,7 @@ export const NoticeTable = (props) => {
 
   const navigate = useNavigate();
   const navigateWrite = () => {
-    navigate("/notice/editor", {
+    navigate('/notice/editor', {
       state: {
         mode: ModalMode.ADD,
       },
@@ -46,7 +43,7 @@ export const NoticeTable = (props) => {
   };
 
   const navigateDetail = (id) => {
-    navigate("/notice/detail", { state: id });
+    navigate('/notice/detail', { state: id });
   };
 
   return (
@@ -63,14 +60,8 @@ export const NoticeTable = (props) => {
           <TableBody>
             {items.map((notice, idx) => {
               return (
-                <PointeredRow
-                  key={idx}
-                  hover
-                  onClick={() => navigateDetail(notice.noticeId)}
-                >
-                  <MediumTableCell>
-                    {totalCount - (page * 10 + 1 + idx) + 1}
-                  </MediumTableCell>
+                <PointeredRow key={idx} hover onClick={() => navigateDetail(notice.noticeId)}>
+                  <MediumTableCell>{totalCount - (page * 10 + 1 + idx) + 1}</MediumTableCell>
                   <QuestionTableCell>{notice.title}</QuestionTableCell>
                   <MediumTableCell>{notice.createdAt}</MediumTableCell>
                 </PointeredRow>
@@ -80,12 +71,7 @@ export const NoticeTable = (props) => {
         </QuestionTableWrapper>
         <Button onClick={navigateWrite}> 작성하기 </Button>
       </Box>
-      <Stack
-        sx={{ padding: "15px 0px" }}
-        direction={"row"}
-        justifyContent={"center"}
-        spacing={1}
-      >
+      <Stack sx={{ padding: '15px 0px' }} direction={'row'} justifyContent={'center'} spacing={1}>
         <Button
           startIcon={
             <SvgIcon>
@@ -95,11 +81,7 @@ export const NoticeTable = (props) => {
           onClick={onMinusPageButtonClicked}
         ></Button>
         {pageNumberArray.map((i) => (
-          <Button
-            key={i}
-            variant={page + 1 === i ? "contained" : "text"}
-            onClick={onPageChange}
-          >
+          <Button key={i} variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
             {i}
           </Button>
         ))}

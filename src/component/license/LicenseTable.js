@@ -8,44 +8,40 @@ import {
   TableContainer,
   Card,
   Rating,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
 export const LicenseTable = (props) => {
-  const {
-    name,
-    price,
-    state,
-    nOfRating,
-    meanRate,
-    custom
-  } = props;
+  const { name, price, state, nOfRating, meanRate, custom } = props;
 
-  const [stateText, setStateText] = useState("");
-  const [customText, setCustomText] = useState("");
+  const [stateText, setStateText] = useState('');
+  const [customText, setCustomText] = useState('');
 
-  useEffect(()=> {
+  useEffect(() => {
     check();
-
-  })
+  });
 
   const check = () => {
-    if(state === "ON_SALE"){
-        setStateText("판매중");
-    }if(state==="SOLD_OUT"){
-        setStateText("품절")
-    }if(state==="NOT_SALE"){
-        setStateText("미판매");
-    }if(custom === true){
-        setCustomText("Premium License");
-    }if(custom === false){
-        setCustomText("Custom");
+    if (state === 'ON_SALE') {
+      setStateText('판매중');
     }
-  }
+    if (state === 'SOLD_OUT') {
+      setStateText('품절');
+    }
+    if (state === 'NOT_SALE') {
+      setStateText('미판매');
+    }
+    if (custom === true) {
+      setCustomText('Premium License');
+    }
+    if (custom === false) {
+      setCustomText('Custom');
+    }
+  };
 
   return (
     <Card>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 800 }} aria-label="simple table">
+        <Table sx={{ minWidth: 800 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>상품 이름</TableCell>
@@ -57,20 +53,16 @@ export const LicenseTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-                  <TableCell>{name}</TableCell>
-                  <TableCell>{price}</TableCell>
-                  <TableCell>{stateText}</TableCell>
+            <TableCell>{name}</TableCell>
+            <TableCell>{price}</TableCell>
+            <TableCell>{stateText}</TableCell>
 
-                  <TableCell>
-                    <Rating
-                      defaultValue={meanRate}
-                      size="large"
-                      readOnly
-                    />             
-                  </TableCell>
-                  <TableCell>{nOfRating}</TableCell>
+            <TableCell>
+              <Rating defaultValue={meanRate} size='large' readOnly />
+            </TableCell>
+            <TableCell>{nOfRating}</TableCell>
 
-                  <TableCell>{customText}</TableCell>       
+            <TableCell>{customText}</TableCell>
           </TableBody>
         </Table>
       </TableContainer>

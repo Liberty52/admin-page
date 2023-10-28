@@ -1,4 +1,4 @@
-import request from "./axios";
+import request from './axios';
 import {
   ADD_PRODUCT_OPTION,
   ADD_PRODUCT_OPTION_DETAIL,
@@ -12,9 +12,9 @@ import {
   UPDATE_PRODUCT_OPTION,
   UPDATE_PRODUCT_OPTION_DETAIL,
   UPLOAD_PRODUCT_IMAGE,
-} from "../constants/api";
-import { ACCESS_TOKEN } from "../constants/token";
-import { CONTENT_TYPE } from "../constants/content-type";
+} from '../constants/api';
+import { ACCESS_TOKEN } from '../constants/token';
+import { CONTENT_TYPE } from '../constants/content-type';
 
 export const retrieveProduct = () => {
   return request.get(PRODUCT_LIST(), {
@@ -59,10 +59,10 @@ export const updateOptionDetail = (optionDetailId, data) => {
 export const changeOptionDetailOnSale = (optionDetailId) => {
   return request({
     url: CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE(optionDetailId),
-    method: "PUT",
+    method: 'PUT',
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 };
@@ -86,10 +86,10 @@ export const updateProductOption = (optionId, data) => {
 export const changeProductOptionOnSale = (optionId) => {
   return request({
     url: CHANGE_PRODUCT_ON_SALE(optionId),
-    method: "PUT",
+    method: 'PUT',
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 };
@@ -98,7 +98,7 @@ export const patchProductIntroduction = (productId, data) => {
   return request.patch(PATCH_PRODUCT_INTRODUCTION(productId), data, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": CONTENT_TYPE.ApplicationJson,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 };
@@ -113,11 +113,11 @@ export const deleteProductIntroduction = (productId) => {
 
 export const uploadImage = (file) => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
   return request.post(UPLOAD_PRODUCT_IMAGE(), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-      "Content-Type": CONTENT_TYPE.MultipartFormData,
+      'Content-Type': CONTENT_TYPE.MultipartFormData,
     },
   });
 };

@@ -9,16 +9,12 @@ import close from '../../image/icon/close.png';
  */
 export default function Modal(props) {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <div className="title">
+    <div className='modal'>
+      <div className='modal-content'>
+        <div className='title'>
           <span></span>
           <span>{props.title}</span>
-          {props.closeModal ? (
-            <img src={close} onClick={props.closeModal} />
-          ) : (
-            <></>
-          )}
+          {props.closeModal ? <img src={close} onClick={props.closeModal} /> : <></>}
         </div>
         {props.children}
       </div>
