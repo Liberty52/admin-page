@@ -47,6 +47,16 @@ export const CANCELED_ORDER_DETAILS = (orderId) =>
 
 // 업스케일링
 export const UPSCALE_IMAGE = () => `/product/images/upscaling`;
+
+export const CHANGE_ORDER_STATUS = (orderId) =>
+  `/admin/orders/${orderId}/status`;
+
+// 송장 api
+export const DELIVERY_COMPANY_LIST = (international) =>
+  `/admin/orders/courier-companies?international=${international}`;
+export const CREATE_TRACKING_INFO = (orderId) =>
+  `/admin/orders/${orderId}/delivery`;
+
 // 환불 요청 api
 export const APPROVE_CANCEL = () => `/admin/orders/refund`;
 // 상품 관리 api
@@ -88,9 +98,9 @@ export const PATCH_DEFAULT_DELIVERY_FEE = () => `/admin/options/delivery/fee`;
 // 라이센스 관리 api
 export const LICENSE_LIST = () => `/admin/licenseImage`;
 export const CREATE_LICENSE = () => `/admin/licenseImage`;
-export const DELETE_LICENSE = (licenseImageId) =>
-  `/admin/licenseImage/${licenseImageId}`;
-export const MODIFY_LICENSE = (licenseImageId) =>
-  `/admin/licenseImage/${licenseImageId}`;
-export const GET_DETAIL_LICENSE = (licenseImageId) =>
-  `/admin/licenseImage/${licenseImageId}`;
+export const DELETE_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const MODIFY_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${licenseImageId}`;
+
+//상품 라이센스 옵션 api
+export const CUSTOM_LICENSE = () => `/admin/product`;
