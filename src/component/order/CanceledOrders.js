@@ -1,12 +1,12 @@
-import CanceledOrdersTable from "./CanceledOrdersTable";
-import CancelTypeRadio from "./CancelTypeRadio";
-import CancelModal from "./CancelModal";
-import { Button } from "@mui/material";
-import { useState } from "react";
+import CanceledOrdersTable from './CanceledOrdersTable';
+import CancelTypeRadio from './CancelTypeRadio';
+import CancelModal from './CancelModal';
+import { Button } from '@mui/material';
+import { useState } from 'react';
 
 export default function CanceledOrders() {
   const [page, setPage] = useState(1); // 현재 페이지
-  const [cancelType, setCancelType] = useState("");
+  const [cancelType, setCancelType] = useState('');
   const [checkedOrderId, setCheckedOrderId] = useState([]);
   const [modal, showModal] = useState(false);
 
@@ -22,9 +22,9 @@ export default function CanceledOrders() {
       )}
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <CancelTypeRadio
@@ -36,10 +36,10 @@ export default function CanceledOrders() {
             marginBottom: 3,
           }}
         />
-        {cancelType === "REQUESTED" && (
+        {cancelType === 'REQUESTED' && (
           <Button
             disabled={checkedOrderId.length !== 1}
-            variant="outlined"
+            variant='outlined'
             onClick={() => {
               showModal(true);
             }}

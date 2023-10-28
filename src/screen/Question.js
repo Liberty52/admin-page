@@ -1,10 +1,10 @@
-import { MainContainer } from "../component/common/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { QuestionTable } from "../component/question/QuestionTable";
-import { useCallback, useEffect, useState } from "react";
-import { QuestionDialog } from "../component/question/QuestionDialog";
-import { getQuestionList } from "../axios/Question";
+import { MainContainer } from '../component/common/MainComponent';
+import SideNav from '../component/common/side-nav/SideNav';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import { QuestionTable } from '../component/question/QuestionTable';
+import { useCallback, useEffect, useState } from 'react';
+import { QuestionDialog } from '../component/question/QuestionDialog';
+import { getQuestionList } from '../axios/Question';
 
 export default function Question() {
   const [data, setData] = useState();
@@ -64,20 +64,20 @@ export default function Question() {
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
       >
-        <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+        <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
           <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" spacing={4}>
+            <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography
-                  sx={{ "font-family": "'Gothic A1', sans-serif !important;" }}
-                  variant="h4"
+                  sx={{ 'font-family': "'Gothic A1', sans-serif !important;" }}
+                  variant='h4'
                 >
                   문의
                 </Typography>

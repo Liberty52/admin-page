@@ -1,30 +1,23 @@
-import {
-  Button,
-  Card,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Stack,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Card, Dialog, DialogActions, DialogTitle, Stack } from '@mui/material';
+import { useEffect, useState } from 'react';
 import {
   createQuestionReply,
   deleteQuestionReply,
   getQuestionDetail,
   updateQuestionReply,
-} from "../../axios/Question";
-import { Editor } from "@toast-ui/editor";
-import styled from "styled-components";
-import { convertQuestionStatus } from "../../utils";
-import { Textarea } from "@mui/joy";
-import { QuestionDetailTitle, QuestionDialogTitle } from "./index";
-import { ModalMode } from "../../constants/mode";
+} from '../../axios/Question';
+import { Editor } from '@toast-ui/editor';
+import styled from 'styled-components';
+import { convertQuestionStatus } from '../../utils';
+import { Textarea } from '@mui/joy';
+import { QuestionDetailTitle, QuestionDialogTitle } from './index';
+import { ModalMode } from '../../constants/mode';
 
 export const QuestionDialog = (props) => {
   const { open, handleClose, id, isChanged } = props;
   const [data, setData] = useState();
-  const [mode, setMode] = useState("VIEW");
-  const [textAreaValue, setTextAreaValue] = useState("");
+  const [mode, setMode] = useState('VIEW');
+  const [textAreaValue, setTextAreaValue] = useState('');
 
   useEffect(() => {
     if (id === undefined) return;
@@ -35,18 +28,14 @@ export const QuestionDialog = (props) => {
     getQuestionDetail(id).then((res) => {
       prevData = res.data;
       setData(prevData);
-      setMode(
-        prevData?.questionReplyResponse === null
-          ? ModalMode.ADD
-          : ModalMode.EDIT
-      );
+      setMode(prevData?.questionReplyResponse === null ? ModalMode.ADD : ModalMode.EDIT);
       setTextAreaValue(prevData?.questionReplyResponse?.replyContent);
       const viewer = new Editor.factory({
-        el: document.querySelector("#viewer"),
-        height: "500px",
-        initialEditType: "wysiwyg",
+        el: document.querySelector('#viewer'),
+        height: '500px',
+        initialEditType: 'wysiwyg',
         initialValue: prevData.content,
-        language: "ko-KR",
+        language: 'ko-KR',
         viewer: true,
       });
     });
@@ -63,18 +52,18 @@ export const QuestionDialog = (props) => {
   }
 
   const onAddButtonClicked = () => {
-    if (textAreaValue === "" || textAreaValue === undefined) {
-      alert("내용을 입력해주세요.");
+    if (textAreaValue === '' || textAreaValue === undefined) {
+      alert('내용을 입력해주세요.');
       return;
     }
     if (textAreaValue.length > 1000) {
-      alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)");
+      alert('문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)');
       return;
     }
 
     createQuestionReply(id, textAreaValue)
       .then(() => {
-        alert("답변이 추가되었습니다.");
+        alert('답변이 추가되었습니다.');
         isChanged(true);
         retrieveQuestionDetailDataAndSetState();
       })
@@ -83,18 +72,18 @@ export const QuestionDialog = (props) => {
 
   const onUpdateButtonClicked = () => {
     if (textAreaValue === data.questionReplyResponse.replyContent) {
-      alert("내용을 변경해주세요.");
+      alert('내용을 변경해주세요.');
       return;
     }
 
     if (textAreaValue.length > 1000) {
-      alert("문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)");
+      alert('문의 답변 내용이 정해진 양을 초과했습니다. (1000자 이내)');
       return;
     }
 
     updateQuestionReply(data.questionReplyResponse.replyId, textAreaValue)
       .then(() => {
-        alert("수정했습니다.");
+        alert('수정했습니다.');
         isChanged(true);
         retrieveQuestionDetailDataAndSetState();
       })
@@ -106,27 +95,27 @@ export const QuestionDialog = (props) => {
   const onDeleteButtonClicked = () => {
     deleteQuestionReply(data.questionReplyResponse.replyId)
       .then(() => {
-        alert("삭제되었습니다.");
+        alert('삭제되었습니다.');
         isChanged(true);
         retrieveQuestionDetailDataAndSetState();
-        setTextAreaValue("");
+        setTextAreaValue('');
       })
       .catch((err) => console.error(err));
   };
   const onCloseButtonClicked = () => {
     handleClose();
     setMode(ModalMode.VIEW);
-    setTextAreaValue("");
+    setTextAreaValue('');
   };
 
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      maxWidth={"lg"}
-      scroll={"body"}
+      aria-labelledby='modal-modal-title'
+      aria-describedby='modal-modal-description'
+      maxWidth={'lg'}
+      scroll={'body'}
     >
       {id === undefined ? (
         <></>
@@ -136,22 +125,22 @@ export const QuestionDialog = (props) => {
             <QuestionDialogTitle>1:1 문의</QuestionDialogTitle>
             <Stack>
               <QuestionDetailTitle>{data?.title}</QuestionDetailTitle>
-              <Stack direction={"row"} spacing={1} justifyContent={"flex-end"}>
+              <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
                 <div>{convertQuestionStatus(data?.status)}</div>
                 <div>{data?.createdAt}</div>
               </Stack>
             </Stack>
-            <Card sx={{ marginTop: "10px", padding: "10px 25px" }}>
-              <div id={"viewer"}></div>
+            <Card sx={{ marginTop: '10px', padding: '10px 25px' }}>
+              <div id={'viewer'}></div>
             </Card>
             <hr />
             <div>
               <Textarea
-                placeholder={"답변을 추가해주세요"}
-                readOnly={mode === "VIEW"}
+                placeholder={'답변을 추가해주세요'}
+                readOnly={mode === 'VIEW'}
                 onChange={onTextAreaChanged}
                 value={textAreaValue}
-                sx={{ padding: "10px 25px" }}
+                sx={{ padding: '10px 25px' }}
               />
             </div>
             <DialogActions>
@@ -162,7 +151,7 @@ export const QuestionDialog = (props) => {
               ) : (
                 <>
                   <Button onClick={onUpdateButtonClicked}>수정하기</Button>
-                  <Button color={"error"} onClick={onDeleteButtonClicked}>
+                  <Button color={'error'} onClick={onDeleteButtonClicked}>
                     답변 삭제하기
                   </Button>
                 </>

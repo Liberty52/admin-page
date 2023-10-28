@@ -10,12 +10,9 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  createTrackingInfo,
-  getDeliveryCompanies,
-} from "../../../axios/Orders";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { createTrackingInfo, getDeliveryCompanies } from '../../../axios/Orders';
 
 const DeliveryDialog = ({ open, onClose, orderId }) => {
   const [international, setInternational] = useState(false);
@@ -62,7 +59,7 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   const createDeliveryInfo = () => {
     changeDeliveryInfoKey();
     createTrackingInfo(orderId, deliveryInfo).then(() => {
-      alert("송장이 성공적으로 등록되었습니다!");
+      alert('송장이 성공적으로 등록되었습니다!');
     });
     onClose();
   };
@@ -70,14 +67,14 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>송장 등록</DialogTitle>
-      <DialogContent style={{ padding: "10px" }}>
-        <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+      <DialogContent style={{ padding: '10px' }}>
+        <Box component='form' sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="international-label">국내/외</InputLabel>
+            <InputLabel id='international-label'>국내/외</InputLabel>
             <Select
-              id="international-label"
-              labelId="international-label"
-              label="국내/외"
+              id='international-label'
+              labelId='international-label'
+              label='국내/외'
               value={international}
               onChange={handleChangeInternational}
             >
@@ -86,19 +83,16 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             </Select>
           </FormControl>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="delivery-company-label">택배사</InputLabel>
+            <InputLabel id='delivery-company-label'>택배사</InputLabel>
             <Select
-              id="delivery-company-label"
-              labelId="delivery-company-label"
-              label="택배사"
+              id='delivery-company-label'
+              labelId='delivery-company-label'
+              label='택배사'
               onChange={handleChangeDeliveryInfo}
             >
               {deliveryCompanies?.map((deliveryCompany) => {
                 return (
-                  <MenuItem
-                    key={deliveryCompany.courierCode}
-                    value={deliveryCompany}
-                  >
+                  <MenuItem key={deliveryCompany.courierCode} value={deliveryCompany}>
                     {deliveryCompany?.courierName}
                   </MenuItem>
                 );
@@ -106,10 +100,10 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             </Select>
           </FormControl>
           <TextField
-            id="outlined-basic"
-            label="송장 번호"
-            variant="outlined"
-            name="trackingNumber"
+            id='outlined-basic'
+            label='송장 번호'
+            variant='outlined'
+            name='trackingNumber'
             onChange={handleChangeDeliveryInfo}
           />
         </Box>

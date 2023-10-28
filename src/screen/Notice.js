@@ -1,10 +1,10 @@
-import { MainContainer } from "../component/common/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { NoticeTable } from "../component/notice/NoticeTable";
-import { useCallback, useEffect, useState } from "react";
-import { QuestionDialog } from "../component/question/QuestionDialog";
-import { getNoticeList } from "../axios/Notice";
+import { MainContainer } from '../component/common/MainComponent';
+import SideNav from '../component/common/side-nav/SideNav';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import { NoticeTable } from '../component/notice/NoticeTable';
+import { useCallback, useEffect, useState } from 'react';
+import { QuestionDialog } from '../component/question/QuestionDialog';
+import { getNoticeList } from '../axios/Notice';
 
 export default function Notice() {
   const [data, setData] = useState();
@@ -64,20 +64,20 @@ export default function Notice() {
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
       >
-        <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+        <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
           <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" spacing={4}>
+            <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography
-                  sx={{ "font-family": "'Gothic A1', sans-serif !important;" }}
-                  variant="h4"
+                  sx={{ 'font-family': "'Gothic A1', sans-serif !important;" }}
+                  variant='h4'
                 >
                   공지사항
                 </Typography>

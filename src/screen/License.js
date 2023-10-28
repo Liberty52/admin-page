@@ -1,19 +1,18 @@
-import { MainContainer } from "../component/common/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
-import { Box, Container } from "@mui/material";
+import { MainContainer } from '../component/common/MainComponent';
+import SideNav from '../component/common/side-nav/SideNav';
+import { Box, Container } from '@mui/material';
 import {
   ProductAddButtonWrapper,
   ProductBox,
   ProductHeaderWrapper,
   ProductTitle,
-} from "../component/product/styled/Product";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import { useEffect, useState } from "react";
-import LicenseDialog from "../component/license/LicenseDialog";
-import LicenseItem from "../component/license/LicenseItem";
-import { getLicenseList } from "../axios/License";
-import { ModalMode } from "../constants/mode";
-
+} from '../component/product/styled/Product';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import { useEffect, useState } from 'react';
+import LicenseDialog from '../component/license/LicenseDialog';
+import LicenseItem from '../component/license/LicenseItem';
+import { getLicenseList } from '../axios/License';
+import { ModalMode } from '../constants/mode';
 
 const License = () => {
   const [open, setOpen] = useState(false);
@@ -36,18 +35,18 @@ const License = () => {
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
       >
-        <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+        <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
           <ProductHeaderWrapper
-            direction={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            direction={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
             <ProductTitle>라이센스</ProductTitle>
             <ProductAddButtonWrapper>
@@ -59,12 +58,7 @@ const License = () => {
             </ProductAddButtonWrapper>
           </ProductHeaderWrapper>
 
-          <ProductBox
-            useFlexGap
-            flexWrap={"wrap"}
-            direction={"row"}
-            spacing={2}
-          >
+          <ProductBox useFlexGap flexWrap={'wrap'} direction={'row'} spacing={2}>
             {licenses?.id === undefined &&
               licenses?.map((license) => {
                 return (
@@ -87,7 +81,6 @@ const License = () => {
               onClose={closeDialog}
               getLicenses={getLicenses}
               mode={ModalMode.ADD}
-
             />
           )}
         </Container>
