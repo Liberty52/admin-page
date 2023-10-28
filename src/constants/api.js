@@ -37,15 +37,13 @@ export const CUSTOMER_LIST = (size, page, sort) => {
 };
 
 // 주문 조회 api
-export const CANCELED_ORDERS = (size, page, type) => {
-  return `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
-};
-export const CANCELED_ORDER_DETAILS = (orderId) => {
-  return `/admin/orders/cancel/${orderId}`;
-};
-export const UPSCALE_IMAGE = () => {
-  return `/product/images/upscaling`;
-};
+export const CANCELED_ORDERS = (size, page, type) =>
+  `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
+export const CANCELED_ORDER_DETAILS = (orderId) =>
+  `/admin/orders/cancel/${orderId}`;
+
+// 업스케일링
+export const UPSCALE_IMAGE = () => `/product/images/upscaling`;
 
 export const CHANGE_ORDER_STATUS = (orderId) => `/admin/orders/${orderId}/status`;
 
@@ -55,10 +53,7 @@ export const DELIVERY_COMPANY_LIST = (international) =>
 export const CREATE_TRACKING_INFO = (orderId) => `/admin/orders/${orderId}/delivery`;
 
 // 환불 요청 api
-export const APPROVE_CANCEL = () => {
-  return `/admin/orders/refund`;
-};
-
+export const APPROVE_CANCEL = () => `/admin/orders/refund`;
 // 상품 관리 api
 export const PRODUCT_LIST = () => `/admin/productInfo`;
 export const PRODUCT_DETAIL = (productId) => `/admin/productInfo/${productId}`;
@@ -74,9 +69,13 @@ export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
   `/admin/optionDetailOnSale/${optionDetailId}`;
 export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) =>
   `/admin/optionDetail/${optionDetailId}`;
-// - 소개 관리
-export const ADD_PRODUCT_INTRODUCTION = (productId) => `/admin/product/${productId}/introduction`;
 
+// - 소개 관리
+export const PATCH_PRODUCT_INTRODUCTION = (productId) =>
+  `/admin/product/${productId}/introduction`;
+export const DELETE_PRODUCT_INTRODUCTION = (productId) =>
+  `/admin/product/${productId}/introduction`;
+export const UPLOAD_PRODUCT_IMAGE = () => `/admin/productIntroduction/img`;
 // 가상계좌 관리 api
 export const POST_NEW_VBANK = () => `/admin/vbanks`;
 export const GET_VBANKS = () => `/product/vbanks`;

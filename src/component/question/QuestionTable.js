@@ -4,13 +4,9 @@ import {
   Card,
   Stack,
   SvgIcon,
-  Table,
   TableBody,
-  TableCell,
   TableHead,
-  TableRow,
 } from '@mui/material';
-import styled from 'styled-components';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import { convertQuestionStatus } from '../../utils';
 import {
@@ -48,7 +44,11 @@ export const QuestionTable = (props) => {
           <TableBody>
             {items.map((question) => {
               return (
-                <PointeredRow hover onClick={() => handleDialogOn(question.id)}>
+                <PointeredRow
+                  key={question.id}
+                  hover
+                  onClick={() => handleDialogOn(question.id)}
+                >
                   {/*연락처*/}
                   <MediumTableCell>{question.email}</MediumTableCell>
                   {/*제목*/}
@@ -73,7 +73,7 @@ export const QuestionTable = (props) => {
           onClick={onMinusPageButtonClicked}
         ></Button>
         {pageNumberArray.map((i) => (
-          <Button variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
+          <Button key={i} variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
             {i}
           </Button>
         ))}

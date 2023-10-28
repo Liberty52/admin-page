@@ -17,7 +17,9 @@ div,
 span,
 a,
 button,
-input {
+input,
+th,
+td {
   font-family: 'GmarketSansMedium' !important;
   font-size: 13px;
 }
