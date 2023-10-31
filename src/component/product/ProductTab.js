@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductIntroPanel from './ProductIntroPanel';
 import ProductOptionPanel from './ProductOptionPanel';
+import ProductDeliveryOptionPanel from "./ProductDeliveryOptionPanel";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,6 +51,11 @@ export default function ProductTab({ content, setContent }) {
       value: 'option',
       label: '상품 옵션 관리',
       content: <ProductOptionPanel />,
+    },
+    {
+      value: 'deliveryOption',
+      label: '상품 배송 관리',
+      content: <ProductDeliveryOptionPanel />,
     },
   ];
 
