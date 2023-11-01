@@ -70,6 +70,10 @@ export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
 export const UPDATE_PRODUCT_OPTION_DETAIL = (optionDetailId) =>
   `/admin/optionDetail/${optionDetailId}`;
 
+export const GET_DELIVERY_OPTION = (productId) => `/admin/products/${productId}/deliveryOptions`;
+export const ADD_DELIVERY_OPTION = (productId) => `/admin/products/${productId}/deliveryOptions`;
+export const UPDATE_DELIVERY_OPTION = (productId) => `/admin/products/${productId}/deliveryOptions`;
+
 // - 소개 관리
 export const PATCH_PRODUCT_INTRODUCTION = (productId) =>
   `/admin/product/${productId}/introduction`;
