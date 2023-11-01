@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "antd";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { deleteNotice, getNoticeDetail } from "../../axios/Notice";
-import SideNav from "../common/side-nav/SideNav";
-import { MainContainer } from "../common/MainComponent";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Button } from 'antd';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { deleteNotice, getNoticeDetail } from '../../axios/Notice';
+import SideNav from '../common/side-nav/SideNav';
+import { MainContainer } from '../common/MainComponent';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import {
   DetailPageButtonWrapper,
   MoveToListButton,
@@ -13,15 +13,15 @@ import {
   NoticeDetailHeader,
   NoticeDetailTitle,
   Viewer,
-} from "./style/Notice";
-import "./Notice.css";
-import { ModalMode } from "../../constants/mode";
+} from './style/Notice';
+import './Notice.css';
+import { ModalMode } from '../../constants/mode';
 
 const NoticeDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [data, setData] = useState([]);
-  const [allowComments, setAllowComments] = useState("");
+  const [allowComments, setAllowComments] = useState('');
   useEffect(() => {
     let rawData = getNoticeDetail(state);
     rawData.then((appData) => {
@@ -31,14 +31,14 @@ const NoticeDetail = () => {
   }, []);
   function setAllowCommentsByData(commentable) {
     if (commentable == true) {
-      setAllowComments("댓글 작성 가능");
+      setAllowComments('댓글 작성 가능');
     } else if (commentable == false) {
-      setAllowComments("댓글 작성 불가");
+      setAllowComments('댓글 작성 불가');
     } else {
     }
   }
   const onEditNotice = () => {
-    navigate("/notice/editor", {
+    navigate('/notice/editor', {
       state: {
         id: state,
         mode: ModalMode.EDIT,
@@ -46,16 +46,16 @@ const NoticeDetail = () => {
     });
   };
   const onDeleteNotice = (id) => {
-    if (window.confirm("삭제 하시겠습니까?")) deleteNotice(id);
+    if (window.confirm('삭제 하시겠습니까?')) deleteNotice(id);
   };
 
   return (
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
@@ -66,8 +66,8 @@ const NoticeDetail = () => {
               <div>
                 <NoticeDetailTitle>{data.title}</NoticeDetailTitle>
                 <NoticeDetailCreatedAt>
-                  공지사항 {" / "} {data.createdAt}
-                  {" / "}
+                  공지사항 {' / '} {data.createdAt}
+                  {' / '}
                   {allowComments}
                 </NoticeDetailCreatedAt>
               </div>
@@ -75,10 +75,10 @@ const NoticeDetail = () => {
               <></>
             )}
           </NoticeDetailHeader>
-          <Viewer id={"viewer"}></Viewer>
+          <Viewer id={'viewer'}></Viewer>
           <table>
             <td
-              className="notice-contents"
+              className='notice-contents'
               dangerouslySetInnerHTML={{
                 __html: data.content,
               }}
@@ -86,13 +86,9 @@ const NoticeDetail = () => {
           </table>
           {data ? (
             <DetailPageButtonWrapper>
-              <Button onClick={() => onDeleteNotice(data.noticeId)}>
-                삭제
-              </Button>
+              <Button onClick={() => onDeleteNotice(data.noticeId)}>삭제</Button>
               <Button onClick={onEditNotice}> 수정 </Button>
-              <MoveToListButton onClick={() => navigate("/notice")}>
-                목록
-              </MoveToListButton>
+              <MoveToListButton onClick={() => navigate('/notice')}>목록</MoveToListButton>
             </DetailPageButtonWrapper>
           ) : (
             <></>

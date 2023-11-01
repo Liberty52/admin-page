@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Layout, Descriptions, Input, Button, Form } from "antd";
-import FormItem from "antd/lib/form/FormItem";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
-import { postNotice } from "../../axios/Notice";
-import SideNav from "../common/side-nav/SideNav";
-import { MainContainer } from "../common/MainComponent";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Layout, Descriptions, Input, Button, Form } from 'antd';
+import FormItem from 'antd/lib/form/FormItem';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
+import { postNotice } from '../../axios/Notice';
+import SideNav from '../common/side-nav/SideNav';
+import { MainContainer } from '../common/MainComponent';
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
 
 const Container = styled.div`
   width: 100%;
@@ -44,11 +44,11 @@ const MyBlock = styled.div`
 const NoticeEditor = () => {
   const onFinish = (value) => {
     if (
-      value.title == "" ||
+      value.title == '' ||
       value.title == undefined ||
-      draftToHtml(convertToRaw(editorState.getCurrentContent())) == "<p></p>\n"
+      draftToHtml(convertToRaw(editorState.getCurrentContent())) == '<p></p>\n'
     ) {
-      alert("제목 및 내용을 입력해주세요");
+      alert('제목 및 내용을 입력해주세요');
     } else {
       postNotice(value, editorState, allowComments);
     }
@@ -94,32 +94,26 @@ const NoticeEditor = () => {
   return (
     <MainContainer>
       <SideNav />
-      <Layout style={{ padding: "0 24px 24px" }}>
-        <div style={{ borderTop: "1px solid #eee" }} />
-        <div style={{ textAlign: "center" }}>
+      <Layout style={{ padding: '0 24px 24px' }}>
+        <div style={{ borderTop: '1px solid #eee' }} />
+        <div style={{ textAlign: 'center' }}>
           <h3>공지사항 작성</h3>
         </div>
 
         <Container>
-          <Form onFinish={onFinish} style={{ textAlign: "center" }}>
-            <Descriptions
-              title=""
-              column={1}
-              bordered
-              size="small"
-              style={{ textAlign: "left" }}
-            >
-              <Descriptions.Item label="제목" style={{ textAlign: "center" }}>
-                <FormItem name="title" style={{ margin: "0" }}>
-                  <Input placeholder="제목을 작성해주세요." maxLength={50} />
+          <Form onFinish={onFinish} style={{ textAlign: 'center' }}>
+            <Descriptions title='' column={1} bordered size='small' style={{ textAlign: 'left' }}>
+              <Descriptions.Item label='제목' style={{ textAlign: 'center' }}>
+                <FormItem name='title' style={{ margin: '0' }}>
+                  <Input placeholder='제목을 작성해주세요.' maxLength={50} />
                 </FormItem>
               </Descriptions.Item>
-              <Descriptions.Item label="내용" style={{ textAlign: "center" }}>
+              <Descriptions.Item label='내용' style={{ textAlign: 'center' }}>
                 <MyBlock>
                   <Editor
-                    placeholder="내용을 작성해주세요."
+                    placeholder='내용을 작성해주세요.'
                     localization={{
-                      locale: "ko",
+                      locale: 'ko',
                     }}
                     // toolbar={{
                     //   list: { inDropdown: false },
@@ -129,20 +123,17 @@ const NoticeEditor = () => {
                     //   image: { uploadCallback: uploadCallback },
                     // }}
                     editorState={editorState}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
+                    toolbarClassName='toolbarClassName'
+                    wrapperClassName='wrapperClassName'
+                    editorClassName='editorClassName'
                     onEditorStateChange={onEditorStateChange}
                   />
                 </MyBlock>
               </Descriptions.Item>
-              <Descriptions.Item
-                label="댓글 허용 여부"
-                style={{ textAlign: "center" }}
-              >
-                <FormItem name="allowComments" style={{ margin: "0" }}>
+              <Descriptions.Item label='댓글 허용 여부' style={{ textAlign: 'center' }}>
+                <FormItem name='allowComments' style={{ margin: '0' }}>
                   <Input
-                    type="checkbox"
+                    type='checkbox'
                     onChange={(e) => {
                       onChangeCheck(e.target.checked);
                     }}
@@ -151,7 +142,7 @@ const NoticeEditor = () => {
               </Descriptions.Item>
             </Descriptions>
             <br />
-            <Button type="default" htmlType="submit">
+            <Button type='default' htmlType='submit'>
               등록
             </Button>
           </Form>

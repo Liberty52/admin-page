@@ -1,19 +1,19 @@
-import Orders from "./orders/Orders";
-import CanceledOrders from "../component/order/CanceledOrders";
-import Payment from "../component/order/payment/Payment";
-import { MainContainer } from "../component/common/MainComponent";
-import SideNav from "../component/common/side-nav/SideNav";
-import { Box, Container, Tabs, Tab } from "@mui/material";
-import { useState } from "react";
-import PropTypes from "prop-types";
-import Delivery from "../component/order/delivery/Delivery";
+import Orders from './orders/Orders';
+import CanceledOrders from '../component/order/CanceledOrders';
+import Payment from '../component/order/payment/Payment';
+import { MainContainer } from '../component/common/MainComponent';
+import SideNav from '../component/common/side-nav/SideNav';
+import { Box, Container, Tabs, Tab } from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import Delivery from '../component/order/delivery/Delivery';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -33,7 +33,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
@@ -45,10 +45,10 @@ function BasicTabs() {
   };
 
   const tabContents = [
-    { label: "전체 주문 조회", content: <Orders /> },
-    { label: "주문 취소 관리", content: <CanceledOrders /> },
-    { label: "결제 관리", content: <Payment /> },
-    { label: "배송 관리", content: <Delivery /> },
+    { label: '전체 주문 조회', content: <Orders /> },
+    { label: '주문 취소 관리', content: <CanceledOrders /> },
+    { label: '결제 관리', content: <Payment /> },
+    { label: '배송 관리', content: <Delivery /> },
   ];
 
   const tabs = [];
@@ -59,19 +59,15 @@ function BasicTabs() {
     tabPanels.push(
       <TabPanel key={i} value={value} index={i}>
         {tabContent.content}
-      </TabPanel>
+      </TabPanel>,
     );
   });
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: '100%' }}>
       <h1>주문 관리</h1>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
           {tabs}
         </Tabs>
       </Box>
@@ -85,14 +81,14 @@ export default function Order() {
     <MainContainer>
       <SideNav />
       <Box
-        component="main"
+        component='main'
         sx={{
-          padding: "0 5%",
+          padding: '0 5%',
           flexGrow: 1,
           py: 8,
         }}
       >
-        <Container sx={{ marginLeft: "30px" }} maxWidth="xl">
+        <Container sx={{ marginLeft: '30px' }} maxWidth='xl'>
           <BasicTabs />
         </Container>
       </Box>

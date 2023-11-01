@@ -1,19 +1,17 @@
-import { Stack, Button } from "@mui/material";
-import { Checkbox } from "@mui/joy";
-import { ProductOptionAddButton } from "./styled/Product";
-import ProductOption from "./ProductOption";
-import ProductOptionModal from "./ProductOptionModal";
-import ProductOptionDetailModal from "./ProductOptionDetailModal";
-// icon
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import { Stack, Button } from '@mui/material';
+import { Checkbox } from '@mui/joy';
+import { ProductOptionAddButton } from './styled/Product';
+import ProductOption from './ProductOption';
+import ProductOptionModal from './ProductOptionModal';
+import ProductOptionDetailModal from './ProductOptionDetailModal';
 // react
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // constants
-import { ModalMode } from "../../constants/mode";
+import { ModalMode } from '../../constants/mode';
 
 // axios
-import { retrieveProductOptionList } from "../../axios/Product";
+import { retrieveProductOptionList } from '../../axios/Product';
 
 export default function ProductOptionPanel() {
   const { productId } = useParams();
@@ -23,17 +21,17 @@ export default function ProductOptionPanel() {
   const [optionDetailModalOpen, setOptionDetailModalOpen] = useState(false);
   const [optionDetailMode, setOptionDetailMode] = useState(ModalMode.ADD);
   const [options, setOptions] = useState([]);
-  const [optionId, setOptionId] = useState("");
+  const [optionId, setOptionId] = useState('');
   const [optionDetailEditProps, setOptionDetailEditProps] = useState({
-    optionDetailId: "",
-    optionDetailName: "",
+    optionDetailId: '',
+    optionDetailName: '',
     price: 0,
     stock: 0,
     onSale: false,
   });
   const [optionProps, setOptionProps] = useState({
-    id: "",
-    optionName: "",
+    id: '',
+    optionName: '',
     require: false,
     onSale: false,
   });
@@ -50,16 +48,16 @@ export default function ProductOptionPanel() {
   };
   const clearOptionEditProps = () => {
     setOptionProps({
-      id: "",
-      optionName: "",
+      id: '',
+      optionName: '',
       require: false,
       onSale: false,
     });
   };
   const clearOptionDetailEditProps = () => {
     setOptionDetailEditProps({
-      optionDetailId: "",
-      optionDetailName: "",
+      optionDetailId: '',
+      optionDetailName: '',
       price: 0,
       stock: 0,
       onSale: false,
@@ -102,30 +100,22 @@ export default function ProductOptionPanel() {
 
   return (
     <>
-      <Stack
-        marginBottom={3}
-        direction={"row"}
-        justifyContent={"flex-end"}
-        alignItems={"center"}
-      >
+      <Stack marginBottom={3} direction={'row'} justifyContent={'flex-end'} alignItems={'center'}>
         <Checkbox
           sx={{ marginRight: 3 }}
           checked={showAll}
           onChange={(e) => setShowAll(e.target.checked)}
-          label="전체 옵션 보기"
+          label='전체 옵션 보기'
         />
-        <Button
-          sx={{ fontWeight: "bold" }}
-          variant="outlined"
-          onClick={onOptionAddButtonClicked}
-        >
+        <Button sx={{ fontWeight: 'bold' }} variant='outlined' onClick={onOptionAddButtonClicked}>
           옵션 추가
         </Button>
       </Stack>
       {/*옵션 공간*/}
-      <Stack direction={"row"} flexWrap={"wrap"} useFlexGap spacing={2}>
-        {options.map((o) => (
+      <Stack direction={'row'} flexWrap={'wrap'} useFlexGap spacing={2}>
+        {options.map((o, i) => (
           <ProductOption
+            key={i}
             option={o}
             onOptionDetailAddButtonClicked={onOptionDetailAddButtonClicked}
             onOptionDetailEditButtonClicked={onOptionDetailModifyButtonClicked}

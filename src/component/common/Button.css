@@ -5,9 +5,8 @@
   color: white;
   padding: 10px;
   margin: 6px 0;
-
 }
-.button:hover{
+.button:hover {
   cursor: pointer;
 }
 

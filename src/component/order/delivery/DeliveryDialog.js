@@ -10,12 +10,9 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  createTrackingInfo,
-  getDeliveryCompanies,
-} from "../../../axios/Orders";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { createTrackingInfo, getDeliveryCompanies } from '../../../axios/Orders';
 
 const DeliveryDialog = ({ open, onClose, orderId }) => {
   const [international, setInternational] = useState(false);
@@ -24,7 +21,7 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
 
   useEffect(() => {
     getDeliveryList(international);
-  }, []);
+  }, [international]);
 
   const getDeliveryList = (international) => {
     getDeliveryCompanies(international).then((res) => {
@@ -41,47 +38,44 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
     const prevData = e.target.value;
     setInternational(prevData);
     setDeliveryCompanies([]);
-    getDeliveryList(international);
   };
 
   const handleChangeDeliveryInfo = (e) => {
-    setDeliveryInfo({ ...deliveryInfo, [e.target.name]: e.target.value });
-  };
-
-  const matchCompanyCode = () => {
-    for (var i = 0; deliveryCompanies.length; i++) {
-      if (
-        deliveryCompanies[i]?.courierName === deliveryInfo.courierCompanyName
-      ) {
-        const prevData = {
-          ...deliveryInfo,
-          courierCompanyCode: deliveryCompanies[i].courierCode,
-        };
-        setDeliveryInfo(prevData);
-        return;
-      }
+    if (e.target.name === undefined) {
+      const prevData = e.target.value;
+      setDeliveryInfo(prevData);
+    } else {
+      setDeliveryInfo({ ...deliveryInfo, [e.target.name]: e.target.value });
     }
   };
-  const createDeliveryInfo = (dto) => {
-    matchCompanyCode();
-    createTrackingInfo(orderId, dto).then(
-      alert("송장이 성공적으로 등록되었습니다!")
-    );
+
+  const changeDeliveryInfoKey = () => {
+    deliveryInfo.courierCompanyCode = deliveryInfo.courierCode;
+    deliveryInfo.courierCompanyName = deliveryInfo.courierName;
+    delete deliveryInfo.courierCode;
+    delete deliveryInfo.courierName;
+  };
+
+  const createDeliveryInfo = () => {
+    changeDeliveryInfoKey();
+    createTrackingInfo(orderId, deliveryInfo).then(() => {
+      alert('송장이 성공적으로 등록되었습니다!');
+    });
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>송장 등록</DialogTitle>
-      <DialogContent style={{ padding: "10px" }}>
-        <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+      <DialogContent style={{ padding: '10px' }}>
+        <Box component='form' sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="international-label">국내/외</InputLabel>
+            <InputLabel id='international-label'>국내/외</InputLabel>
             <Select
-              id="international-label"
-              labelId="international-label"
+              id='international-label'
+              labelId='international-label'
+              label='국내/외'
               value={international}
-              label="국내/외"
               onChange={handleChangeInternational}
             >
               <MenuItem value={false}>국내</MenuItem>
@@ -89,39 +83,34 @@ const DeliveryDialog = ({ open, onClose, orderId }) => {
             </Select>
           </FormControl>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="delivery-company-label">택배사</InputLabel>
+            <InputLabel id='delivery-company-label'>택배사</InputLabel>
             <Select
-              id="delivery-company-label"
-              labelId="delivery-company-label"
-              label="택배사"
+              id='delivery-company-label'
+              labelId='delivery-company-label'
+              label='택배사'
               onChange={handleChangeDeliveryInfo}
-              name="courierCompanyName"
             >
-              {deliveryCompanies?.map((deliveryComapany) => {
+              {deliveryCompanies?.map((deliveryCompany) => {
                 return (
-                  <MenuItem
-                    key={deliveryComapany.courierCode}
-                    value={deliveryComapany?.courierName}
-                    name="courierCompanyName"
-                  >
-                    {deliveryComapany?.courierName}
+                  <MenuItem key={deliveryCompany.courierCode} value={deliveryCompany}>
+                    {deliveryCompany?.courierName}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
           <TextField
-            id="outlined-basic"
-            label="송장 번호"
-            variant="outlined"
-            name="trackingNumber"
+            id='outlined-basic'
+            label='송장 번호'
+            variant='outlined'
+            name='trackingNumber'
             onChange={handleChangeDeliveryInfo}
           />
         </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleClose()}>Cancel</Button>
-        <Button onClick={() => createDeliveryInfo(deliveryInfo)}>Ok</Button>
+        <Button onClick={() => createDeliveryInfo()}>Ok</Button>
       </DialogActions>
     </Dialog>
   );
