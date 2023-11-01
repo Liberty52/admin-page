@@ -9,50 +9,59 @@ import {
     SUCCESS_MESSAGE_UPDATE,
     VALUE_REQUIRED_MESSAGE
 } from "../../constants/message";
+import Swal from "sweetalert2";
 
 export default function ProductDeliveryOptionPanel() {
     const { productId } = useParams();
+    const [initialData, setInitialData] = useState((null));
     const [deliveryPrice, setDeliveryPrice] = useState(null);
     const [selectedCourier, setSelectedCourier] = useState(null);
-    const [initialDeliveryPrice, setInitialDeliveryPrice] = useState(null);
-    const [initialSelectedCourier, setInitialSelectedCourier] = useState(null);
 
     const handleDeliveryPriceChange = (event) => {
         const inputPrice = event.target.value;
         if (/^\d*$/.test(inputPrice)) {
-            setDeliveryPrice(inputPrice);
+            const parsedPrice = parseFloat(inputPrice);
+            setDeliveryPrice(parsedPrice);
         }
     };
-
     const handleCourierChange = (event) => {
         setSelectedCourier(event.target.value);
+        console.log(selectedCourier)
     };
-
     const handlePostDeliveryOptions = () => {
         if (deliveryPrice === null || selectedCourier === null) {
             alert(VALUE_REQUIRED_MESSAGE);
             return;
         }
-
         const data = { selectedCourier, deliveryPrice };
-
-        if (initialSelectedCourier === null && initialDeliveryPrice === null) {
-            addDeliveryOption(productId, data)
-                .then(() => {
-                    alert(SUCCESS_MESSAGE_ADD);
-                })
-                .catch((error) => {
-                    console.error('에러 발생:', error);
-                    alert(ERROR_MESSAGE);
-                });
-        } else {
+        console.log(data)
+        if (initialData !== null) {
             updateDeliveryOption(productId, data)
                 .then(() => {
-                    alert(SUCCESS_MESSAGE_UPDATE);
+                    Swal.fire({
+                        title: SUCCESS_MESSAGE_UPDATE,
+                        icon: 'success',
+                    });
                 })
                 .catch((error) => {
-                    console.error('에러 발생:', error);
-                    alert(ERROR_MESSAGE);
+                    Swal.fire({
+                        title: ERROR_MESSAGE + "("+error+")",
+                        icon: 'error',
+                    });
+                });
+        } else {
+            addDeliveryOption(productId, data)
+                .then(() => {
+                    Swal.fire({
+                        title: SUCCESS_MESSAGE_ADD,
+                        icon: 'success',
+                    });
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        title: ERROR_MESSAGE + "("+error+")",
+                        icon: 'error',
+                    });
                 });
         }
     };
@@ -61,15 +70,18 @@ export default function ProductDeliveryOptionPanel() {
         getDeliveryOption(productId)
             .then((data) => {
                 if (data) {
-                    setInitialSelectedCourier(data.courierName || null);
-                    setInitialDeliveryPrice(data.fee || null);
-                    setSelectedCourier(data.courierName || null);
-                    setDeliveryPrice(data.fee || null);
+                    setInitialData(data.data);
+                    setSelectedCourier(data.data.courierName || null);
+                    setDeliveryPrice(data.data.fee || null);
+                    console.log(data.data, initialData, selectedCourier, deliveryPrice)
                 }
             })
             .catch((error) => {
                 console.error('Error fetching delivery options:', error);
-                alert(ERROR_MESSAGE);
+                Swal.fire({
+                    title: ERROR_MESSAGE + "("+error+")",
+                    icon: 'error',
+                });
             });
     }, [productId]);
 
@@ -99,9 +111,7 @@ export default function ProductDeliveryOptionPanel() {
                     variant="contained"
                     color="primary"
                     onClick={handlePostDeliveryOptions}
-                >
-                    옵션 저장
-                </Button>
+                >옵션 저장</Button>
             </Stack>
         </>
     );
