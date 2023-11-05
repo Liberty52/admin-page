@@ -4,11 +4,8 @@ import {
   Card,
   Stack,
   SvgIcon,
-  Table,
   TableBody,
-  TableCell,
   TableHead,
-  TableRow,
 } from '@mui/material';
 import styled from 'styled-components';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
@@ -63,7 +60,7 @@ export const NoticeTable = (props) => {
           <TableBody>
             {items.map((notice, idx) => {
               return (
-                <PointeredRow hover onClick={() => navigateDetail(notice.noticeId)}>
+                <PointeredRow key={idx} hover onClick={() => navigateDetail(notice.noticeId)}>
                   <MediumTableCell>{totalCount - (page * 10 + 1 + idx) + 1}</MediumTableCell>
                   <QuestionTableCell>{notice.title}</QuestionTableCell>
                   <MediumTableCell>{notice.createdAt}</MediumTableCell>
@@ -84,7 +81,7 @@ export const NoticeTable = (props) => {
           onClick={onMinusPageButtonClicked}
         ></Button>
         {pageNumberArray.map((i) => (
-          <Button variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
+          <Button key={i} variant={page + 1 === i ? 'contained' : 'text'} onClick={onPageChange}>
             {i}
           </Button>
         ))}

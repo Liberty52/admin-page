@@ -16,6 +16,7 @@ import {
   CHANGE_ORDER_STATUS,
   DELIVERY_COMPANY_LIST,
   CREATE_TRACKING_INFO,
+  GET_REDIRECT_URL_OF_ORDER_DELIEVERY
 } from '../constants/api';
 
 export const fetchOrders = async (page, size) => {
@@ -190,3 +191,47 @@ export const createTrackingInfo = (orderId, dto) => {
     headers: { Authorization: sessionStorage.getItem(ACCESS_TOKEN) },
   });
 };
+
+export function fetchRealTimeDeliveryInfo(order, popup) {
+  const orderId = order.orderId;
+  const orderDelivery = order.orderDelivery;
+  const courierCode = orderDelivery.code;
+  const trackingNumber = orderDelivery.trackingNumber;
+
+  const getAccessToken = () => {
+    return sessionStorage.getItem("ACCESS_TOKEN");
+  }
+
+  const fetchOrderDelivery = (accessToken, orderId) => {
+      axios.get(GET_REDIRECT_URL_OF_ORDER_DELIEVERY(orderId, courierCode, trackingNumber), {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      })
+      .then(response => {
+        if (response.status === 200 || response.status === 302) {
+          if (!popup) {
+            alert("팝업 차단을 해제해주세요")
+          } else {
+            popup.location.href = response.request?.responseURL;
+          }
+        }
+         else {
+          const data = response.json();
+          data.then((res => {alert(res.errorName)}));
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        popup.close();
+        alert(error.response.data.errorMessage);
+      });
+  }
+
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    fetchOrderDelivery(accessToken, orderId);
+  } else {
+    alert('인증토큰이 없습니다. 다시 로그인해주세요')
+  }
+}

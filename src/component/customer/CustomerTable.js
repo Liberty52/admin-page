@@ -31,7 +31,12 @@ export const CustomerTable = (props) => {
         res.data.infoList.map((d, i, arr) => {
           const row = createData(
             i + 1,
-            <Avatar alt='프로필 이미지' src={d.profileUrl} sx={{ width: 45, height: 45 }}>
+            <Avatar
+              key={i}
+              alt='프로필 이미지'
+              src={d.profileUrl}
+              sx={{ width: 45, height: 45 }}
+            >
               {d.name.charAt(0)}
             </Avatar>,
             d.name,
@@ -152,9 +157,9 @@ export const CustomerTable = (props) => {
             ) : (
               <></>
             )}
-            {rows.map((row) => {
+            {rows.map((row, i) => {
               return (
-                <TableRow hover tabIndex={-1} key={row.code}>
+                <TableRow key={i} hover tabIndex={-1}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return <TableCell key={column.id}>{value}</TableCell>;

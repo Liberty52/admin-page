@@ -52,9 +52,14 @@ export default function ProductOptionDetail({ onEditButtonClicked, detail, activ
 
   return (
     <>
-      <ProductOptionDetailWrapper onMouseEnter={onMouseOn} onMouseLeave={onMouseOut}>
-        <ProductOptionItemWrapper onSale={detail.onSale}>
-          <ProductOptionItemName>{detail.optionDetailName}</ProductOptionItemName>
+      <ProductOptionDetailWrapper
+        onMouseEnter={onMouseOn}
+        onMouseLeave={onMouseOut}
+      >
+        <ProductOptionItemWrapper>
+          <ProductOptionItemName>
+            {detail.optionDetailName}
+          </ProductOptionItemName>
           <ProductOptionItemStock>재고: {detail.stock}</ProductOptionItemStock>
         </ProductOptionItemWrapper>
         <HoverButtonWrapper focused={focused}>

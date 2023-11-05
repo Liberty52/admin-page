@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductIntroPanel from './ProductIntroPanel';
 import ProductOptionPanel from './ProductOptionPanel';
+import ProductDeliveryOptionPanel from "./ProductDeliveryOptionPanel";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,7 +34,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ProductTab({ introductionImageUrl }) {
+export default function ProductTab({ content, setContent }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -44,12 +45,17 @@ export default function ProductTab({ introductionImageUrl }) {
     {
       value: 'intro',
       label: '상품 소개 관리',
-      content: <ProductIntroPanel introductionImageUrl={introductionImageUrl} />,
+      content: <ProductIntroPanel content={content} setContent={setContent} />,
     },
     {
       value: 'option',
       label: '상품 옵션 관리',
       content: <ProductOptionPanel />,
+    },
+    {
+      value: 'deliveryOption',
+      label: '상품 배송 관리',
+      content: <ProductDeliveryOptionPanel />,
     },
   ];
 

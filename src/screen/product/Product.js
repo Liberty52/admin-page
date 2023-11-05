@@ -71,6 +71,7 @@ export default function Product() {
               {product !== undefined ? (
                 product?.map((p) => (
                   <ProductItem
+                    key={p.id}
                     id={p.id}
                     name={p.name}
                     price={p.price}

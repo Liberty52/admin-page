@@ -59,7 +59,7 @@ export default function ProductOption({
     <>
       <Stack sx={{ width: 250 }} spacing={2}>
         <ProductOptionTitleWrapper onMouseEnter={onMouseOn} onMouseLeave={onMouseOut}>
-          <ProductOptionTitle onSale={option.onSale}>{option.optionName}</ProductOptionTitle>
+          <ProductOptionTitle>{option.optionName}</ProductOptionTitle>
           <HoverButtonWrapper focused={focused}>
             <HoverButton onClick={() => onOptionEditButtonClicked(option)}>
               <EditIcon />
@@ -70,8 +70,9 @@ export default function ProductOption({
           </HoverButtonWrapper>
         </ProductOptionTitleWrapper>
 
-        {option.optionDetailList.map((detail) => (
+        {option.optionDetailList.map((detail, i) => (
           <ProductOptionDetail
+            key={i}
             detail={detail}
             actived={actived}
             onEditButtonClicked={onOptionDetailEditButtonClicked}
