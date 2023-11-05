@@ -1,12 +1,8 @@
 import { useState, useRef } from 'react';
 import { Button } from '@mui/material';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import {
-  CurrentHtmlSizeSpan,
-  HTMLEditor,
-  HTMLSizeLimiter,
-} from './styled/ProductIntroEditorComponent';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { CurrentHtmlSizeSpan, HTMLSizeLimiter } from './styled/ProductIntroEditorComponent';
 import {
   patchProductIntroduction,
   deleteProductIntroduction,
@@ -144,9 +140,7 @@ export default function ProductIntroEditor({ content, setContent }) {
         previewStyle='vertical'
         height='500px'
         initialEditType='wysiwyg'
-        //
         useCommandShortcut={true}
-        //
         language='ko-KR'
         hideModeSwitch={true}
         autofocus={false}
