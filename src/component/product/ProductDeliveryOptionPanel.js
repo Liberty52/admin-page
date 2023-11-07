@@ -33,7 +33,8 @@ export default function ProductDeliveryOptionPanel() {
             alert(VALUE_REQUIRED_MESSAGE);
             return;
         }
-        const data = { courierName: selectedCourier, fee: deliveryPrice };
+        const data = { "courierName": selectedCourier, "fee": deliveryPrice };
+        console.log(data)
         if (initialData !== null) {
             updateDeliveryOption(productId, data)
                 .then(() => {
