@@ -1,5 +1,5 @@
 // components
-import { Box, Stack  } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { MainContainer } from '../../component/common/MainComponent';
 import SideNav from '../../component/common/side-nav/SideNav';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
-  const [introContent, setIntroContent] = useState("");
+  const [introContent, setIntroContent] = useState('');
 
   const detailEffect = async () => {
     try {
@@ -42,10 +42,11 @@ export default function ProductDetail() {
     navigate(PATH_PRODUCT);
   };
   const firstImage = () => {
-    if(product.id === "LIB-001"){
-      product.pictureUrl="https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png"
+    if (product.id === 'LIB-001') {
+      product.pictureUrl =
+        'https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png';
     }
-  }
+  };
 
   if (product === undefined) {
     return <div>Loading...</div>;
@@ -70,27 +71,23 @@ export default function ProductDetail() {
             </PointeredBox>
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
-          <div alignItems="flex-start">
-            <CardDetailImage
-              check={firstImage()}
-              src={product.pictureUrl}
-            />
+          <div alignItems='flex-start'>
+            <CardDetailImage check={firstImage()} src={product.pictureUrl} />
             <>
-        <Stack>
-             <LicenseTable
-                name={product.name}
-                price={product.price}
-                nOfRating={product.ratingCount}
-                state={product.state}
-                meanRate={product.meanRating}
-                custom={product.custom}
-              />
-        </Stack>
+              <Stack>
+                <LicenseTable
+                  name={product.name}
+                  price={product.price}
+                  nOfRating={product.ratingCount}
+                  state={product.state}
+                  meanRate={product.meanRating}
+                  custom={product.custom}
+                />
+              </Stack>
             </>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
-          <ProductTab introductionImageUrl={product.introductionImageUrl} />
-          
+          <ProductTab content={introContent} setContent={setIntroContent} />
           <Box />
         </Stack>
       </Box>

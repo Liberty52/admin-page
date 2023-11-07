@@ -1,0 +1,23 @@
+name: CI - 빌드
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v2
+
+      - name: Node.js 버전 설정
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 의존성 설치
+        run: npm install --force
+
+      - name: 빌드
+        run: CI=false npm run build
