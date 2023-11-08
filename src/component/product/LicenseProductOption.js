@@ -33,9 +33,7 @@ export default function LicenseProductOption({
   const [licenses, setLicenses] = useState(licenseOption.licenseOption);
 
 
-  // useEffect(()=>{
-  //   setImage(editProps.artUrl);
-  // })
+ 
   let reader = new FileReader();
   const ImageChange = (e) => {
     e.preventDefault();
@@ -52,9 +50,7 @@ export default function LicenseProductOption({
     }
   };
 
-  const changeImage = () => {
-    imageFile(setImage);
-  }
+
 
   return (
     <>
@@ -69,7 +65,6 @@ export default function LicenseProductOption({
         </ProductOptionTitleWrapper>
         <>
         <>
-             {/* <img src={editProps.artUrl} alt=""></img> */}
         </>
             
         </>

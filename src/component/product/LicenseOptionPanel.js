@@ -7,10 +7,9 @@ import { useParams } from 'react-router-dom';
 // constants
 import { ModalMode } from '../../constants/mode';
 // axios
-import { getDetatilLicense, getLicenseList, licenseOptionList, retrieveLiceneseOptionList, getOptionLicense} from '../../axios/License';
+import {  retrieveLiceneseOptionList} from '../../axios/License';
 import LicenseOptionModal from './LicenseOptionModal';
 import LicenseOptionDetailModal from './LicenseOptionDetailModal';
-
 
 export default function LicenseOptionPanel() {
   const { productId } = useParams();
@@ -57,10 +56,6 @@ export default function LicenseOptionPanel() {
     }
   }
 
-  const checkLicenseOption = () => {
-
-  }
-
   const clearOptionEditProps = () => {
     setLicenseOptionProps({
       id: '',
@@ -96,9 +91,7 @@ export default function LicenseOptionPanel() {
     console.log("id??"+licenseOption.licenseOptionId);
     setLicenseOptionProps({
       id: licenseOption.licenseOptionId,
-      // name: licenseOption.name,
-      // require: licenseOption.require,
-      // onSale: licenseOption.onSale,
+  
     });
   };
   const onOptionDetailModifyButtonClicked = (licenseDetail) => {

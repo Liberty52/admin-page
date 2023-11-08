@@ -1,11 +1,8 @@
 import { Button, Grid, Input, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
-import Checkbox from '@mui/joy/Checkbox';
-
 import { ModalMode } from '../../constants/mode';
 import { useEffect, useState } from 'react';
 import { ProductOptionModalTitle } from './styled/Product';
 import { Toast } from '../../utils/Toast';
-import { addProductOption, updateProductOption } from '../../axios/Product';
 import { createLicenseOption, modifyLicenseOption } from '../../axios/License';
 
 export default function LicenseOptionModal({
