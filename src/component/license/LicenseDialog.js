@@ -35,11 +35,11 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
   const [artistName, setArtistName] = useState('');
   const [artName, setArtName] = useState('');
   const [stock, setStock] = useState('');
-  const [startDate, setStartDate] = useState('YYYY-MM-DD');
+  const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('YYYY-MM-DD');
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
-  const [test, setTest] = useState();
+ 
 
   useEffect(() => {
     mode === ModalMode.ADD ? <></> : retrieveLicenseDetailDataAndSetState();
@@ -92,7 +92,8 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     onClose();
   };
   const enrollLicense = () => {
-    if (data.startDate > data.endDate) {
+    console.log(image);
+    if (startDate > endDate) {
       alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
     } else {
@@ -117,16 +118,16 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
   const editLicense = () => {
     retrieveLicenseDetailDataAndSetState();
 
-    // if(data.startDate> data.endDate){
-    //   alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
-    //   return;
-    // }
+    if(data.startDate> data.endDate){
+      alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
+      return;
+    }
 
-    modifyLicense(data, licenseImageId, image)
+    modifyLicense({artistName, artName, stock, startDate, endDate}, licenseImageId, image)
       .then(() => {
         Swal.fire({
           title: '라이센스 수정에 성공했습니다!',
-          text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
+          text: `행사 기간은: ${startDate} ~ ${endDate}까지 입니다`,
           icon: 'success',
         }).then(() => getLicenses());
       })
@@ -175,6 +176,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
       ...data,
       startDate: formattedDate,
     }));
+    setStartDate(formattedDate);
   };
 
   const endDateOption = (date) => {
@@ -183,6 +185,8 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
       ...data,
       endDate: formattedDate,
     }));
+    setEndDate(formattedDate);
+
   };
 
   const textChangeArtistName = (e) => {
@@ -215,7 +219,11 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   label='작품 이름'
                   fullWidth
                   variant='outlined'
-                  onChange={(e) => onHandleChange(e)}
+                  // onChange={(e) => onHandleChange(e)}
+                  // onChange={(e) => textChangeArtistName(e)}
+                  onChange={textChangeArtistName}
+
+
                 />
                 <TextField
                   autoFocus
@@ -224,7 +232,12 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   label='작가 이름'
                   fullWidth
                   variant='outlined'
-                  onChange={(e) => onHandleChange(e)}
+                  // onChange={(e) => onHandleChange(e)}
+                  // onChange={textChangeArtName}
+                  // onChange={(e) => textChangeArtName(e)}
+                  onChange={textChangeArtName}
+
+
                 />
                 <TextField
                   autoFocus
@@ -233,7 +246,13 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   label='수량'
                   fullWidth
                   variant='outlined'
-                  onChange={(e) => onHandleChange(e)}
+                  // onChange={(e) => onHandleChange(e)}
+                  // onChange={textChangeStock}
+                  // onChange={(e) => textChangeStock(e)}
+                  onChange={textChangeStock}
+
+
+
                 />
               </>
             ) : (
@@ -276,7 +295,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
             <DemoContainer components={['DatePicker']}>
               {mode === ModalMode.ADD ? (
                 <>
-                  <DatePicker
+               <DatePicker
                     name='startDate'
                     label='Start'
                     format='YYYY-MM-DD'
@@ -303,7 +322,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                     onChange={(newValue) => {
                       startDateOption(newValue);
                     }}
-                    value={dayjs(startDate)}
+                    // value={dayjs(startDate)}
                   />
 
                   <DatePicker
@@ -314,7 +333,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                     onChange={(newValue) => {
                       endDateOption(newValue);
                     }}
-                    value={dayjs(endDate)}
+                    // value={dayjs(endDate)}
                   />
                 </>
               )}
@@ -397,3 +416,4 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
 };
 
 export default LicenseDialog;
+
