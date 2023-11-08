@@ -147,3 +147,22 @@ export const ProductOptionaModalPriceQuantityName = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
 `;
+
+export const ProductLicenseOptionItemWrapper = styled.div`
+  box-sizing: border-box;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #d8d8df;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background-color: white; 
+`;
+export const ProductLicenseOptionTitle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: ${(props) => (props.iscustom ? 'line-through' : 'none')};
+  color: ${(props) => (props.iscustom ? 'rgba(0,0,0,0.3)' : 'black')};
+`;
