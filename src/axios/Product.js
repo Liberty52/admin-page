@@ -15,6 +15,7 @@ import {
   GET_DELIVERY_OPTION,
   ADD_DELIVERY_OPTION,
   UPDATE_DELIVERY_OPTION,
+  PATCH_PRODUCT,
 } from '../constants/api';
 import { ACCESS_TOKEN } from '../constants/token';
 import { CONTENT_TYPE } from '../constants/content-type';
@@ -145,6 +146,20 @@ export const updateDeliveryOption = (optionId, data) => {
   return request.put(UPDATE_DELIVERY_OPTION(optionId), data, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};
+export const patchProduct = (productId, productRequestDto) => {
+  const blob = new Blob([JSON.stringify(productRequestDto)], {
+    type: CONTENT_TYPE.ApplicationJson,
+  });
+  const formData = new FormData();
+  formData.append('productRequestDto', blob);
+  formData.append('productImage', null);
+  return request.patch(PATCH_PRODUCT(productId), formData,{
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.MultipartFormData,
     },
   });
 };
