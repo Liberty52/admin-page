@@ -34,9 +34,18 @@ export default function ProductDetail() {
     }
   };
 
+  const onProductUpdate = async () => {
+    try {
+      const updatedProduct = await retrieveProductDetail(productId);
+      setProduct(updatedProduct.data); // 새로운 상품 정보로 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     detailEffect();
-  }, []);
+  }, [productId]);
 
   const onBackButtonClicked = () => {
     navigate(PATH_PRODUCT);
@@ -82,6 +91,7 @@ export default function ProductDetail() {
                   state={product.state}
                   meanRate={product.meanRating}
                   custom={product.custom}
+                  onProductUpdate={onProductUpdate}
                 />
               </Stack>
             </>
