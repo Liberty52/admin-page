@@ -21,35 +21,24 @@ import { LicenseTable } from '../../component/license/LicenseTable';
 export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(undefined);
+  const [product, setProduct] = useState({});
   const [introContent, setIntroContent] = useState('');
 
-  const detailEffect = async () => {
-    try {
-      const response = await retrieveProductDetail(productId);
-      setProduct(response.data);
-      setIntroContent(response.data.content);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const onProductUpdate = async () => {
-    try {
-      const updatedProduct = await retrieveProductDetail(productId);
-      setProduct(updatedProduct.data); // 새로운 상품 정보로 상태 업데이트
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    detailEffect();
-  }, [productId]);
+    getProductDetail();
+  }, []);
+
+  const getProductDetail = () => {
+    retrieveProductDetail(productId).then((res) => {
+      setProduct(res.data);
+      setIntroContent(res.data.content);
+    });
+  };
 
   const onBackButtonClicked = () => {
     navigate(PATH_PRODUCT);
   };
+
   const firstImage = () => {
     if (product.id === 'LIB-001') {
       product.pictureUrl =
@@ -91,7 +80,7 @@ export default function ProductDetail() {
                   state={product.state}
                   meanRate={product.meanRating}
                   custom={product.custom}
-                  onProductUpdate={onProductUpdate}
+                  getProductDetail={getProductDetail}
                 />
               </Stack>
             </>
