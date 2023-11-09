@@ -4,6 +4,7 @@ import { useState } from 'react';
 import ProductIntroPanel from './ProductIntroPanel';
 import ProductOptionPanel from './ProductOptionPanel';
 import ProductDeliveryOptionPanel from "./ProductDeliveryOptionPanel";
+import LicenseOptionPanel from './LicenseOptionPanel';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +57,11 @@ export default function ProductTab({ content, setContent }) {
       value: 'deliveryOption',
       label: '상품 배송 관리',
       content: <ProductDeliveryOptionPanel />,
+    },
+    {
+      value: 'licneseOption',
+      label: '라이센스 옵션 관리',
+      content: <LicenseOptionPanel />,
     },
   ];
 

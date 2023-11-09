@@ -1,3 +1,7 @@
 .notice-contents {
   width: 1000px;
 }
+
+.notice-contents img {
+  max-width: 100%;
+}

@@ -1,8 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   CurrentHtmlSizeSpan,
-  HTMLEditor,
   HTMLSizeLimiter,
   MoveToListButton,
   QuestEditorTitleInput,
@@ -12,9 +11,8 @@ import {
   QuestionPageButtonWrapper,
 } from './style/QuestionComponent';
 import { Input } from 'antd';
-import { Editor } from '@toast-ui/editor';
+import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
 import { ModalMode } from '../../constants/mode';
 import { useNavigate } from 'react-router';
 import { createNotice, getNoticeDetail, updateNotice, uploadImage } from '../../axios/Notice';
@@ -32,7 +30,7 @@ export default function NoticeEditor() {
   const [prevData, setPrevData] = useState();
   const [noticeId, setNoticeId] = useState();
 
-  let editor;
+  const editorRef = useRef();
 
   const effect = async () => {
     const isMobile = /Mobi/i.test(window.navigator.userAgent); // "Mobi" 가 User agent에 포함되어 있으면 모바일
@@ -53,29 +51,7 @@ export default function NoticeEditor() {
       setTitle(PREV_DATA.title);
       setAllowComments(PREV_DATA.commentable);
     }
-    editor = new Editor({
-      el: document.querySelector('#editor'),
-      previewStyle: 'vertical',
-      height: '500px',
-      initialEditType: 'wysiwyg',
-      initialValue: data,
-      language: 'ko-KR',
-      hideModeSwitch: true,
-      autofocus: false,
-      toolbarItems: [
-        ['heading', 'bold', 'italic', 'strike'],
-        ['hr', 'quote'],
-        ['ul', 'ol', 'task'],
-        ['table', 'image', 'link'],
-      ],
-      events: {
-        change: editorHTMLChanged,
-      },
-      hooks: {
-        addImageBlobHook: (blob, callback) => uploadImages(blob, callback),
-      },
-    });
-    if (isMobile) editor.setHeight('300px');
+    if (isMobile) editorRef?.current.getInstance().setHeight('300px');
   };
   useEffect(() => {
     effect();
@@ -91,9 +67,10 @@ export default function NoticeEditor() {
     setTitle(event.target.value);
   };
   const editorHTMLChanged = () => {
-    setContent(editor.getHTML());
-    setHtmlSize(editor.getHTML().length);
-    setExceed(editor.getHTML().length > MAX_HTML_SIZE);
+    const html = editorRef?.current.getInstance().getHTML();
+    setContent(html);
+    setHtmlSize(html.length);
+    setExceed(html.length > MAX_HTML_SIZE);
   };
   const moveToListButtonClicked = () => {
     navigate(`/notice/`);
@@ -188,7 +165,28 @@ export default function NoticeEditor() {
           placeholder={'제목을 입력해주세요'}
           onChange={titleInputChanged}
         />
-        <HTMLEditor id={'editor'}></HTMLEditor>
+        <div style={{ width: '100%' }}>
+          <Editor
+            ref={editorRef}
+            initialValue={content}
+            previewStyle='vertical'
+            width='100%'
+            height='500px'
+            initialEditType='wysiwyg'
+            useCommandShortcut={true}
+            language='ko-KR'
+            hideModeSwitch={true}
+            autofocus={false}
+            toolbarItems={[
+              ['heading', 'bold', 'italic', 'strike'],
+              ['hr', 'quote'],
+              ['ul', 'ol', 'task'],
+              ['table', 'image', 'link'],
+            ]}
+            onChange={editorHTMLChanged}
+            hooks={{ addImageBlobHook: uploadImages }}
+          />
+        </div>
         <HTMLSizeLimiter>
           <div>
             <CurrentHtmlSizeSpan isExeed={exceed}>{htmlSize}</CurrentHtmlSizeSpan>

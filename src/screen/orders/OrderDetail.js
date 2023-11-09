@@ -4,7 +4,7 @@ import './OrderDetail.css';
 import { Box } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { fetchOrderDetail, upscaleImage } from '../../axios/Orders';
+import { fetchOrderDetail, upscaleImage, fetchRealTimeDeliveryInfo } from '../../axios/Orders';
 import Button from '../../component/common/Button';
 
 function Border() {
@@ -173,7 +173,7 @@ function OrderPerson({ order }) {
   );
 }
 
-function OrderDelivery({ order }) {
+function OrderDestination({ order }) {
   return (
     <>
       <h2>배송지 정보</h2>
@@ -193,6 +193,29 @@ function OrderDelivery({ order }) {
     </>
   );
 }
+
+function OrderDelivery({ order }) {
+  return (
+    <>
+      <div className="grid">
+        <div className='Order-common'>택배사 이름</div>
+        <div className='Order-common'>{order.orderDelivery?.name}</div>
+      </div>
+      <div className="grid">
+        <div className='Order-common'>운송장번호</div>
+        <div className='Order-common'>{order.orderDelivery?.trackingNumber}</div>
+      </div>
+      <Button 
+        text='배송조회'
+        onClick={() => {
+          const popup = window.open("about:blank", "배송조회", "width=500,height=700,top=100,left=100");
+          fetchRealTimeDeliveryInfo(order, popup)
+        }}
+      ></Button>
+    </>
+  );
+}
+
 function OrderPayment({ order }) {
   let paymentDetail;
 
@@ -330,7 +353,10 @@ export default function OrderDetail() {
           <OrderInquiryDelivery order={order} />
           <OrderInquiryDelivery2 order={order} />
           <OrderPerson order={order} />
-          <OrderDelivery order={order} />
+          <OrderDestination order={order} />
+          {order.orderDelivery !== null ? (
+            <OrderDelivery order={order} />
+          ) : (<></>)}
           <OrderPayment order={order} />
           <ReOrderDetail />
         </div>

@@ -99,3 +99,17 @@ export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${lic
 
 //상품 라이센스 옵션 api
 export const CUSTOM_LICENSE = () => `/admin/product`;
+
+// 실시간 배송정보 조회 api
+export const GET_REDIRECT_URL_OF_ORDER_DELIEVERY = (orderId, courierCode, trackingNumber) => 
+  `/product/orders/${orderId}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`;
+  
+//라이선스 상품 옵션 api
+export const CREATE_LICENSE_OPTION = (productId) => `/admin/licenseOption/${productId}`;
+export const MODIFY_LICENSE_OPTION = (licenseOptionId) => `/admin/licenseOption/${licenseOptionId}`;
+//라이선스 상품 디테일 옵션 api 
+export const CREATE_LICENSE_OPTION_DETAIL = (licenseOptionId) => `/admin/licenseOptionDetail/${licenseOptionId}`;
+export const MODIFY_LICENSE_OPTION_DETAIL = (licenseOptionDetailId) => `/admin/licenseOptionDetail/${licenseOptionDetailId}`;
+export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = () => `/admin/licenseOptionDetailOnSale/{licenseOptionDetailId}`;
+export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) => 
+`/admin/licenseProductOptionInfo/${productId}?onSale=${onSale}`;
