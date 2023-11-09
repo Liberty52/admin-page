@@ -101,7 +101,6 @@ export const LicenseTable = (props) => {
 
     patchProduct(productId, productRequestDto)
       .then((response) => {
-        console.log(productRequestDto, response.data);
         const prevData = response.data;
         alert('상품이 성공적으로 수정되었습니다.');
         setProductName(prevData.name);
