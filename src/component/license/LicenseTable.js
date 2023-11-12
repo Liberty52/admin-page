@@ -37,10 +37,10 @@ export const LicenseTable = (props) => {
   const { productId } = useParams();
 
   useEffect(() => {
-    check();
+    stateCheck();
     retrieveProductState();
-  }, []);
-
+  }, [name, state, price, custom]);
+  
   const retrieveProduct = (productId) => {
     retrieveProductDetail(productId).then((res) => {
       const prevData = res.data;
@@ -59,7 +59,7 @@ export const LicenseTable = (props) => {
     }
   }
 
-  const check = () => {
+  const stateCheck = () => {
     let newStateText = '';
     let newCustomText = '';
 
