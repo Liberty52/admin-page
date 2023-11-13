@@ -113,3 +113,8 @@ export const MODIFY_LICENSE_OPTION_DETAIL = (licenseOptionDetailId) => `/admin/l
 export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = () => `/admin/licenseOptionDetailOnSale/{licenseOptionDetailId}`;
 export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) => 
 `/admin/licenseProductOptionInfo/${productId}?onSale=${onSale}`;
+
+// 상품 정보를 수정하는 api 
+export const PATCH_PRODUCT = (productId) => `/admin/product/${productId}`;
+// 상품을 삭제하는 api
+export const DELETE_PRODUCT = (productId) => `/admin/product/${productId}`;
