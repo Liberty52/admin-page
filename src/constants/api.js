@@ -110,6 +110,6 @@ export const MODIFY_LICENSE_OPTION = (licenseOptionId) => `/admin/licenseOption/
 //라이선스 상품 디테일 옵션 api 
 export const CREATE_LICENSE_OPTION_DETAIL = (licenseOptionId) => `/admin/licenseOptionDetail/${licenseOptionId}`;
 export const MODIFY_LICENSE_OPTION_DETAIL = (licenseOptionDetailId) => `/admin/licenseOptionDetail/${licenseOptionDetailId}`;
-export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = () => `/admin/licenseOptionDetailOnSale/{licenseOptionDetailId}`;
+export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = (licenseOptionDetailId) => `/admin/licenseOptionDetailOnSale/${licenseOptionDetailId}`;
 export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) => 
 `/admin/licenseProductOptionInfo/${productId}?onSale=${onSale}`;

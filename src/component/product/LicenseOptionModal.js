@@ -126,20 +126,6 @@ export default function LicenseOptionModal({
               placeholder={'추가할 라이선스 옵션 항목의 이름을 입력해주세요'}
             />
           </Grid>
-          {/* <Grid sm={2}>
-            <Checkbox
-              checked={onSale}
-              onChange={(e) => setOnSale(e.target.checked)}
-              label={'판매'}
-            />
-          </Grid>
-          <Grid sm={2}>
-            <Checkbox
-              checked={require}
-              onChange={(e) => setRequire(e.target.checked)}
-              label={'필수'}
-            />
-          </Grid> */}
         </Grid>
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={onActionButtonClicked}>{buttonText}</Button>

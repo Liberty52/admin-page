@@ -30,10 +30,10 @@ export const LicenseTable = (props) => {
     if (state === 'NOT_SALE') {
       setStateText('미판매');
     }
-    if (custom === true) {
+    if (custom === false) {
       setCustomText('Premium License');
     }
-    if (custom === false) {
+    if (custom === true) {
       setCustomText('Custom');
     }
   };

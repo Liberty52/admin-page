@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductIntroPanel from './ProductIntroPanel';
 import ProductOptionPanel from './ProductOptionPanel';
-import ProductDeliveryOptionPanel from "./ProductDeliveryOptionPanel";
+import ProductDeliveryOptionPanel from './ProductDeliveryOptionPanel';
 import LicenseOptionPanel from './LicenseOptionPanel';
 
 function TabPanel(props) {
@@ -35,7 +35,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ProductTab({ content, setContent }) {
+export default function ProductTab({ content, setContent, productCustom }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -81,6 +81,7 @@ export default function ProductTab({ content, setContent }) {
           })}
         </Tabs>
       </Box>
+
       {tabConfigs.map((t, i, arr) => {
         return (
           <TabPanel key={i} value={value} index={i}>
