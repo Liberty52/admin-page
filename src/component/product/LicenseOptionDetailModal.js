@@ -357,9 +357,7 @@ export default function LicenseOptionDetailModal({
               </Grid>
             </Grid>
           )}
-
           <img src={imageSrc} alt='' width='35%'></img>
-
           <>
             <Button component='label'>
               Upload File
