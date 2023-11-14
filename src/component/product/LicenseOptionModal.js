@@ -20,7 +20,6 @@ export default function LicenseOptionModal({
   const [buttonText, setButtonText] = useState();
 
   useEffect(() => {
-
     setButtonText(mode === ModalMode.ADD ? '추가하기' : '수정하기');
   }, [open]);
   const onCloseAction = () => {
@@ -35,7 +34,7 @@ export default function LicenseOptionModal({
     if (mode === ModalMode.ADD) {
       addOptionButtonClicked();
     } else {
-        editLicenseOptionDetail();
+      editLicenseOptionDetail();
     }
   };
   const addOptionButtonClicked = async () => {
@@ -52,8 +51,7 @@ export default function LicenseOptionModal({
     if (!isValid) return;
 
     try {
-      console.log("name"+value);
-      const response = await createLicenseOption(productId, {name: value});
+      const response = await createLicenseOption(productId, { name: value });
       Toast.fire({
         icon: 'success',
         title: '옵션이 추가되었습니다.',
@@ -73,9 +71,8 @@ export default function LicenseOptionModal({
       return;
     }
 
-
     try {
-      const response = await modifyLicenseOption(editProps.id, {name: value});
+      const response = await modifyLicenseOption(editProps.id, { name: value });
       Toast.fire({
         icon: 'success',
         title: '옵션이 수정되었습니다.',

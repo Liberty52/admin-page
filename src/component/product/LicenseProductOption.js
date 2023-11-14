@@ -21,7 +21,6 @@ export default function LicenseProductOption({
   imageFile,
 }) {
   const [focused, setFocused] = useState();
-
   const onMouseOn = () => {
     setFocused(true);
   };

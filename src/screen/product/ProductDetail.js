@@ -21,26 +21,24 @@ import { LicenseTable } from '../../component/license/LicenseTable';
 export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(undefined);
+  const [product, setProduct] = useState({});
   const [introContent, setIntroContent] = useState('');
 
-  const detailEffect = async () => {
-    try {
-      const response = await retrieveProductDetail(productId);
-      setProduct(response.data);
-      setIntroContent(response.data.content);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   useEffect(() => {
-    detailEffect();
+    getProductDetail();
   }, []);
+
+  const getProductDetail = () => {
+    retrieveProductDetail(productId).then((res) => {
+      setProduct(res.data);
+      setIntroContent(res.data.content);
+    });
+  };
 
   const onBackButtonClicked = () => {
     navigate(PATH_PRODUCT);
   };
+
   const firstImage = () => {
     if (product.id === 'LIB-001') {
       product.pictureUrl =
@@ -82,6 +80,7 @@ export default function ProductDetail() {
                   state={product.state}
                   meanRate={product.meanRating}
                   custom={product.custom}
+                  getProductDetail={getProductDetail}
                 />
               </Stack>
             </>

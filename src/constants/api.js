@@ -39,8 +39,7 @@ export const CUSTOMER_LIST = (size, page, sort) => {
 // 주문 조회 api
 export const CANCELED_ORDERS = (size, page, type) =>
   `/admin/orders/cancel??size=${size}&page=${page}&type=${type}`;
-export const CANCELED_ORDER_DETAILS = (orderId) =>
-  `/admin/orders/cancel/${orderId}`;
+export const CANCELED_ORDER_DETAILS = (orderId) => `/admin/orders/cancel/${orderId}`;
 
 // 업스케일링
 export const UPSCALE_IMAGE = () => `/product/images/upscaling`;
@@ -75,8 +74,7 @@ export const ADD_DELIVERY_OPTION = (productId) => `/admin/products/${productId}/
 export const UPDATE_DELIVERY_OPTION = (productId) => `/admin/products/${productId}/deliveryOptions`;
 
 // - 소개 관리
-export const PATCH_PRODUCT_INTRODUCTION = (productId) =>
-  `/admin/product/${productId}/introduction`;
+export const PATCH_PRODUCT_INTRODUCTION = (productId) => `/admin/product/${productId}/introduction`;
 export const DELETE_PRODUCT_INTRODUCTION = (productId) =>
   `/admin/product/${productId}/introduction`;
 export const UPLOAD_PRODUCT_IMAGE = () => `/admin/productIntroduction/img`;
@@ -101,15 +99,23 @@ export const GET_DETAIL_LICENSE = (licenseImageId) => `/admin/licenseImage/${lic
 export const CUSTOM_LICENSE = () => `/admin/product`;
 
 // 실시간 배송정보 조회 api
-export const GET_REDIRECT_URL_OF_ORDER_DELIEVERY = (orderId, courierCode, trackingNumber) => 
+export const GET_REDIRECT_URL_OF_ORDER_DELIEVERY = (orderId, courierCode, trackingNumber) =>
   `/product/orders/${orderId}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`;
-  
+
 //라이선스 상품 옵션 api
 export const CREATE_LICENSE_OPTION = (productId) => `/admin/licenseOption/${productId}`;
 export const MODIFY_LICENSE_OPTION = (licenseOptionId) => `/admin/licenseOption/${licenseOptionId}`;
-//라이선스 상품 디테일 옵션 api 
-export const CREATE_LICENSE_OPTION_DETAIL = (licenseOptionId) => `/admin/licenseOptionDetail/${licenseOptionId}`;
-export const MODIFY_LICENSE_OPTION_DETAIL = (licenseOptionDetailId) => `/admin/licenseOptionDetail/${licenseOptionDetailId}`;
-export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = (licenseOptionDetailId) => `/admin/licenseOptionDetailOnSale/${licenseOptionDetailId}`;
-export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) => 
-`/admin/licenseProductOptionInfo/${productId}?onSale=${onSale}`;
+//라이선스 상품 디테일 옵션 api
+export const CREATE_LICENSE_OPTION_DETAIL = (licenseOptionId) =>
+  `/admin/licenseOptionDetail/${licenseOptionId}`;
+export const MODIFY_LICENSE_OPTION_DETAIL = (licenseOptionDetailId) =>
+  `/admin/licenseOptionDetail/${licenseOptionDetailId}`;
+export const MODIFY_LICENSE_OPTION_ONSALE_DETAIL = (licenseOptionDetailId) =>
+  `/admin/licenseOptionDetailOnSale/${licenseOptionDetailId}`;
+export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) =>
+  `/admin/licenseProductOptionInfo/${productId}?onSale=${onSale}`;
+
+// 상품 정보를 수정하는 api
+export const PATCH_PRODUCT = (productId) => `/admin/product/${productId}`;
+// 상품을 삭제하는 api
+export const DELETE_PRODUCT = (productId) => `/admin/product/${productId}`;

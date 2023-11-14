@@ -5,6 +5,7 @@ import { ModalMode } from '../../constants/mode';
 import { useEffect, useState, useRef } from 'react';
 import { ProductOptionModalTitle } from './styled/Product';
 import { Toast } from '../../utils/Toast';
+import { updateOptionDetail } from '../../axios/Product';
 import { createLicenseOptionDetail, modifyLicenseOptionDetail } from '../../axios/License';
 import { Box } from '@mui/material';
 import { ProductOptionaModalPriceQuantityName } from './styled/Product';
@@ -149,6 +150,7 @@ export default function LicenseOptionDetailModal({
         },
         image,
       );
+
       Toast.fire({
         icon: 'success',
         title: '옵션이 추가되었습니다.',
@@ -190,7 +192,6 @@ export default function LicenseOptionDetailModal({
       });
     }
     if (!isValid) return;
-
     try {
       const response = await modifyLicenseOptionDetail(
         editProps.licenseOptionDetailId,
@@ -205,6 +206,7 @@ export default function LicenseOptionDetailModal({
         },
         image,
       );
+
       Toast.fire({
         icon: 'success',
         title: '옵션이 수정되었습니다.',
@@ -270,7 +272,6 @@ export default function LicenseOptionDetailModal({
           />
         </>
         <Box sx={{ py: 1 }} />
-
         <div>
           {mode === ModalMode.ADD ? (
             <Grid container spacing={2} sx={{ flexGrow: 1 }} alignItems={'center'}>
@@ -294,6 +295,7 @@ export default function LicenseOptionDetailModal({
                   />
                 </DemoContainer>
               </LocalizationProvider>
+
               <Grid sm={10}>
                 <ProductOptionaModalPriceQuantityName>
                   제품 수량

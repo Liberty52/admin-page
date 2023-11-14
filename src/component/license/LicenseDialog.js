@@ -137,7 +137,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
 
   const editLicense = () => {
     retrieveLicenseDetailDataAndSetState();
-
     if (startDate > endDate) {
       alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
