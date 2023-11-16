@@ -102,7 +102,7 @@ export default function ProductDeliveryOptionPanel() {
             return;
         }
         const data = { courierName: deliveryInfo.courierName, fee: deliveryPrice };
-        if (initialData !== null) {
+        if (initialData.fee !== null) {
             updateDeliveryOption(productId, data)
                 .then(() => {
                     Swal.fire({
