@@ -20,7 +20,6 @@ export default function LicenseOptionModal({
   const [buttonText, setButtonText] = useState();
 
   useEffect(() => {
-
     setButtonText(mode === ModalMode.ADD ? '추가하기' : '수정하기');
   }, [open]);
   const onCloseAction = () => {
@@ -35,7 +34,7 @@ export default function LicenseOptionModal({
     if (mode === ModalMode.ADD) {
       addOptionButtonClicked();
     } else {
-        editLicenseOptionDetail();
+      editLicenseOptionDetail();
     }
   };
   const addOptionButtonClicked = async () => {
@@ -52,8 +51,7 @@ export default function LicenseOptionModal({
     if (!isValid) return;
 
     try {
-      console.log("name"+value);
-      const response = await createLicenseOption(productId, {name: value});
+      const response = await createLicenseOption(productId, { name: value });
       Toast.fire({
         icon: 'success',
         title: '옵션이 추가되었습니다.',
@@ -73,9 +71,8 @@ export default function LicenseOptionModal({
       return;
     }
 
-
     try {
-      const response = await modifyLicenseOption(editProps.id, {name: value});
+      const response = await modifyLicenseOption(editProps.id, { name: value });
       Toast.fire({
         icon: 'success',
         title: '옵션이 수정되었습니다.',
@@ -126,20 +123,6 @@ export default function LicenseOptionModal({
               placeholder={'추가할 라이선스 옵션 항목의 이름을 입력해주세요'}
             />
           </Grid>
-          {/* <Grid sm={2}>
-            <Checkbox
-              checked={onSale}
-              onChange={(e) => setOnSale(e.target.checked)}
-              label={'판매'}
-            />
-          </Grid>
-          <Grid sm={2}>
-            <Checkbox
-              checked={require}
-              onChange={(e) => setRequire(e.target.checked)}
-              label={'필수'}
-            />
-          </Grid> */}
         </Grid>
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={onActionButtonClicked}>{buttonText}</Button>
