@@ -19,8 +19,6 @@ import { useEffect } from 'react';
 import { Toast } from '../../utils/Toast';
 import Avatar from 'antd/es/avatar/avatar';
 import { ModalMode } from '../../constants/mode';
-import { arTN } from 'date-fns/locale';
-import TextArea from 'antd/es/input/TextArea';
 
 const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, imageUrl }) => {
   const [data, setData] = useState({
@@ -39,7 +37,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
   const [endDate, setEndDate] = useState('YYYY-MM-DD');
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
- 
 
   useEffect(() => {
     mode === ModalMode.ADD ? <></> : retrieveLicenseDetailDataAndSetState();
@@ -82,17 +79,40 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     }
   };
 
-  const onHandleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
   const onHandleChangeImage = (e) => {
     setImage(e.target.files[0]);
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      setImageFile(e.target.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
   const handleClose = () => {
     onClose();
   };
   const enrollLicense = () => {
-    console.log(image);
+    switch (data) {
+      case data.artName.length === 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '작품의 이름을 입력해주세요.',
+        });
+        break;
+      case data.artistName.length === 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '작가의 이름을 입력해주세요.',
+        });
+        break;
+      case data.stock <= 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '수량을 1이상의 값을 입력해주세요.',
+        });
+        break;
+      default:
+    }
     if (startDate > endDate) {
       alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
@@ -104,6 +124,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
             text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
             icon: 'success',
           }).then(() => getLicenses());
+          onClose();
         })
         .catch(() => {
           Swal.fire({
@@ -112,32 +133,52 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
           });
         });
     }
-    onClose();
   };
 
   const editLicense = () => {
     retrieveLicenseDetailDataAndSetState();
-
-    if(data.startDate> data.endDate){
-      alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
+    if (startDate > endDate) {
+      alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
     }
-
-    modifyLicense({artistName, artName, stock, startDate, endDate}, licenseImageId, image)
-      .then(() => {
-        Swal.fire({
-          title: '라이센스 수정에 성공했습니다!',
-          text: `행사 기간은: ${startDate} ~ ${endDate}까지 입니다`,
-          icon: 'success',
-        }).then(() => getLicenses());
-      })
-      .catch(() => {
-        Swal.fire({
-          title: '라이센스 수정에 실패했습니다',
-          icon: 'error',
-        });
+    if (artName.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '작품의 이름을 입력해주세요.',
       });
-    onClose();
+      return;
+    }
+    if (artistName.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '작가의 이름을 입력해주세요.',
+      });
+      return;
+    }
+    if (stock <= 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '재고를 1이상의 값을 입력해주세요.',
+      });
+      return;
+    } else {
+      modifyLicense({ artistName, artName, stock, startDate, endDate }, licenseImageId, image)
+        .then(() => {
+          Swal.fire({
+            title: '라이센스 수정에 성공했습니다!',
+            text: `행사 기간은: ${startDate} ~ ${endDate}까지 입니다`,
+            icon: 'success',
+          }).then(() => getLicenses());
+          retrieveLicenseDetailDataAndSetState();
+          onClose();
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '라이센스 수정에 실패했습니다',
+            icon: 'error',
+          });
+        });
+    }
   };
   const DeleteLicense = () => {
     handleClose();
@@ -186,7 +227,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
       endDate: formattedDate,
     }));
     setEndDate(formattedDate);
-
   };
 
   const textChangeArtistName = (e) => {
@@ -216,28 +256,19 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   autoFocus
                   margin='dense'
                   name='artistName'
-                  label='작품 이름'
+                  label='작가 이름'
                   fullWidth
                   variant='outlined'
-                  // onChange={(e) => onHandleChange(e)}
-                  // onChange={(e) => textChangeArtistName(e)}
                   onChange={textChangeArtistName}
-
-
                 />
                 <TextField
                   autoFocus
                   margin='dense'
                   name='artName'
-                  label='작가 이름'
+                  label='작품 이름'
                   fullWidth
                   variant='outlined'
-                  // onChange={(e) => onHandleChange(e)}
-                  // onChange={textChangeArtName}
-                  // onChange={(e) => textChangeArtName(e)}
                   onChange={textChangeArtName}
-
-
                 />
                 <TextField
                   autoFocus
@@ -246,13 +277,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   label='수량'
                   fullWidth
                   variant='outlined'
-                  // onChange={(e) => onHandleChange(e)}
-                  // onChange={textChangeStock}
-                  // onChange={(e) => textChangeStock(e)}
                   onChange={textChangeStock}
-
-
-
                 />
               </>
             ) : (
@@ -261,7 +286,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   autoFocus
                   margin='dense'
                   name='artistName'
-                  label='작품 이름'
+                  label='작가 이름'
                   fullWidth
                   variant='outlined'
                   value={artistName}
@@ -271,7 +296,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   autoFocus
                   margin='dense'
                   name='artName'
-                  label='작가 이름'
+                  label='작품 이름'
                   fullWidth
                   variant='outlined'
                   value={artName}
@@ -295,7 +320,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
             <DemoContainer components={['DatePicker']}>
               {mode === ModalMode.ADD ? (
                 <>
-               <DatePicker
+                  <DatePicker
                     name='startDate'
                     label='Start'
                     format='YYYY-MM-DD'
@@ -322,7 +347,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                     onChange={(newValue) => {
                       startDateOption(newValue);
                     }}
-                    // value={dayjs(startDate)}
+                    value={dayjs(startDate)}
                   />
 
                   <DatePicker
@@ -333,23 +358,26 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                     onChange={(newValue) => {
                       endDateOption(newValue);
                     }}
-                    // value={dayjs(endDate)}
+                    value={dayjs(endDate)}
                   />
                 </>
               )}
             </DemoContainer>
           </LocalizationProvider>
           {mode === ModalMode.ADD ? (
-            <Button variant='contained' component='label'>
-              Upload File
-              <input
-                type='file'
-                accept='image/*'
-                name='image'
-                hidden
-                onChange={(e) => onHandleChangeImage(e)}
-              />
-            </Button>
+            <>
+              <img src={imageFile} alt='' style={{ maxWidth: '150px' }}></img>
+              <Button variant='contained' component='label'>
+                Upload File
+                <input
+                  type='file'
+                  accept='image/*'
+                  name='image'
+                  hidden
+                  onChange={(e) => onHandleChangeImage(e)}
+                />
+              </Button>
+            </>
           ) : (
             <>
               <Button></Button>
@@ -371,7 +399,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   }}
                 />
               </>
-              <img src={image} alt=''></img>
+              <img src={image} alt='' style={{ maxWidth: '200px' }}></img>
             </>
           )}
         </DialogContent>
@@ -416,4 +444,3 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
 };
 
 export default LicenseDialog;
-

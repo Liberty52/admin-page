@@ -40,7 +40,7 @@ export const LicenseTable = (props) => {
     stateCheck();
     retrieveProductState();
   }, [name, state, price, custom]);
-  
+
   const retrieveProduct = (productId) => {
     retrieveProductDetail(productId).then((res) => {
       const prevData = res.data;
@@ -56,6 +56,12 @@ export const LicenseTable = (props) => {
       retrieveProduct(productId);
     } catch (e) {
       console.error(e);
+    }
+    if (custom === false) {
+      setCustomText('Premium License');
+    }
+    if (custom === true) {
+      setCustomText('Custom');
     }
   }
 
@@ -215,7 +221,7 @@ export const LicenseTable = (props) => {
                 </div>
               </TableCell>
               <TableCell>{productPrice}</TableCell>
-              <TableCell>{productState}</TableCell>
+              <TableCell>{stateText}</TableCell>
 
               <TableCell>
                 <Rating defaultValue={meanRate} size='large' readOnly />

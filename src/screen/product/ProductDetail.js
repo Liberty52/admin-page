@@ -86,7 +86,7 @@ export default function ProductDetail() {
             </>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
-          <ProductTab content={introContent} setContent={setIntroContent} />
+          <ProductTab content={introContent} setContent={setIntroContent} productCustom = {product.custom} />
           <Box />
         </Stack>
       </Box>
