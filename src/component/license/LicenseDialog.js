@@ -92,29 +92,29 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     onClose();
   };
   const enrollLicense = () => {
+    switch (data) {
+      case data.artName.length === 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '작품의 이름을 입력해주세요.',
+        });
+        break;
+      case data.artistName.length === 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '작가의 이름을 입력해주세요.',
+        });
+        break;
+      case data.stock <= 0:
+        Toast.fire({
+          icon: 'warning',
+          title: '수량을 1이상의 값을 입력해주세요.',
+        });
+        break;
+      default:
+    }
     if (startDate > endDate) {
       alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
-      return;
-    }
-    if (data.artName.length === 0) {
-      Toast.fire({
-        icon: 'warning',
-        title: '작품의 이름을 입력해주세요.',
-      });
-      return;
-    }
-    if (data.artistName.length === 0) {
-      Toast.fire({
-        icon: 'warning',
-        title: '작가의 이름을 입력해주세요.',
-      });
-      return;
-    }
-    if (data.stock <= 0) {
-      Toast.fire({
-        icon: 'warning',
-        title: '수량을 1이상의 값을 입력해주세요.',
-      });
       return;
     } else {
       createLicense(data, image)

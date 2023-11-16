@@ -37,7 +37,10 @@ export default function LicenseOptionDetail({ onEditButtonClicked, licenseDetail
         const data = {
           onSale: !licenseDetail.onSale,
         };
-        changeLicenseOptionDetailOnSale(licenseDetail.licenseOptionDetailId, data).then(() => {
+        changeLicenseOptionDetailOnSale(
+          licenseDetail.licenseOptionDetailId,
+          !licenseDetail.onSale,
+        ).then(() => {
           Toast.fire({
             icon: 'success',
             title: '변경이 완료되었습니다',
