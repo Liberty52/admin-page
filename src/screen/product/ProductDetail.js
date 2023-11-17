@@ -71,7 +71,6 @@ export default function ProductDetail() {
           </Stack>
           <div alignItems='flex-start'>
             <CardDetailImage
-              // check={firstImage()}
               src={product.pictureUrl}
             />
             <>
