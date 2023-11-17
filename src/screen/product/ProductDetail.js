@@ -69,7 +69,7 @@ export default function ProductDetail() {
             </PointeredBox>
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
-          <div alignItems='flex-start'>
+          <div>
             <CardDetailImage check={firstImage()} src={product.pictureUrl} />
             <>
               <Stack>
