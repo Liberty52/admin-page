@@ -21,6 +21,7 @@ import {
 import { useEffect, useState } from 'react';
 import { HoverButton } from '../product/styled/Product';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { patchProduct, deleteProduct, retrieveProductDetail } from '../../axios/Product';
 import { useParams } from 'react-router-dom';
 
@@ -52,6 +53,7 @@ export const LicenseTable = (props) => {
       setIsCustomProduct(prevData.custom);
     });
   };
+
 
   function retrieveProductState() {
     try {
@@ -148,11 +150,12 @@ export const LicenseTable = (props) => {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
+
+ 
   const handleDelete = () => {
     deleteProduct(productId)
       .then((response) => {
         alert('상품이 성공적으로 삭제되었습니다.');
-        getProductDetail();
       })
       .catch((error) => {
         // 삭제에 실패했을 때의 에러 처리 로직
@@ -173,6 +176,7 @@ export const LicenseTable = (props) => {
         }
       });
   };
+  
   return (
     <>
       <Dialog open={open} onClose={closeDialog}>
@@ -251,7 +255,6 @@ export const LicenseTable = (props) => {
             <TableBody>
               <TableCell>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <p onClick={handleDelete}>삭제</p>
                   <HoverButton style={{ color: 'grey' }} onClick={() => openDialog()}>
                     <EditIcon />
                   </HoverButton>
@@ -265,8 +268,15 @@ export const LicenseTable = (props) => {
                 <Rating defaultValue={meanRate} size='large' readOnly />
               </TableCell>
               <TableCell>{nOfRating}</TableCell>
-
-              <TableCell>{customText}</TableCell>
+              <TableCell>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                {customText}
+                  <DeleteIcon 
+                  style={{ color: 'grey', cursor: 'pointer', marginLeft: '10px' }} 
+                  onClick={() => handleDelete(productId)}
+                  />
+               </div>
+              </TableCell>
             </TableBody>
           </Table>
         </TableContainer>

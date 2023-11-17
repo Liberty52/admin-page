@@ -155,7 +155,6 @@ export const patchProduct = (productId, data, image) => {
     type: CONTENT_TYPE.ApplicationJson,
   });
   const formData = new FormData();
-  console.log(image);
   formData.append('image', image);
   formData.append('data', blob);
   return request.patch(PATCH_PRODUCT(productId), formData, {
