@@ -15,7 +15,7 @@ export default function ProductIntroEditor({ content, setContent }) {
 
   const MAX_HTML_SIZE = 10000;
 
-  const [data, setData] = useState(content);
+  const [data, setData] = useState(TagToAngleBracket(removeParagraphTags(content)));
   const [htmlSize, setHtmlSize] = useState(0);
   const [exceed, setExceed] = useState(false);
 
@@ -71,6 +71,12 @@ export default function ProductIntroEditor({ content, setContent }) {
     uploadProductIntroduction();
   };
 
+  const onPreviewButtonClicked = () => {
+    const newWindow = window.open('', '_blank');
+    newWindow.document.write(`<div style='text-align: center;'>${angleBracketToTag(data)}</div>`);
+    newWindow.document.close();
+  };
+
   function validateContent() {
     if (contentValidator(data)) {
       alert('내용을 입력해주세요');
@@ -92,6 +98,18 @@ export default function ProductIntroEditor({ content, setContent }) {
     return v.trim().length === 0;
   }
 
+  function removeParagraphTags(str) {
+    return str.slice(3, -4);
+  }
+
+  function angleBracketToTag(str) {
+    return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  }
+
+  function TagToAngleBracket(str) {
+    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   return (
     <div>
       <div
@@ -105,15 +123,7 @@ export default function ProductIntroEditor({ content, setContent }) {
           type='button'
           sx={{ marginRight: 1, color: 'black', borderColor: 'black' }}
           variant='outlined'
-          onClick={() => {
-            // [TODO] 상품 소개 미리보기
-            window.alert('구현되지 않은 기능입니다.');
-            // window.open(
-            //   "https://liberty52.com/order",
-            //   "_blank",
-            //   "noopener, noreferrer"
-            // );
-          }}
+          onClick={onPreviewButtonClicked}
         >
           미리보기
         </Button>
