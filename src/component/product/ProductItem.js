@@ -22,7 +22,12 @@ export default function ProductItem({ id, name, price, rating, nOfRating, img })
   return (
     <ProductCard variant='outlined' sx={{ width: 320 }} onClick={cardClicked}>
       {/*<Typography variant="h5">Liberty52-Frame</Typography>*/}
-      <CardImage firstImage={firstImage()} src={img} loading='lazy' alt='' />
+      <CardImage
+        // firstImage={firstImage()}
+        src={img}
+        loading='lazy'
+        alt=''
+      />
       <Box sx={{ display: 'flex' }}>
         <div>
           <Typography variant='h5'>{name}</Typography>

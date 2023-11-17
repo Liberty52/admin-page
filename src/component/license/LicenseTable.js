@@ -34,6 +34,8 @@ export const LicenseTable = (props) => {
   const [productName, setProductName] = useState(name);
   const [productPrice, setProductPrice] = useState(price);
   const [isCustomProduct, setIsCustomProduct] = useState(custom);
+  const [image, setImage] = useState(null);
+  const [imageSrc, setImageSrc] = useState('');
   const { productId } = useParams();
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export const LicenseTable = (props) => {
       isCustom: isCustomProduct, // 커스텀 상품 여부
     };
 
-    patchProduct(productId, productRequestDto)
+    patchProduct(productId, productRequestDto, image)
       .then((response) => {
         const prevData = response.data;
         alert('상품이 성공적으로 수정되었습니다.');
@@ -137,7 +139,40 @@ export const LicenseTable = (props) => {
         }
       });
   };
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
 
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      setImageSrc(event.target.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+  const handleDelete = () => {
+    deleteProduct(productId)
+      .then((response) => {
+        alert('상품이 성공적으로 삭제되었습니다.');
+        getProductDetail();
+      })
+      .catch((error) => {
+        // 삭제에 실패했을 때의 에러 처리 로직
+        if (error.response && error.response.status) {
+          const statusCode = error.response.status;
+          switch (statusCode) {
+            case 403:
+              alert('관리자 권한이 없습니다.');
+              break;
+            case 404:
+              alert('존재하지 않는 productId입니다.');
+              break;
+            default:
+              alert('에러가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          alert('에러가 발생했습니다. 다시 시도해주세요.');
+        }
+      });
+  };
   return (
     <>
       <Dialog open={open} onClose={closeDialog}>
@@ -179,6 +214,8 @@ export const LicenseTable = (props) => {
             value={productPrice}
             onChange={(e) => setProductPrice(e.target.value)}
           />
+          <input type='file' id='file' onChange={handleImageChange} accept='image/*' />
+          {/* <img src={imageSrc} alt='' style={{ maxWidth: '200px' }}></img> */}
           <FormControlLabel
             control={
               <Checkbox
@@ -214,6 +251,7 @@ export const LicenseTable = (props) => {
             <TableBody>
               <TableCell>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <p onClick={handleDelete}>삭제</p>
                   <HoverButton style={{ color: 'grey' }} onClick={() => openDialog()}>
                     <EditIcon />
                   </HoverButton>

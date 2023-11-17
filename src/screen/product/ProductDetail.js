@@ -70,7 +70,10 @@ export default function ProductDetail() {
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
           <div alignItems='flex-start'>
-            <CardDetailImage check={firstImage()} src={product.pictureUrl} />
+            <CardDetailImage
+              // check={firstImage()}
+              src={product.pictureUrl}
+            />
             <>
               <Stack>
                 <LicenseTable
@@ -86,7 +89,11 @@ export default function ProductDetail() {
             </>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
-          <ProductTab content={introContent} setContent={setIntroContent} productCustom = {product.custom} />
+          <ProductTab
+            content={introContent}
+            setContent={setIntroContent}
+            productCustom={product.custom}
+          />
           <Box />
         </Stack>
       </Box>
