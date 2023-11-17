@@ -8,16 +8,13 @@ import {
 } from './styled/Product';
 import { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { changeOptionDetailOnSale } from '../../axios/Product';
 import Swal from 'sweetalert2';
 import { Toast } from '../../utils/Toast';
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import { changeLicenseOptionDetailOnSale } from '../../axios/License';
 
-export default function ProductOptionDetail({ onEditButtonClicked, detail, actived }) {
+export default function LicenseOptionDetail({ onEditButtonClicked, licenseDetail, actived }) {
   const [focused, setFocused] = useState();
   const onMouseOn = () => {
     setFocused(true);
@@ -25,6 +22,7 @@ export default function ProductOptionDetail({ onEditButtonClicked, detail, activ
   const onMouseOut = () => {
     setFocused(false);
   };
+
   const onDeleteButtonClicked = () => {
     Swal.fire({
       title: '정말로 판매 상태를 변경하시겠습니까?',
@@ -37,9 +35,12 @@ export default function ProductOptionDetail({ onEditButtonClicked, detail, activ
     }).then((result) => {
       if (result.isConfirmed) {
         const data = {
-          onSale: !detail.onSale,
+          onSale: !licenseDetail.onSale,
         };
-        changeOptionDetailOnSale(detail.optionDetailId, data).then(() => {
+        changeLicenseOptionDetailOnSale(
+          licenseDetail.licenseOptionDetailId,
+          !licenseDetail.onSale,
+        ).then(() => {
           Toast.fire({
             icon: 'success',
             title: '변경이 완료되었습니다',
@@ -52,22 +53,17 @@ export default function ProductOptionDetail({ onEditButtonClicked, detail, activ
 
   return (
     <>
-      <ProductOptionDetailWrapper
-        onMouseEnter={onMouseOn}
-        onMouseLeave={onMouseOut}
-      >
-        <ProductOptionItemWrapper onSale={detail.onSale}>
-          <ProductOptionItemName>
-            {detail.optionDetailName}
-          </ProductOptionItemName>
-          <ProductOptionItemStock>재고: {detail.stock}</ProductOptionItemStock>
+      <ProductOptionDetailWrapper onMouseEnter={onMouseOn} onMouseLeave={onMouseOut}>
+        <ProductOptionItemWrapper onSale={licenseDetail.onSale}>
+          <ProductOptionItemName>작품이름: {licenseDetail.artName}</ProductOptionItemName>
+          <ProductOptionItemStock>재고: {licenseDetail.stock}</ProductOptionItemStock>
         </ProductOptionItemWrapper>
         <HoverButtonWrapper focused={focused}>
-          <HoverButton onClick={() => onEditButtonClicked(detail)}>
+          <HoverButton onClick={() => onEditButtonClicked(licenseDetail)}>
             <EditIcon />
           </HoverButton>
           <HoverButton onClick={onDeleteButtonClicked}>
-            {detail.onSale ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
+            {licenseDetail.onSale ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
           </HoverButton>
         </HoverButtonWrapper>
       </ProductOptionDetailWrapper>

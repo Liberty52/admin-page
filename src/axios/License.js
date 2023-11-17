@@ -5,6 +5,12 @@ import {
   DELETE_LICENSE,
   GET_DETAIL_LICENSE,
   CUSTOM_LICENSE,
+  CREATE_LICENSE_OPTION,
+  RETRIEVE_LICENSE_OPTION_LIST,
+  CREATE_LICENSE_OPTION_DETAIL,
+  MODIFY_LICENSE_OPTION,
+  MODIFY_LICENSE_OPTION_DETAIL,
+  MODIFY_LICENSE_OPTION_ONSALE_DETAIL,
 } from '../constants/api';
 import { CONTENT_TYPE } from '../constants/content-type';
 import { ACCESS_TOKEN } from '../constants/token';
@@ -68,6 +74,66 @@ export const addProduct = (data, image) => {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       'Content-Type': CONTENT_TYPE.MultipartFormData,
+    },
+  });
+};
+
+export const createLicenseOption = (productId, data) => {
+  return request.post(CREATE_LICENSE_OPTION(productId), data, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const modifyLicenseOption = (licenseOptionId, dto) => {
+  return request.put(MODIFY_LICENSE_OPTION(licenseOptionId), dto, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
+};
+
+export const createLicenseOptionDetail = (licenseOptionId, dto, imageFile) => {
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
+  return request.post(CREATE_LICENSE_OPTION_DETAIL(licenseOptionId), formData, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.MultipartFormData,
+    },
+  });
+};
+
+export const modifyLicenseOptionDetail = (licenseOptionDetailId, dto, imageFile) => {
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
+  return request.put(MODIFY_LICENSE_OPTION_DETAIL(licenseOptionDetailId), formData, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.MultipartFormData,
+    },
+  });
+};
+
+export const changeLicenseOptionDetailOnSale = (licenseDetailId) => {
+  return request({
+    url: MODIFY_LICENSE_OPTION_ONSALE_DETAIL(licenseDetailId),
+    method: 'PUT',
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
+    },
+  });
+};
+
+export const retrieveLiceneseOptionList = (productId, onSale) => {
+  return request.get(RETRIEVE_LICENSE_OPTION_LIST(productId, onSale), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
 };

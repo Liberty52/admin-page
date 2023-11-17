@@ -1,10 +1,12 @@
 import { Button, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
 import Radio from '@mui/material/Radio';
 import { Box, FormControlLabel, RadioGroup, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
+
+
 
 const LicenseOption = ({ open, onClose, getProduct }) => {
   const [image, setImage] = useState();
@@ -14,9 +16,10 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
     price: '',
     isCustom: false,
   });
+  const [imageSrc, setImageSrc] = useState('');
   const options = ['선택', '판매중', '품절', '미판매'];
-
   const onCloseAction = () => {
+    setImageSrc('');
     onClose();
   };
 
@@ -44,8 +47,15 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
   const stateChange = (e) => {
     setData({ ...data, [e.target.name]: stateEnglish(e.target.value) });
   };
-  const onHandleChangeImage = (e) => {
-    setImage(e.target.files[0]);
+  const ImageChange = (event) => {
+
+    setImage(event.target.files[0]);
+
+    let reader = new FileReader();
+    reader.onload = function(event) {
+      setImageSrc(event.target.result);
+    }
+    reader.readAsDataURL(event.target.files[0]);
   };
 
   const addLicense = () => {
@@ -144,16 +154,21 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
           variant='outlined'
           onChange={(e) => handleChange(e)}
         />
-        <Button variant='contained' component='label'>
+        <>
+          <img src={imageSrc} alt='' style={{maxWidth:"200px"}}></img>
+        </>
+
+        <Button component='label'>
           Upload File
           <input
             type='file'
             accept='image/*'
             name='image'
             hidden
-            onChange={(e) => onHandleChangeImage(e)}
+            onChange={ ImageChange}
           />
         </Button>
+        
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={addLicense}>추가하기</Button>
           <Button onClick={onCloseAction} color={'danger'}>
