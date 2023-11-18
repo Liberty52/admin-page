@@ -22,7 +22,7 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [introContent, setIntroContent] = useState('');
+  const [introContent, setIntroContent] = useState(undefined);
 
   useEffect(() => {
     getProductDetail();
@@ -69,11 +69,10 @@ export default function ProductDetail() {
             </PointeredBox>
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
-          <div alignItems='flex-start'>
+          <div>
             <CardDetailImage
               src={product.pictureUrl}
             />
-            <>
               <Stack>
                 <LicenseTable
                   name={product.name}
@@ -85,7 +84,6 @@ export default function ProductDetail() {
                   getProductDetail={getProductDetail}
                 />
               </Stack>
-            </>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
           <ProductTab
