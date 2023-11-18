@@ -96,8 +96,6 @@ export default function ProductIntroEditor({ content, setContent }) {
   }
 
   function angleBracketToTag(str) {
-    console.log('angle -> <>', str);
-    console.log('angle -> <>', str.replace(/&lt;/g, '<').replace(/&gt;/g, '>'));
     return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   }
 
@@ -112,8 +110,6 @@ export default function ProductIntroEditor({ content, setContent }) {
         return match; // '<p>', '</p>', '<br>'에 포함된 '<'와 '>'는 그대로 유지
       }
     });
-    console.log('<> -> angle', str);
-    console.log('<> -> angle', retVal);
     return retVal;
   }
 
