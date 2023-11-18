@@ -14,6 +14,7 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import LicenseOption from '../../component/license/LicenseOption';
 import { Stack } from '@mui/material';
 
+
 export default function Product() {
   const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function Product() {
   const closeLicenseOption = () => {
     setOpen(false);
   };
+ 
 
   return (
     <MainContainer>

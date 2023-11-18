@@ -16,6 +16,7 @@ import {
   ADD_DELIVERY_OPTION,
   UPDATE_DELIVERY_OPTION,
   PATCH_PRODUCT,
+  DELETE_PRODUCT,
 } from '../constants/api';
 import { ACCESS_TOKEN } from '../constants/token';
 import { CONTENT_TYPE } from '../constants/content-type';
@@ -149,17 +150,24 @@ export const updateDeliveryOption = (optionId, data) => {
     },
   });
 };
-export const patchProduct = (productId, data) => {
+export const patchProduct = (productId, data, image) => {
   const blob = new Blob([JSON.stringify(data)], {
     type: CONTENT_TYPE.ApplicationJson,
   });
   const formData = new FormData();
-  formData.append('image', null);
+  formData.append('image', image);
   formData.append('data', blob);
   return request.patch(PATCH_PRODUCT(productId), formData, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       'Content-Type': CONTENT_TYPE.MultipartFormData,
+    },
+  });
+};
+export const deleteProduct = (productId) => {
+  return request.delete(DELETE_PRODUCT(productId), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
     },
   });
 };
