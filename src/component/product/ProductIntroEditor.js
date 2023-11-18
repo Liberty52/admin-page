@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@mui/material';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -8,18 +8,22 @@ import {
   deleteProductIntroduction,
   uploadImage,
 } from '../../axios/Product';
+import EditorPreview from './EditorPreview';
 import { useParams } from 'react-router-dom';
 
 export default function ProductIntroEditor({ content, setContent }) {
   const { productId } = useParams();
 
   const MAX_HTML_SIZE = 10000;
-
-  const [data, setData] = useState(TagToAngleBracket(removeParagraphTags(content)));
   const [htmlSize, setHtmlSize] = useState(0);
   const [exceed, setExceed] = useState(false);
 
   const editorRef = useRef();
+  const previewRef = useRef();
+
+  useEffect(() => {
+    if (previewRef.current) previewRef.current.innerHTML = content;
+  }, [content]);
 
   const uploadImages = (blob, callback) => {
     uploadImage(blob).then((res) => {
@@ -28,17 +32,16 @@ export default function ProductIntroEditor({ content, setContent }) {
   };
 
   const editorHTMLChanged = () => {
-    const html = editorRef?.current.getInstance().getHTML();
-    setData(html);
+    const html = angleBracketToTag(editorRef?.current.getInstance().getHTML());
+    setContent(html);
     setHtmlSize(html.length);
     setExceed(html.length > MAX_HTML_SIZE);
   };
 
   async function uploadProductIntroduction() {
-    const response = await patchProductIntroduction(productId, data);
+    const response = await patchProductIntroduction(productId, content);
     if (response.status === 204) {
       alert('소개글 업로드 성공!');
-      setContent(data);
     } else {
       alert(`[${response.status} ERROR] 소개글 업로드 실패.`);
     }
@@ -71,14 +74,8 @@ export default function ProductIntroEditor({ content, setContent }) {
     uploadProductIntroduction();
   };
 
-  const onPreviewButtonClicked = () => {
-    const newWindow = window.open('', '_blank');
-    newWindow.document.write(`<div style='text-align: center;'>${angleBracketToTag(data)}</div>`);
-    newWindow.document.close();
-  };
-
   function validateContent() {
-    if (contentValidator(data)) {
+    if (contentValidator(content)) {
       alert('내용을 입력해주세요');
       return false;
     }
@@ -98,16 +95,26 @@ export default function ProductIntroEditor({ content, setContent }) {
     return v.trim().length === 0;
   }
 
-  function removeParagraphTags(str) {
-    return str.slice(3, -4);
-  }
-
   function angleBracketToTag(str) {
+    console.log('angle -> <>', str);
+    console.log('angle -> <>', str.replace(/&lt;/g, '<').replace(/&gt;/g, '>'));
     return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   }
 
   function TagToAngleBracket(str) {
-    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // '<p>', '</p>', '<br>'에 포함된 '<'와 '>'를 제외한 모든 '<'와 '>'를 ''로 대체
+    const retVal = str.replace(/<(\/?p|br)[^>]*>|<|>/g, (match) => {
+      if (match === '<') {
+        return '&lt;'; // '<'와 '>'를 빈 문자열로 대체
+      } else if (match === '>') {
+        return '&gt;';
+      } else {
+        return match; // '<p>', '</p>', '<br>'에 포함된 '<'와 '>'는 그대로 유지
+      }
+    });
+    console.log('<> -> angle', str);
+    console.log('<> -> angle', retVal);
+    return retVal;
   }
 
   return (
@@ -119,14 +126,6 @@ export default function ProductIntroEditor({ content, setContent }) {
           marginBottom: 10,
         }}
       >
-        <Button
-          type='button'
-          sx={{ marginRight: 1, color: 'black', borderColor: 'black' }}
-          variant='outlined'
-          onClick={onPreviewButtonClicked}
-        >
-          미리보기
-        </Button>
         <Button
           sx={{ marginRight: 1, fontWeight: 'bold' }}
           variant='outlined'
@@ -144,25 +143,32 @@ export default function ProductIntroEditor({ content, setContent }) {
           삭제하기
         </Button>
       </div>
-      <Editor
-        ref={editorRef}
-        initialValue={data}
-        previewStyle='vertical'
-        height='500px'
-        initialEditType='wysiwyg'
-        useCommandShortcut={true}
-        language='ko-KR'
-        hideModeSwitch={true}
-        autofocus={false}
-        toolbarItems={[
-          ['heading', 'bold', 'italic', 'strike'],
-          ['hr', 'quote'],
-          ['ul', 'ol', 'task'],
-          ['table', 'image', 'link'],
-        ]}
-        onChange={editorHTMLChanged}
-        hooks={{ addImageBlobHook: uploadImages }}
-      />
+      <div style={{ display: 'flex' }}>
+        {content !== undefined && (
+          <>
+            <Editor
+              ref={editorRef}
+              initialValue={TagToAngleBracket(content)}
+              previewStyle='vertical'
+              height='500px'
+              initialEditType='wysiwyg'
+              useCommandShortcut={true}
+              language='ko-KR'
+              hideModeSwitch={true}
+              autofocus={false}
+              toolbarItems={[
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol', 'task'],
+                ['table', 'image', 'link'],
+              ]}
+              onChange={editorHTMLChanged}
+              hooks={{ addImageBlobHook: uploadImages }}
+            />
+          </>
+        )}
+        <EditorPreview previewRef={previewRef} />
+      </div>
       <HTMLSizeLimiter>
         <div>
           <CurrentHtmlSizeSpan isExeed={exceed}>{htmlSize}</CurrentHtmlSizeSpan>
