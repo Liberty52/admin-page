@@ -1,10 +1,10 @@
 import { Button, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
 import Radio from '@mui/material/Radio';
 import { Box, FormControlLabel, RadioGroup, TextField } from '@mui/material';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
-import { ImageFit, ProductTitle } from '../../component/product/styled/Product';
+import { ProductTitle } from '../../component/product/styled/Product';
 
 const LicenseOption = ({ open, onClose, getProduct }) => {
   const [image, setImage] = useState();
@@ -151,14 +151,24 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
           variant='outlined'
           onChange={(e) => handleChange(e)}
         />
-        <ImageFit>
-          <img src={imageSrc} alt='' style={{ maxWidth: '200px' }}></img>
-        </ImageFit>
 
-        <Button component='label'>
-          Upload File
-          <input type='file' accept='image/*' name='image' hidden onChange={ImageChange} />
-        </Button>
+        <>
+          <img
+            src={imageSrc}
+            alt=''
+            styled={{ maxWidth: '100px' }}
+            object-fit='cover'
+            resizeMode='cover'
+            className='image'
+          ></img>
+
+          <Stack direction={'row'} justifyContent={'flex-start'} spacing={1} marginTop={2}>
+            <Button component='label'>
+              Upload File
+              <input type='file' accept='image/*' name='image' hidden onChange={ImageChange} />
+            </Button>
+          </Stack>
+        </>
 
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={addLicense}>추가하기</Button>

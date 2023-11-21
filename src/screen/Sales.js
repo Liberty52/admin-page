@@ -2,14 +2,8 @@ import { useState } from 'react';
 import { MainContainer } from '../component/common/MainComponent';
 import SideNav from '../component/common/side-nav/SideNav';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
-import { OverviewBudget } from '../component/sales/OverviewBudget';
-import { OverviewTotalCustomers } from '../component/sales/OverviewTotalCustomers';
 import { OverviewTotalProfit } from '../component/sales/OverviewTotalProfit';
-import { OverviewTasksProgress } from '../component/sales/OverviewTasksProgress';
 import { OverviewSales } from '../component/sales/OverviewSales';
-import { OverviewTraffic } from '../component/sales/OverviewTraffic';
-import { OverviewLatestProducts } from '../component/sales/OverviewLatestProducts';
-import { OverviewLatestOrders } from '../component/sales/OverviewLatestOrders';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -22,40 +16,47 @@ import { Stack } from '@mui/joy';
 import SalesDialog from '../component/sales/SalesDialog';
 import { retrieveProduct } from '../axios/Product';
 import { TextField } from '@mui/material';
-import { width } from '@mui/system';
+import '../component/common/Input.css';
 
 const Sales = () => {
-  const [value, setValue] = useState();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [productName, setProductName] = useState('');
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [productName, setProductName] = useState(null);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState([]);
   const [totalSales, setTotalSales] = useState();
   const [sales, setSales] = useState();
+  const [salesMoney, setSalesMoney] = useState();
+  const [salesQuantity, setSalesQuantity] = useState();
+  const [defaultProductName, setDefaultProductName] = useState();
+  const [defaultStartDate, setDefaultStartDate] = useState();
+  const [defaultEndDate, setDefaultEndDate] = useState();
   useEffect(() => {
     getProduct();
+    getTotal();
   }, []);
 
   const getProduct = async () => {
     try {
       const response = await retrieveProduct();
       setProduct(response.data);
-      console.log(response.data);
     } catch (e) {
       console.error(e);
     }
   };
 
   const getTotal = () => {
-    getTotalSales().then((res) => {
-      setTotalSales(res.data);
+    getTotalSales({ defaultProductName, defaultStartDate, defaultEndDate }).then((res) => {
+      const prevData = res.data;
+      setTotalSales(prevData.salesMoney);
     });
   };
   const dateData = () => {
     getSpecificSales({ productName, startDate, endDate }).then((res) => {
       const prevData = res.data;
       setSales(prevData);
+      setSalesMoney(prevData.salesMoney);
+      setSalesQuantity(prevData.salesQuantity);
     });
   };
   const openDialog = () => {
@@ -85,7 +86,6 @@ const Sales = () => {
   return (
     <MainContainer>
       <SideNav />
-
       <Box
         sx={{
           flexGrow: 1,
@@ -95,19 +95,8 @@ const Sales = () => {
       >
         <Container maxWidth='xl'>
           <Grid container spacing={0}>
-            <Grid xs={3} sm={1} lg={3}>
-              <OverviewBudget difference={12} positive sx={{ height: '100%' }} value='$24k' />
-            </Grid>
-            <Grid xs={3} sm={1} lg={3}>
-              <OverviewTotalCustomers
-                difference={16}
-                positive={false}
-                sx={{ height: '100%' }}
-                value='1.6k'
-              />
-            </Grid>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewTotalProfit sx={{ height: '100%' }} value='$15k' />
+              <OverviewTotalProfit sx={{ height: '100%' }} value={totalSales} />
             </Grid>
 
             <Grid xs={12} lg={8}>
@@ -116,20 +105,21 @@ const Sales = () => {
                   label='상품 이름'
                   value={productName}
                   onChange={textProductName}
-                  style={{ width: '270px' }}
+                  style={{ width: '553px' }}
                 ></TextField>
                 <Button
                   onClick={openDialog}
                   color={'primary'}
                   style={{
                     height: '50px',
-                    marginLeft: '42%',
+                    marginLeft: '3%',
                     width: '100px',
                   }}
                 >
                   검색하기
                 </Button>
               </Stack>
+
               <Stack direction={'row'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} dateFormats={datePickerUtils}>
                   <DemoContainer components={['DatePicker']}>
@@ -173,18 +163,14 @@ const Sales = () => {
                   },
                 ]}
                 sx={{ height: '100%' }}
-              />
-            </Grid>
-            <Grid xs={12} md={6} lg={4}>
-              <OverviewTraffic
-                chartSeries={[63, 15, 22]}
-                labels={['Desktop', 'Tablet', 'Phone']}
-                sx={{ height: '100%' }}
+                salesMoney={salesMoney}
+                salesQuantity={salesQuantity}
               />
             </Grid>
             <Grid xs={12} md={6} lg={4}></Grid>
+            <Grid xs={12} md={6} lg={4}></Grid>
           </Grid>
-          <SalesDialog open={open} onClose={closeDialog} product={product} />
+          <SalesDialog open={open} onClose={closeDialog} product={product.name} />
         </Container>
       </Box>
     </MainContainer>

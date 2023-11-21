@@ -13,7 +13,7 @@ export const OverviewTotalProfit = (props) => {
             <Typography color='text.secondary' variant='overline'>
               총 매출액
             </Typography>
-            <Typography variant='h4'>{value}</Typography>
+            <Typography variant='h4'>{value}₩</Typography>
           </Stack>
           <Avatar
             sx={{

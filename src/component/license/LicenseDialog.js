@@ -17,8 +17,8 @@ import Swal from 'sweetalert2';
 import { modifyLicense } from '../../axios/License';
 import { useEffect } from 'react';
 import { Toast } from '../../utils/Toast';
-import Avatar from 'antd/es/avatar/avatar';
 import { ModalMode } from '../../constants/mode';
+import { Stack } from '@mui/joy';
 
 const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, imageUrl }) => {
   const [image, setImage] = useState();
@@ -54,7 +54,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     } catch (err) {
       console.error(err);
     }
-    // setData(prevData);
   }
 
   let reader = new FileReader();
@@ -315,21 +314,27 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
             </DemoContainer>
           </LocalizationProvider>
           <>
-            {/* <div className='Product'>
-              <div className='Product-ImageFit'> */}
-            <img src={imageFile} alt='' styled={{ maxWidth: '150px' }}></img>
-            {/* </div>
-            </div> */}
-            <Button variant='contained' component='label'>
-              Upload File
-              <input
-                type='file'
-                accept='image/*'
-                name='image'
-                hidden
-                onChange={(e) => onHandleChangeImage(e)}
-              />
-            </Button>
+            <img
+              src={imageFile}
+              alt=''
+              styled={{ maxWidth: '100px' }}
+              object-fit='cover'
+              resizeMode='cover'
+              className='image'
+            ></img>
+
+            <Stack direction={'row'} justifyContent={'flex-start'} spacing={1} marginTop={2}>
+              <Button variant='contained' component='label'>
+                Upload File
+                <input
+                  type='file'
+                  accept='image/*'
+                  name='image'
+                  hidden
+                  onChange={(e) => onHandleChangeImage(e)}
+                />
+              </Button>
+            </Stack>
           </>
         </DialogContent>
         <DialogActions>

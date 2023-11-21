@@ -13,7 +13,6 @@ import {
 import { alpha, useTheme } from '@mui/material/styles';
 import { Chart } from '../common/Chart';
 import { useState } from 'react';
-
 const useChartOptions = () => {
   const theme = useTheme();
   const [productName, setProductName] = useState();
@@ -107,7 +106,7 @@ const useChartOptions = () => {
 };
 
 export const OverviewSales = (props) => {
-  const { chartSeries, sx } = props;
+  const { chartSeries, sx, salesMoney, salesQuantity } = props;
   const chartOptions = useChartOptions();
 
   return (
@@ -129,7 +128,15 @@ export const OverviewSales = (props) => {
         title='Sales'
       />
       <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type='bar' width='100%' />
+        <Chart
+          height={350}
+          options={chartOptions}
+          series={chartSeries}
+          salesMoney={salesMoney}
+          salesQuantity={salesQuantity}
+          type='bar'
+          width='100%'
+        />
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
