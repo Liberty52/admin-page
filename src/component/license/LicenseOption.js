@@ -14,10 +14,10 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
     price: '',
     isCustom: false,
   });
-  const [imageSrc, setImageSrc] = useState('');
+  const [imageSrc, setImageSrc] = useState();
   const options = ['선택', '판매중', '품절', '미판매'];
   const onCloseAction = () => {
-    setImageSrc('');
+    setImageSrc();
     onClose();
   };
 
