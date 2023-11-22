@@ -39,7 +39,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
   const [endDate, setEndDate] = useState('YYYY-MM-DD');
   const fileInput = useRef(image);
   const [optionMode, SetOptionMode] = useState(ModalMode.EDIT);
- 
 
   useEffect(() => {
     mode === ModalMode.ADD ? <></> : retrieveLicenseDetailDataAndSetState();
@@ -118,12 +117,12 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
   const editLicense = () => {
     retrieveLicenseDetailDataAndSetState();
 
-    if(data.startDate> data.endDate){
-      alert("시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.");
+    if (data.startDate > data.endDate) {
+      alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
     }
 
-    modifyLicense({artistName, artName, stock, startDate, endDate}, licenseImageId, image)
+    modifyLicense({ artistName, artName, stock, startDate, endDate }, licenseImageId, image)
       .then(() => {
         Swal.fire({
           title: '라이센스 수정에 성공했습니다!',
@@ -186,7 +185,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
       endDate: formattedDate,
     }));
     setEndDate(formattedDate);
-
   };
 
   const textChangeArtistName = (e) => {
@@ -222,8 +220,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   // onChange={(e) => onHandleChange(e)}
                   // onChange={(e) => textChangeArtistName(e)}
                   onChange={textChangeArtistName}
-
-
                 />
                 <TextField
                   autoFocus
@@ -236,8 +232,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   // onChange={textChangeArtName}
                   // onChange={(e) => textChangeArtName(e)}
                   onChange={textChangeArtName}
-
-
                 />
                 <TextField
                   autoFocus
@@ -250,9 +244,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   // onChange={textChangeStock}
                   // onChange={(e) => textChangeStock(e)}
                   onChange={textChangeStock}
-
-
-
                 />
               </>
             ) : (
@@ -295,7 +286,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
             <DemoContainer components={['DatePicker']}>
               {mode === ModalMode.ADD ? (
                 <>
-               <DatePicker
+                  <DatePicker
                     name='startDate'
                     label='Start'
                     format='YYYY-MM-DD'
@@ -414,6 +405,3 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     </>
   );
 };
-
-export default LicenseDialog;
-
