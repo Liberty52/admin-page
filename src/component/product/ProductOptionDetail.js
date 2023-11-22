@@ -56,7 +56,7 @@ export default function ProductOptionDetail({ onEditButtonClicked, detail, activ
         onMouseEnter={onMouseOn}
         onMouseLeave={onMouseOut}
       >
-        <ProductOptionItemWrapper>
+        <ProductOptionItemWrapper onSale={detail.onSale}>
           <ProductOptionItemName>
             {detail.optionDetailName}
           </ProductOptionItemName>
