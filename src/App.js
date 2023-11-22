@@ -25,10 +25,12 @@ import {
   PATH_PRODUCT,
   PATH_PRODUCT_DETAIL,
   LICENSE,
+  SALES,
 } from './constants/path';
 import Product from './screen/product/Product';
 import ProductDetail from './screen/product/ProductDetail';
 import License from './screen/License';
+import Sales from './screen/Sales';
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
         <Route path={PATH_PRODUCT} element={<Product />} />
         <Route path={PATH_PRODUCT_DETAIL} element={<ProductDetail />} />
         <Route path={LICENSE} element={<License />} />
+        <Route path={SALES} element={<Sales />} />
       </Routes>
     </BrowserRouter>
   );

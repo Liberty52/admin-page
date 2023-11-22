@@ -8,6 +8,7 @@ import {
   ComputerDesktopIcon,
   ArrowLeftOnRectangleIcon,
   PhotoIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/solid';
 import { SvgIcon } from '@mui/material';
 import {
@@ -18,6 +19,7 @@ import {
   QUESTION,
   NOTICE,
   LICENSE,
+  SALES,
 } from '../../../constants/path';
 
 export const items = [
@@ -90,6 +92,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize='small'>
         <PhotoIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: 'Sales',
+    path: SALES,
+    icon: (
+      <SvgIcon fontSize='small'>
+        <CurrencyDollarIcon />
       </SvgIcon>
     ),
   },

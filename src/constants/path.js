@@ -12,3 +12,4 @@ export const NOTICE_DETAIL = `${NOTICE}/detail`;
 export const PATH_PRODUCT = `/product`;
 export const PATH_PRODUCT_DETAIL = `${PATH_PRODUCT}/:productId`;
 export const LICENSE = `/license`;
+export const SALES = `/sales`;
