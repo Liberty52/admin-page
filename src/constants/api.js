@@ -119,3 +119,6 @@ export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) =>
 export const PATCH_PRODUCT = (productId) => `/admin/product/${productId}`;
 // 상품을 삭제하는 api
 export const DELETE_PRODUCT = (productId) => `/admin/product/${productId}`;
+
+//매출 api
+export const TOTAL_SALES = () => `/admin/sales`;
