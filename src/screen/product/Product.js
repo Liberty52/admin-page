@@ -13,7 +13,7 @@ import { retrieveProduct } from '../../axios/Product';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import LicenseOption from '../../component/license/LicenseOption';
 import { Stack } from '@mui/material';
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function Product() {
   const [product, setProduct] = useState([]);
@@ -38,7 +38,20 @@ export default function Product() {
   const closeLicenseOption = () => {
     setOpen(false);
   };
- 
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    
+    const items = Array.from(product);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+  
+    setProduct(items);
+     // 변경된 순서대로 상품 ID 배열 생성
+  const productOrder = items.map(item => item.id);
+
+  };
 
   return (
     <MainContainer>
@@ -66,10 +79,22 @@ export default function Product() {
               />
             </ProductAddButtonWrapper>
           </ProductHeaderWrapper>
-
-          <ProductBox useFlexGap flexWrap={'wrap'} direction={'row'} spacing={2}>
+          <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+          {(provided) => (
+              <ProductBox
+               {...provided.droppableProps}
+          ref={provided.innerRef}
+          useFlexGap flexWrap={'wrap'} direction={'row'} spacing={2}>
             {product !== undefined ? (
-              product?.map((p) => (
+              product?.map((p, index) => (
+                <Draggable key={p.id} draggableId={p.id.toString()} index={index}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
                 <ProductItem
                   key={p.id}
                   id={p.id}
@@ -82,11 +107,18 @@ export default function Product() {
                   state={p.state}
                   custom={p.custom}
                 />
-              ))
-            ) : (
-              <></>
-            )}
-          </ProductBox>
+               </div>
+              )}
+            </Draggable>
+          ))
+        ) : (
+          <></>
+        )}
+        {provided.placeholder}
+      </ProductBox>
+    )}
+  </Droppable>
+</DragDropContext>
           <Stack>
             <LicenseOption open={open} onClose={closeLicenseOption} getProduct={getProduct} />
           </Stack>
