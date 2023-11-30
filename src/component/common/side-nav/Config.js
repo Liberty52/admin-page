@@ -20,6 +20,7 @@ import {
   NOTICE,
   LICENSE,
   SALES,
+  PATH_IMAGE_EDITOR,
 } from '../../../constants/path';
 
 export const items = [
@@ -83,6 +84,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize={'small'}>
         <ComputerDesktopIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: 'Image Editor',
+    path: PATH_IMAGE_EDITOR,
+    icon: (
+      <SvgIcon fontSize={'small'}>
+        <PhotoIcon />
       </SvgIcon>
     ),
   },

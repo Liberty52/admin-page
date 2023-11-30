@@ -26,11 +26,15 @@ import {
   PATH_PRODUCT_DETAIL,
   LICENSE,
   SALES,
+  PATH_IMAGE_EDITOR,
+  PATH_IMAGE_EDITOR_PREVIEW_DETAIL,
 } from './constants/path';
 import Product from './screen/product/Product';
 import ProductDetail from './screen/product/ProductDetail';
 import License from './screen/License';
 import Sales from './screen/Sales';
+import ImageEditorSetting from './screen/image-editor/page.tsx';
+import PreviewEffectDetail from './screen/image-editor/preview-effects/[previewEffectId]/page.tsx';
 
 function App() {
   return (
@@ -48,6 +52,8 @@ function App() {
         <Route path={NOTICE_EDITOR} element={<NoticeEditor />} />
         <Route path={NOTICE_DETAIL} element={<NoticeDetail />} />
         <Route path={PATH_PRODUCT} element={<Product />} />
+        <Route path={PATH_IMAGE_EDITOR} element={<ImageEditorSetting />} />
+        <Route path={PATH_IMAGE_EDITOR_PREVIEW_DETAIL} element={<PreviewEffectDetail />} />
         <Route path={PATH_PRODUCT_DETAIL} element={<ProductDetail />} />
         <Route path={LICENSE} element={<License />} />
         <Route path={SALES} element={<Sales />} />
