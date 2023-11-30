@@ -22,13 +22,7 @@ import {
 import { ACCESS_TOKEN } from '../constants/token';
 import { CONTENT_TYPE } from '../constants/content-type';
 
-// export const retrieveProduct = () => {
-//   return request.get(PRODUCT_LIST(), {
-//     headers: {
-//       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-//     },
-//   });
-// };
+
 export const retrieveProduct = (productOrder) => {
   // 상품 순서가 제공되었을 경우, 순서 업데이트를 위한 요청을 보낸다.
   if (productOrder) {
