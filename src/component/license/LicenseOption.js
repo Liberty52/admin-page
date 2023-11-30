@@ -6,13 +6,14 @@ import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
 
-const LicenseOption = ({ open, onClose, getProduct }) => {
+const LicenseOption = ({ open, onClose, getProduct, product }) => {
   const [image, setImage] = useState();
   const [data, setData] = useState({
     name: '',
     productState: '',
     price: '',
     isCustom: false,
+    productOrder: '',
   });
   const [imageSrc, setImageSrc] = useState();
   const options = ['선택', '판매중', '품절', '미판매'];
@@ -57,8 +58,14 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
 
   const addLicense = () => {
     //이름 판매여부 상품사진 가격 커스텀 여부
-    addProduct(data, image)
+    const newProductData = {
+      ...data,
+      productOrder: product.length + 1, // 현재 상품 목록의 길이 + 1
+    };
+    console.log(newProductData);
+    addProduct(newProductData, image)
       .then(() => {
+        // 상품 목록 상태 업데이트;
         Swal.fire({
           title: '상품이 추가되었습니다.',
           icon: 'success',
