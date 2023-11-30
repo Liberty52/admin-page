@@ -153,9 +153,11 @@ export const LicenseTable = (props) => {
 
  
   const handleDelete = () => {
+    if (window.confirm('해당 제품을 삭제하시겠습니까?')) {
     deleteProduct(productId)
       .then((response) => {
         alert('상품이 성공적으로 삭제되었습니다.');
+        window.history.back(); 
       })
       .catch((error) => {
         // 삭제에 실패했을 때의 에러 처리 로직
@@ -175,8 +177,8 @@ export const LicenseTable = (props) => {
           alert('에러가 발생했습니다. 다시 시도해주세요.');
         }
       });
+    }
   };
-  
   return (
     <>
       <Dialog open={open} onClose={closeDialog}>
