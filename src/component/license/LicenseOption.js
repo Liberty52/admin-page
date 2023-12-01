@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
+import { Toast } from '../../utils/Toast';
 
 const LicenseOption = ({ open, onClose, getProduct, product }) => {
   const [image, setImage] = useState();
@@ -58,27 +59,58 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
 
   const addLicense = () => {
     //이름 판매여부 상품사진 가격 커스텀 여부
+
     const newProductData = {
       ...data,
       productOrder: product.length + 1, // 현재 상품 목록의 길이 + 1
     };
-    console.log(newProductData);
-    addProduct(newProductData, image)
-      .then(() => {
-        // 상품 목록 상태 업데이트;
-        Swal.fire({
-          title: '상품이 추가되었습니다.',
-          icon: 'success',
-        }).then(() => getProduct());
-      })
-      .catch(() => {
-        Swal.fire({
-          title: '상품 추가에 실패하였습니다.',
-          icon: 'error',
-        });
+    if (newProductData.productState.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '판매상태를 선택해주세요.',
       });
+      return;
+    }
 
-    onCloseAction();
+    if (newProductData.name.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '상품 이름을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (newProductData.price <= 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '가격을 1이상의 값을 입력해주세요.',
+      });
+      return;
+    }
+    if (image === undefined) {
+      Toast.fire({
+        icon: 'warning',
+        title: '이미지를 추가해주세요',
+      });
+      return;
+    } else {
+      addProduct(newProductData, image)
+        .then(() => {
+          // 상품 목록 상태 업데이트;
+          Swal.fire({
+            title: '상품이 추가되었습니다.',
+            icon: 'success',
+          }).then(() => getProduct());
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '상품 추가에 실패하였습니다.',
+            icon: 'error',
+          });
+        });
+
+      onCloseAction();
+    }
   };
 
   return (

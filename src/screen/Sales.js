@@ -3,7 +3,6 @@ import { MainContainer } from '../component/common/MainComponent';
 import SideNav from '../component/common/side-nav/SideNav';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
 import { OverviewTotalProfit } from '../component/sales/OverviewTotalProfit';
-import { OverviewSales } from '../component/sales/OverviewSales';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -17,24 +16,135 @@ import SalesDialog from '../component/sales/SalesDialog';
 import { retrieveProduct } from '../axios/Product';
 import { TextField } from '@mui/material';
 import '../component/common/Input.css';
+import { retrieveProductOptionList } from '../axios/Product';
+import OverviewSales from '../component/sales/OverviewSales';
+import BarChart from '../component/sales/BarChart';
+import { Bar } from 'react-chartjs-2';
+import '../component/common/Select.css';
 
 const Sales = () => {
+  const { productId, setProductId } = useState('');
+
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [productName, setProductName] = useState(null);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState([]);
   const [totalSales, setTotalSales] = useState();
-  const [sales, setSales] = useState();
-  const [salesMoney, setSalesMoney] = useState();
-  const [salesQuantity, setSalesQuantity] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [defaultProductName, setDefaultProductName] = useState();
   const [defaultStartDate, setDefaultStartDate] = useState();
   const [defaultEndDate, setDefaultEndDate] = useState();
+  const [optionDetailId, setOptionDetailId] = useState(null);
+  const [defaultOptionDetailId, setDefaultOptionDetailId] = useState();
+  const [showAll, setShowAll] = useState(false);
+  const [option, setOption] = useState();
+  const month = useState({});
+  const [salesData, setSalesData] = useState([]);
+  const [monthSales, setMonthSales] = useState([]);
+  const [optionProps, setOptionProps] = useState({
+    id: '',
+    optionName: '',
+    require: false,
+    onSale: false,
+  });
+
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: '판매액',
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(75,192,192,0.6)',
+        hoverBorderColor: 'rgba(75,192,192,1)',
+        barThickness: 30,
+        data: [],
+      },
+    ],
+  });
+  const options = {
+    scales: {
+      x: {
+        type: 'category',
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: '기간별 판매액',
+        align: 'start',
+        font: {
+          size: 23,
+        },
+      },
+    },
+  };
+
+  const updateChartData = (data) => {
+    let filteredData = data.monthlySales;
+
+    const updatedChartData = {
+      labels: ['product'],
+      datasets: [
+        {
+          ...chartData.datasets[0],
+          data: filteredData.map((month) => month.salesMoney),
+        },
+      ],
+    };
+    setChartData(updatedChartData);
+  };
+
+  const monthlySales = monthSales || [];
+  //선택한 연도에 대한 데이터 필터링
+  const defaultYearData = monthlySales;
+  const salesDataByMonth = {
+    '01': { salesMoney: 0, salesQuantity: 0 },
+    '02': { salesMoney: 0, salesQuantity: 0 },
+    '03': { salesMoney: 0, salesQuantity: 0 },
+    '04': { salesMoney: 0, salesQuantity: 0 },
+    '05': { salesMoney: 0, salesQuantity: 0 },
+    '06': { salesMoney: 0, salesQuantity: 0 },
+    '07': { salesMoney: 0, salesQuantity: 0 },
+    '08': { salesMoney: 0, salesQuantity: 0 },
+    '09': { salesMoney: 0, salesQuantity: 0 },
+    10: { salesMoney: 0, salesQuantity: 0 },
+    11: { salesMoney: 0, salesQuantity: 0 },
+    12: { salesMoney: 0, salesQuantity: 0 },
+  };
+
+  if (defaultYearData === null) {
+    salesDataByMonth[month] = {
+      salesMoney: 0,
+      salesQuantity: 0,
+    };
+  } else {
+    defaultYearData.map((monthSales) => {
+      if (monthSales.length === 0) {
+        salesDataByMonth[month] = {
+          salesMoney: 0,
+          salesQuantity: 0,
+        };
+      } else {
+        const { month, salesMoney, salesQuantity } = monthSales;
+
+        salesDataByMonth[month] = {
+          salesMoney: salesMoney,
+          salesQuantity: salesQuantity,
+        };
+      }
+    });
+  }
+
   useEffect(() => {
     getProduct();
     getTotal();
-  }, []);
+  }, [productId, showAll]);
 
   const getProduct = async () => {
     try {
@@ -45,25 +155,47 @@ const Sales = () => {
     }
   };
 
+  const getOptions = async () => {
+    try {
+      const response = await retrieveProductOptionList(productId, !showAll);
+      setOption(response.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const getTotal = () => {
-    getTotalSales({ defaultProductName, defaultStartDate, defaultEndDate }).then((res) => {
+    getTotalSales({
+      defaultStartDate,
+      defaultEndDate,
+      defaultProductName,
+      defaultOptionDetailId,
+    }).then((res) => {
       const prevData = res.data;
-      setTotalSales(prevData.salesMoney);
+      setTotalSales(prevData.totalSalesMoney);
+      setMonthSales(prevData.monthlySales);
+      updateChartData(prevData);
     });
   };
+
   const dateData = () => {
-    getSpecificSales({ productName, startDate, endDate }).then((res) => {
+    getSpecificSales({ startDate, endDate, productName, optionDetailId }).then((res) => {
       const prevData = res.data;
-      setSales(prevData);
-      setSalesMoney(prevData.salesMoney);
-      setSalesQuantity(prevData.salesQuantity);
+      updateChartData(prevData);
     });
   };
+
+  const openModal = (product) => {
+    setOpen(true);
+    setIsModalOpen(true);
+  };
+
   const openDialog = () => {
     setOpen(true);
   };
   const closeDialog = () => {
     setOpen(false);
+    setIsModalOpen(false);
   };
   const datePickerFormat = 'YYYY-MM-DD';
   const datePickerUtils = {
@@ -83,6 +215,10 @@ const Sales = () => {
     setEndDate(formattedDate);
   };
 
+  const highFunction = (value) => {
+    setOptionDetailId(value);
+  };
+
   return (
     <MainContainer>
       <SideNav />
@@ -96,81 +232,119 @@ const Sales = () => {
         <Container maxWidth='xl'>
           <Grid container spacing={0}>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewTotalProfit sx={{ height: '100%' }} value={totalSales} />
+              <OverviewTotalProfit sx={{ height: '975px' }} value={totalSales} />
             </Grid>
 
             <Grid xs={12} lg={8}>
-              <Stack direction={'row'} style={{ marginTop: '10px' }}>
-                <TextField
-                  label='상품 이름'
-                  value={productName}
-                  onChange={textProductName}
-                  style={{ width: '553px' }}
-                ></TextField>
-                <Button
-                  onClick={openDialog}
-                  color={'primary'}
-                  style={{
-                    height: '50px',
-                    marginLeft: '3%',
-                    width: '100px',
-                  }}
-                >
-                  검색하기
-                </Button>
-              </Stack>
+              <div style={{ width: '800px' }}>
+                <Stack direction={'row'} style={{ marginTop: '10px' }}>
+                  <TextField
+                    label='상품 이름'
+                    value={productName}
+                    onChange={textProductName}
+                    style={{ width: '600px' }}
+                  ></TextField>
 
-              <Stack direction={'row'}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} dateFormats={datePickerUtils}>
-                  <DemoContainer components={['DatePicker']}>
-                    <>
-                      <DatePicker
-                        name='startDate'
-                        label='Start'
-                        format='YYYY-MM-DD'
-                        onChange={(newValue) => {
-                          startDateOption(newValue);
-                        }}
-                      ></DatePicker>
-                      <DatePicker
-                        name='endDate'
-                        label='End'
-                        format='YYYY-MM-DD'
-                        onChange={(newValue) => {
-                          endDateOption(newValue);
-                        }}
-                      />
-                    </>
-                  </DemoContainer>
-                </LocalizationProvider>
-                <Button
-                  onClick={dateData}
-                  color={'primary'}
-                  style={{ height: '50px', marginLeft: '20px', marginTop: '10px', width: '100px' }}
-                >
-                  설정하기
-                </Button>
-              </Stack>
-              <OverviewSales
-                chartSeries={[
-                  {
-                    name: 'This year',
-                    data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
-                  },
-                  {
-                    name: 'Last year',
-                    data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
-                  },
-                ]}
-                sx={{ height: '100%' }}
-                salesMoney={salesMoney}
-                salesQuantity={salesQuantity}
-              />
+                  <Button
+                    onClick={() => openDialog()}
+                    color={'primary'}
+                    style={{
+                      height: '50px',
+                      marginLeft: '3%',
+                      width: '100px',
+                    }}
+                  >
+                    검색하기
+                  </Button>
+                </Stack>
+                <Stack direction={'row'}>
+                  <div className='datePicker'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} dateFormats={datePickerUtils}>
+                      <DemoContainer components={['DatePicker']}>
+                        <>
+                          <DatePicker
+                            name='startDate'
+                            label='Start'
+                            format='YYYY-MM-DD'
+                            onChange={(newValue) => {
+                              startDateOption(newValue);
+                            }}
+                          ></DatePicker>
+                          <DatePicker
+                            name='endDate'
+                            label='End'
+                            format='YYYY-MM-DD'
+                            onChange={(newValue) => {
+                              endDateOption(newValue);
+                            }}
+                          />
+                        </>
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </div>
+
+                  <Button
+                    onClick={dateData}
+                    color={'primary'}
+                    style={{
+                      height: '50px',
+                      marginLeft: '24px',
+                      marginTop: '10px',
+                      width: '100px',
+                    }}
+                  >
+                    설정하기
+                  </Button>
+                </Stack>
+              </div>
+              {monthSales &&
+                monthSales.map((m) => (
+                  <>
+                    <OverviewSales
+                      chartSeries={[
+                        {
+                          name: '올해 판매량',
+                          data: [
+                            salesDataByMonth['01'].salesQuantity,
+                            salesDataByMonth['02'].salesQuantity,
+                            salesDataByMonth['03'].salesQuantity,
+                            salesDataByMonth['04'].salesQuantity,
+                            salesDataByMonth['05'].salesQuantity,
+                            salesDataByMonth['06'].salesQuantity,
+                            salesDataByMonth['07'].salesQuantity,
+                            salesDataByMonth['08'].salesQuantity,
+                            salesDataByMonth['09'].salesQuantity,
+                            salesDataByMonth['10'].salesQuantity,
+                            salesDataByMonth['11'].salesQuantity,
+                            salesDataByMonth['12'].salesQuantity,
+                          ],
+                        },
+                      ]}
+                      sx={{ height: '35%' }}
+                      month={m.month}
+                      data={salesData}
+                    />
+                  </>
+                ))}
+              <div style={{ paddingLeft: '12px', marginBottom: '50px' }}>
+                <Bar data={chartData} options={options} />
+              </div>
             </Grid>
             <Grid xs={12} md={6} lg={4}></Grid>
             <Grid xs={12} md={6} lg={4}></Grid>
           </Grid>
-          <SalesDialog open={open} onClose={closeDialog} product={product.name} />
+
+          {product &&
+            product.map((p) => {
+              <SalesDialog
+                // open={isModalOpen}
+                // open={open}
+                onClose={closeDialog}
+                productId={p.id}
+                name={p.name}
+                propFunction={highFunction}
+              ></SalesDialog>;
+            })}
         </Container>
       </Box>
     </MainContainer>
