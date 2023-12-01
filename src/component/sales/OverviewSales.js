@@ -108,6 +108,7 @@ const useChartOptions = () => {
 
 export default function OverviewSales(props) {
   const { chartSeries, sx, salesMoney, salesQuantity, month } = props;
+
   const chartOptions = useChartOptions();
 
   return (

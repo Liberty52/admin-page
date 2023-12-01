@@ -33,6 +33,7 @@ export default function SalesDialog({
   const [check, setCheck] = useState(false);
   const [optionId, setOptionId] = useState('');
   const [optionName, setOptionName] = useState('');
+
   const handleClose = () => {
     onClose();
   };
@@ -171,6 +172,7 @@ export default function SalesDialog({
           </DialogContent>
           <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
             <Button onClick={addHandleChange}>선택하기</Button>
+
             <Button onClick={handleClose} color={'danger'}>
               취소하기
             </Button>

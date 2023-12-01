@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { TOTAL_SALES, PRODUCT_INFO } from '../constants/api';
+
 import { CONTENT_TYPE } from '../constants/content-type';
 import { ACCESS_TOKEN } from '../constants/token';
 import request from './axios';

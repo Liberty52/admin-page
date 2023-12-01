@@ -24,6 +24,7 @@ import '../component/common/Select.css';
 
 const Sales = () => {
   const { productId, setProductId } = useState('');
+
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [productName, setProductName] = useState(null);
