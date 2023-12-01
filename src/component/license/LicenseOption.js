@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
+import { Toast } from '../../utils/Toast';
 
 const LicenseOption = ({ open, onClose, getProduct }) => {
   const [image, setImage] = useState();
@@ -13,6 +14,7 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
     productState: '',
     price: '',
     isCustom: false,
+    productOrder: '',
   });
   const [imageSrc, setImageSrc] = useState();
   const options = ['선택', '판매중', '품절', '미판매'];
@@ -56,22 +58,49 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
   };
 
   const addLicense = () => {
-    //이름 판매여부 상품사진 가격 커스텀 여부
-    addProduct(data, image)
-      .then(() => {
-        Swal.fire({
-          title: '상품이 추가되었습니다.',
-          icon: 'success',
-        }).then(() => getProduct());
-      })
-      .catch(() => {
-        Swal.fire({
-          title: '상품 추가에 실패하였습니다.',
-          icon: 'error',
-        });
+    if (data.productState.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '선택 항목을 선택하세요.',
       });
-
-    onCloseAction();
+      return;
+    }
+    if (data.name.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '상품 이름을 입력해주세요.',
+      });
+      return;
+    }
+    if (data.price <= 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '가격을  0이상 적어주세요',
+      });
+      return;
+    }
+    if (image === undefined) {
+      Toast.fire({
+        icon: 'warning',
+        title: '이미지를 선택하세요.',
+      });
+      return;
+    } else {
+      addProduct(data, image)
+        .then(() => {
+          Swal.fire({
+            title: '상품이 추가되었습니다.',
+            icon: 'success',
+          }).then(() => getProduct());
+          onCloseAction();
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '상품 추가에 실패하였습니다.',
+            icon: 'error',
+          });
+        });
+    }
   };
 
   return (

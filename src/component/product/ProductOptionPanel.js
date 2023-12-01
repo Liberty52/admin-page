@@ -42,6 +42,7 @@ export default function ProductOptionPanel() {
     try {
       const response = await retrieveProductOptionList(productId, !showAll);
       setOptions(response.data);
+      console.log(response.data);
     } catch (e) {
       console.error(e);
     }

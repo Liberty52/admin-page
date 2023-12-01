@@ -95,7 +95,8 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}개` : `${value}`),
+
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -105,8 +106,8 @@ const useChartOptions = () => {
   };
 };
 
-export const OverviewSales = (props) => {
-  const { chartSeries, sx, salesMoney, salesQuantity } = props;
+export default function OverviewSales(props) {
+  const { chartSeries, sx, salesMoney, salesQuantity, month } = props;
   const chartOptions = useChartOptions();
 
   return (
@@ -125,9 +126,9 @@ export const OverviewSales = (props) => {
             Sync
           </Button>
         }
-        title='Sales'
+        title='올해 총 판매량'
       />
-      <CardContent>
+      <CardContent style={{ height: '100vh' }}>
         <Chart
           height={350}
           options={chartOptions}
@@ -138,23 +139,10 @@ export const OverviewSales = (props) => {
           width='100%'
         />
       </CardContent>
-      <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          color='inherit'
-          endIcon={
-            <SvgIcon fontSize='small'>
-              <ArrowRightIcon />
-            </SvgIcon>
-          }
-          size='small'
-        >
-          Overview
-        </Button>
-      </CardActions>
+      {/* <Divider /> */}
     </Card>
   );
-};
+}
 
 OverviewSales.protoTypes = {
   chartSeries: PropTypes.array.isRequired,

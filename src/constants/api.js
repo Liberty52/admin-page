@@ -122,3 +122,4 @@ export const DELETE_PRODUCT = (productId) => `/admin/product/${productId}`;
 
 //매출 api
 export const TOTAL_SALES = () => `/admin/sales`;
+export const PRODUCT_INFO = (id) => `/product/products/${id}`;
