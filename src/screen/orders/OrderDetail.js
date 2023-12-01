@@ -74,7 +74,7 @@ function OrderImage({ product }) {
       <h2>배경 이미지</h2>
       <div>
         <img
-          src={product.productUrl}
+          src={product.custom ? product.productUrl : product.licenseArtUrl}
           alt={product.name}
           onClick={() => window.open(product.productUrl, '_blank')}
         />
@@ -197,19 +197,23 @@ function OrderDestination({ order }) {
 function OrderDelivery({ order }) {
   return (
     <>
-      <div className="grid">
+      <div className='grid'>
         <div className='Order-common'>택배사 이름</div>
         <div className='Order-common'>{order.orderDelivery?.name}</div>
       </div>
-      <div className="grid">
+      <div className='grid'>
         <div className='Order-common'>운송장번호</div>
         <div className='Order-common'>{order.orderDelivery?.trackingNumber}</div>
       </div>
-      <Button 
+      <Button
         text='배송조회'
         onClick={() => {
-          const popup = window.open("about:blank", "배송조회", "width=500,height=700,top=100,left=100");
-          fetchRealTimeDeliveryInfo(order, popup)
+          const popup = window.open(
+            'about:blank',
+            '배송조회',
+            'width=500,height=700,top=100,left=100',
+          );
+          fetchRealTimeDeliveryInfo(order, popup);
         }}
       ></Button>
     </>
@@ -325,6 +329,7 @@ export default function OrderDetail() {
       const data = await fetchOrderDetail(orderId);
       if (data) {
         setOrder(data);
+        console.log(data);
       }
     };
 
@@ -354,9 +359,7 @@ export default function OrderDetail() {
           <OrderInquiryDelivery2 order={order} />
           <OrderPerson order={order} />
           <OrderDestination order={order} />
-          {order.orderDelivery !== null ? (
-            <OrderDelivery order={order} />
-          ) : (<></>)}
+          {order.orderDelivery !== null ? <OrderDelivery order={order} /> : <></>}
           <OrderPayment order={order} />
           <ReOrderDetail />
         </div>
