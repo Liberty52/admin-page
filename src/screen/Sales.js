@@ -40,7 +40,6 @@ const Sales = () => {
   const [showAll, setShowAll] = useState(false);
   const [option, setOption] = useState();
   const month = useState({});
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [salesData, setSalesData] = useState([]);
   const [monthSales, setMonthSales] = useState([]);
   const [optionProps, setOptionProps] = useState({
@@ -187,7 +186,6 @@ const Sales = () => {
   };
 
   const openModal = (product) => {
-    setSelectedProduct(product);
     setOpen(true);
     setIsModalOpen(true);
   };
