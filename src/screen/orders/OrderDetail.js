@@ -101,24 +101,40 @@ function OrderInquiry() {
     </div>
   );
 }
+
 function OrderInquiryDetail({ order }) {
   return (
     <>
       {order.products.map((product, index) => (
-        <div key={index}>
-          <div className='Inquiry-Delivery-wrapper'>
+        <>
+          <div key={`wrapper-${index}`} className='Inquiry-Delivery-wrapper'>
             <div>{product.name}</div>
             <div>{product.price}원</div>
             <div>{order.deliveryFee}원</div>
             <div>{product.quantity}</div>
             <div>{product.price * product.quantity}원</div>
           </div>
-          <OrderImage product={product} />
-        </div>
+          <OrderOptionInquiry key={`options-${index}`} options={product.options} />
+          <OrderImage key={`image-${index}`} product={product} />
+        </>
       ))}
     </>
   );
 }
+
+function OrderOptionInquiry({ options }) {
+  return (
+    <div className='Inquiry-Option-wrapper'>
+      <h2>옵션</h2>
+      <div className='options'>
+        {options.map((option, index) => {
+          return <div key={option}>{option}</div>;
+        })}
+      </div>
+    </div>
+  );
+}
+
 function OrderInquiryDelivery({ order }) {
   return (
     <div className='Inquiry-Delivery-small-wrapper'>
