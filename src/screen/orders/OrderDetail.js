@@ -345,7 +345,6 @@ export default function OrderDetail() {
       const data = await fetchOrderDetail(orderId);
       if (data) {
         setOrder(data);
-        console.log(data);
       }
     };
 
