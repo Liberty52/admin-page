@@ -97,7 +97,7 @@ export const items = [
     ),
   },
   {
-    title: 'License',
+    title: 'Sample Image',
     path: LICENSE,
     icon: (
       <SvgIcon fontSize='small'>

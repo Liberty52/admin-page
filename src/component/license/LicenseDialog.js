@@ -227,7 +227,7 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {mode === ModalMode.ADD ? '작가 포트폴리오 등록' : '작가 포트폴리오 수정'}
+          {mode === ModalMode.ADD ? '샘플 이미지 등록' : '샘플 이미지 수정'}
         </DialogTitle>
         <DialogContent>
           <>
