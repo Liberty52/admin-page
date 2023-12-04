@@ -25,11 +25,11 @@ import {
 
 export const items = [
   {
-    title: 'Overview',
-    path: '/',
+    title: 'Sales',
+    path: SALES,
     icon: (
       <SvgIcon fontSize='small'>
-        <ChartBarIcon />
+        <CurrencyDollarIcon />
       </SvgIcon>
     ),
   },
@@ -102,15 +102,6 @@ export const items = [
     icon: (
       <SvgIcon fontSize='small'>
         <PhotoIcon />
-      </SvgIcon>
-    ),
-  },
-  {
-    title: 'Sales',
-    path: SALES,
-    icon: (
-      <SvgIcon fontSize='small'>
-        <CurrencyDollarIcon />
       </SvgIcon>
     ),
   },
