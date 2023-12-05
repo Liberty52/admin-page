@@ -264,92 +264,98 @@ const Sales = () => {
         }}
       >
         <Container maxWidth='xl'>
-          <Grid container spacing={0}>
-            <Grid xs={12} sm={6} lg={3} style={{ marginTop: '10px', marginRight: '30px' }}>
-              <OverviewTotalProfit sx={{ height: '810px', width: '300px' }} value={totalSales} />
-            </Grid>
-            <Grid xs={12} lg={8}>
-              <div style={{ width: '800px' }}>
-                <Stack direction={'row'} style={{ marginTop: '10px', marginRight: '20px' }}>
-                  <TextField
-                    label='상품 이름'
-                    value={productName}
-                    onChange={textProductName}
-                    style={{ width: '600px' }}
-                  ></TextField>
+          <Stack direction={'row'}>
+            <Grid container spacing={0}>
+              <Grid xs={12} sm={6} lg={3} style={{ marginTop: '10px', marginRight: '30px' }}>
+                <OverviewTotalProfit sx={{ height: '120px', width: '700px' }} value={totalSales} />
+              </Grid>
+              <Stack direction='row'>
+                <Grid xs={12} lg={8}>
+                  <div>
+                    <Stack direction={'row'} style={{ marginTop: '10px', marginRight: '20px' }}>
+                      <TextField
+                        label='상품 이름'
+                        value={productName}
+                        onChange={textProductName}
+                        style={{ width: '875px' }}
+                      ></TextField>
 
-                  <Button
-                    onClick={openDialog}
-                    color={'primary'}
-                    style={{
-                      height: '50px',
-                      marginLeft: '3%',
-                      width: '100px',
-                    }}
-                  >
-                    검색하기
-                  </Button>
-                </Stack>
-                <Stack direction={'row'}>
-                  <div className='datePicker'>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} dateFormats={datePickerUtils}>
-                      <DemoContainer components={['DatePicker']}>
-                        <>
-                          <DatePicker
-                            name='startDate'
-                            label='Start'
-                            format='YYYY-MM-DD'
-                            onChange={(newValue) => {
-                              startDateOption(newValue);
-                            }}
-                          ></DatePicker>
-                          <DatePicker
-                            name='endDate'
-                            label='End'
-                            format='YYYY-MM-DD'
-                            onChange={(newValue) => {
-                              endDateOption(newValue);
-                            }}
-                          />
-                        </>
-                      </DemoContainer>
-                    </LocalizationProvider>
+                      <Button
+                        onClick={openDialog}
+                        color={'primary'}
+                        style={{
+                          height: '50px',
+                          marginLeft: '45px',
+                          width: '140px',
+                        }}
+                      >
+                        검색하기
+                      </Button>
+                    </Stack>
+                    <Stack direction={'row'}>
+                      <div>
+                        <LocalizationProvider
+                          dateAdapter={AdapterDayjs}
+                          dateFormats={datePickerUtils}
+                        >
+                          <DemoContainer components={['DatePicker']}>
+                            <>
+                              <DatePicker
+                                name='startDate'
+                                label='Start'
+                                format='YYYY-MM-DD'
+                                onChange={(newValue) => {
+                                  startDateOption(newValue);
+                                }}
+                              ></DatePicker>
+                              <DatePicker
+                                name='endDate'
+                                label='End'
+                                format='YYYY-MM-DD'
+                                onChange={(newValue) => {
+                                  endDateOption(newValue);
+                                }}
+                              />
+                            </>
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </div>
+
+                      <Button
+                        onClick={dateData}
+                        color={'primary'}
+                        style={{
+                          height: '50px',
+                          marginLeft: '46px',
+                          marginTop: '10px',
+                          width: '100px',
+                        }}
+                      >
+                        설정하기
+                      </Button>
+                    </Stack>
                   </div>
+                  <div style={{ paddingLeft: '1px', marginBottom: '50px' }}>
+                    <Bar data={chartData2} options={chartOptions} />
 
-                  <Button
-                    onClick={dateData}
-                    color={'primary'}
-                    style={{
-                      height: '50px',
-                      marginLeft: '24px',
-                      marginTop: '10px',
-                      width: '100px',
-                    }}
-                  >
-                    설정하기
-                  </Button>
-                </Stack>
-              </div>
+                    <Bar data={chartData} options={chartOptions} />
+                  </div>
+                </Grid>
+                <Grid xs={12} md={6} lg={4}></Grid>
+              </Stack>
 
-              <div style={{ paddingLeft: '12px', marginBottom: '50px' }}>
-                <Bar data={chartData2} options={chartOptions} />
+              <SalesDialog
+                open={open}
+                onClose={closeDialog}
+                productId={selectedId}
+                name={selectedName}
+                products={product}
+                propFunction={highFunction}
+              ></SalesDialog>
 
-                <Bar data={chartData} options={chartOptions} />
-              </div>
+              <Grid xs={12} md={6} lg={4}></Grid>
             </Grid>
-            <Grid xs={12} md={6} lg={4}></Grid>
-
-            <SalesDialog
-              open={open}
-              onClose={closeDialog}
-              productId={selectedId}
-              name={selectedName}
-              products={product}
-              propFunction={highFunction}
-            ></SalesDialog>
-
-            <Grid xs={12} md={6} lg={4}></Grid>
-          </Grid>
+          </Stack>
         </Container>
       </Box>
     </MainContainer>
