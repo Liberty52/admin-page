@@ -17,17 +17,10 @@ import Swal from 'sweetalert2';
 import { modifyLicense } from '../../axios/License';
 import { useEffect } from 'react';
 import { Toast } from '../../utils/Toast';
-import Avatar from 'antd/es/avatar/avatar';
 import { ModalMode } from '../../constants/mode';
+import { Stack } from '@mui/joy';
 
 const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, imageUrl }) => {
-  const [data, setData] = useState({
-    artistName: '',
-    artName: '',
-    stock: '',
-    startDate: '',
-    endDate: '',
-  });
   const [image, setImage] = useState();
   const [imageFile, setImageFile] = useState(imageUrl);
   const [artistName, setArtistName] = useState('');
@@ -61,7 +54,6 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     } catch (err) {
       console.error(err);
     }
-    setData(prevData);
   }
 
   let reader = new FileReader();
@@ -92,36 +84,36 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
     onClose();
   };
   const enrollLicense = () => {
-    switch (data) {
-      case data.artName.length === 0:
-        Toast.fire({
-          icon: 'warning',
-          title: '작품의 이름을 입력해주세요.',
-        });
-        break;
-      case data.artistName.length === 0:
-        Toast.fire({
-          icon: 'warning',
-          title: '작가의 이름을 입력해주세요.',
-        });
-        break;
-      case data.stock <= 0:
-        Toast.fire({
-          icon: 'warning',
-          title: '수량을 1이상의 값을 입력해주세요.',
-        });
-        break;
-      default:
-    }
     if (startDate > endDate) {
       alert('시작 날짜가 마지막 날짜보다 뒤에 있습니다. 다시 선택해주세요.');
       return;
+    }
+    if (artName.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '작품의 이름을 입력해주세요.',
+      });
+      return;
+    }
+    if (artistName.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '작가의 이름을 입력해주세요.',
+      });
+      return;
+    }
+    if (stock <= 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '재고를 1이상의 값을 입력해주세요.',
+      });
+      return;
     } else {
-      createLicense(data, image)
+      createLicense({ artistName, artName, stock, startDate, endDate }, image)
         .then(() => {
           Swal.fire({
             title: '라이센스 등록에 성공했습니다!',
-            text: `행사 기간은: ${data.startDate} ~ ${data.endDate}까지 입니다`,
+            text: `행사 기간은: ${startDate} ~ ${endDate}까지 입니다`,
             icon: 'success',
           }).then(() => getLicenses());
           onClose();
@@ -213,107 +205,64 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
 
   const startDateOption = (date) => {
     const formattedDate = dayjs(date).format(datePickerFormat);
-    setData((data) => ({
-      ...data,
-      startDate: formattedDate,
-    }));
     setStartDate(formattedDate);
   };
 
   const endDateOption = (date) => {
     const formattedDate = dayjs(date).format(datePickerFormat);
-    setData((data) => ({
-      ...data,
-      endDate: formattedDate,
-    }));
     setEndDate(formattedDate);
   };
 
   const textChangeArtistName = (e) => {
     setArtistName(e.target.value);
-    setData({ ...data, [e.target.name]: e.target.value });
   };
   const textChangeArtName = (e) => {
     setArtName(e.target.value);
-    setData({ ...data, [e.target.name]: e.target.value });
   };
   const textChangeStock = (e) => {
     setStock(e.target.value);
-    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {mode === ModalMode.ADD ? '작가 포토폴리오 등록' : '작가 포트폴리오 수정'}
+          {mode === ModalMode.ADD ? '샘플 이미지 등록' : '샘플 이미지 수정'}
         </DialogTitle>
         <DialogContent>
           <>
-            {mode === ModalMode.ADD ? (
-              <>
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='artistName'
-                  label='작가 이름'
-                  fullWidth
-                  variant='outlined'
-                  onChange={textChangeArtistName}
-                />
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='artName'
-                  label='작품 이름'
-                  fullWidth
-                  variant='outlined'
-                  onChange={textChangeArtName}
-                />
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='stock'
-                  label='수량'
-                  fullWidth
-                  variant='outlined'
-                  onChange={textChangeStock}
-                />
-              </>
-            ) : (
-              <>
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='artistName'
-                  label='작가 이름'
-                  fullWidth
-                  variant='outlined'
-                  value={artistName}
-                  onChange={textChangeArtistName}
-                />
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='artName'
-                  label='작품 이름'
-                  fullWidth
-                  variant='outlined'
-                  value={artName}
-                  onChange={textChangeArtName}
-                />
-                <TextField
-                  autoFocus
-                  margin='dense'
-                  name='stock'
-                  label='수량'
-                  fullWidth
-                  variant='outlined'
-                  value={stock}
-                  onChange={textChangeStock}
-                />
-              </>
-            )}
+            <>
+              <TextField
+                autoFocus
+                margin='dense'
+                name='artistName'
+                label='작가 이름'
+                fullWidth
+                variant='outlined'
+                value={artistName}
+                onChange={textChangeArtistName}
+              />
+              <TextField
+                autoFocus
+                margin='dense'
+                name='artName'
+                label='작품 이름'
+                fullWidth
+                variant='outlined'
+                value={artName}
+                onChange={textChangeArtName}
+              />
+              <TextField
+                autoFocus
+                margin='dense'
+                name='stock'
+                label='수량'
+                fullWidth
+                variant='outlined'
+                value={stock}
+                onChange={textChangeStock}
+              />
+            </>
           </>
 
           <LocalizationProvider dateAdapter={AdapterDayjs} dateFormats={datePickerUtils}>
@@ -364,9 +313,17 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
               )}
             </DemoContainer>
           </LocalizationProvider>
-          {mode === ModalMode.ADD ? (
-            <>
-              <img src={imageFile} alt='' style={{ maxWidth: '150px' }}></img>
+          <>
+            <img
+              src={imageFile}
+              alt=''
+              styled={{ maxWidth: '100px' }}
+              object-fit='cover'
+              resizeMode='cover'
+              className='image'
+            ></img>
+
+            <Stack direction={'row'} justifyContent={'flex-start'} spacing={1} marginTop={2}>
               <Button variant='contained' component='label'>
                 Upload File
                 <input
@@ -377,31 +334,8 @@ const LicenseDialog = ({ open, onClose, getLicenses, mode, licenseImageId, image
                   onChange={(e) => onHandleChangeImage(e)}
                 />
               </Button>
-            </>
-          ) : (
-            <>
-              <Button></Button>
-              <>
-                <input
-                  type='file'
-                  style={{ display: 'none' }}
-                  accept='image/*'
-                  name='ImageFile'
-                  onChange={ImageChange}
-                  ref={fileInput}
-                />
-                <Avatar
-                  src={imageFile}
-                  style={{ margin: '20px' }}
-                  size={200}
-                  onClick={() => {
-                    fileInput.current.click();
-                  }}
-                />
-              </>
-              <img src={image} alt='' style={{ maxWidth: '200px' }}></img>
-            </>
-          )}
+            </Stack>
+          </>
         </DialogContent>
         <DialogActions>
           {mode === ModalMode.ADD ? (

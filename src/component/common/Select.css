@@ -25,3 +25,7 @@
   border-color: black;
   box-shadow: 0 0 4px gray;
 }
+
+.datePicker {
+  width: 600px;
+}

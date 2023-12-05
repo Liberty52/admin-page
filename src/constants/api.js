@@ -62,7 +62,7 @@ export const PRODUCT_OPTION_LIST = (productId, onSale) =>
 export const ADD_PRODUCT_OPTION = (productId) => `/admin/productOption/${productId}`;
 export const UPDATE_PRODUCT_OPTION = (optionId) => `/admin/productOption/${optionId}`;
 export const CHANGE_PRODUCT_ON_SALE = (optionId) => `/admin/productOptionOnSale/${optionId}`;
-
+export const UPDATE_ORDER = () => `/admin/product/order`;
 export const ADD_PRODUCT_OPTION_DETAIL = (optionId) => `/admin/optionDetail/${optionId}`;
 export const CHANGE_PRODUCT_OPTION_DETAIL_ON_SALE = (optionDetailId) =>
   `/admin/optionDetailOnSale/${optionDetailId}`;
@@ -119,3 +119,7 @@ export const RETRIEVE_LICENSE_OPTION_LIST = (productId, onSale) =>
 export const PATCH_PRODUCT = (productId) => `/admin/product/${productId}`;
 // 상품을 삭제하는 api
 export const DELETE_PRODUCT = (productId) => `/admin/product/${productId}`;
+
+//매출 api
+export const TOTAL_SALES = () => `/admin/sales`;
+export const PRODUCT_INFO = (id) => `/product/products/${id}`;

@@ -1,25 +1,25 @@
 import { Button, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
 import Radio from '@mui/material/Radio';
 import { Box, FormControlLabel, RadioGroup, TextField } from '@mui/material';
-import { useState,useRef } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
+import { Toast } from '../../utils/Toast';
 
-
-
-const LicenseOption = ({ open, onClose, getProduct }) => {
+const LicenseOption = ({ open, onClose, getProduct, product }) => {
   const [image, setImage] = useState();
   const [data, setData] = useState({
     name: '',
     productState: '',
     price: '',
     isCustom: false,
+    productOrder: '',
   });
-  const [imageSrc, setImageSrc] = useState('');
+  const [imageSrc, setImageSrc] = useState();
   const options = ['선택', '판매중', '품절', '미판매'];
   const onCloseAction = () => {
-    setImageSrc('');
+    setImageSrc();
     onClose();
   };
 
@@ -48,33 +48,69 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
     setData({ ...data, [e.target.name]: stateEnglish(e.target.value) });
   };
   const ImageChange = (event) => {
-
     setImage(event.target.files[0]);
 
     let reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = function (event) {
       setImageSrc(event.target.result);
-    }
+    };
     reader.readAsDataURL(event.target.files[0]);
   };
 
   const addLicense = () => {
     //이름 판매여부 상품사진 가격 커스텀 여부
-    addProduct(data, image)
-      .then(() => {
-        Swal.fire({
-          title: '상품이 추가되었습니다.',
-          icon: 'success',
-        }).then(() => getProduct());
-      })
-      .catch(() => {
-        Swal.fire({
-          title: '상품 추가에 실패하였습니다.',
-          icon: 'error',
-        });
-      });
 
-    onCloseAction();
+    const newProductData = {
+      ...data,
+      productOrder: product.length + 1, // 현재 상품 목록의 길이 + 1
+    };
+    if (newProductData.productState.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '판매상태를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (newProductData.name.length === 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '상품 이름을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (newProductData.price <= 0) {
+      Toast.fire({
+        icon: 'warning',
+        title: '가격을 1이상의 값을 입력해주세요.',
+      });
+      return;
+    }
+    if (image === undefined) {
+      Toast.fire({
+        icon: 'warning',
+        title: '이미지를 추가해주세요',
+      });
+      return;
+    } else {
+      addProduct(newProductData, image)
+        .then(() => {
+          // 상품 목록 상태 업데이트;
+          Swal.fire({
+            title: '상품이 추가되었습니다.',
+            icon: 'success',
+          }).then(() => getProduct());
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '상품 추가에 실패하였습니다.',
+            icon: 'error',
+          });
+        });
+
+      onCloseAction();
+    }
   };
 
   return (
@@ -154,21 +190,25 @@ const LicenseOption = ({ open, onClose, getProduct }) => {
           variant='outlined'
           onChange={(e) => handleChange(e)}
         />
+
         <>
-          <img src={imageSrc} alt='' style={{maxWidth:"200px"}}></img>
+          <img
+            src={imageSrc}
+            alt=''
+            styled={{ maxWidth: '100px' }}
+            object-fit='cover'
+            resizeMode='cover'
+            className='image'
+          ></img>
+
+          <Stack direction={'row'} justifyContent={'flex-start'} spacing={1} marginTop={2}>
+            <Button component='label'>
+              Upload File
+              <input type='file' accept='image/*' name='image' hidden onChange={ImageChange} />
+            </Button>
+          </Stack>
         </>
 
-        <Button component='label'>
-          Upload File
-          <input
-            type='file'
-            accept='image/*'
-            name='image'
-            hidden
-            onChange={ ImageChange}
-          />
-        </Button>
-        
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={addLicense}>추가하기</Button>
           <Button onClick={onCloseAction} color={'danger'}>

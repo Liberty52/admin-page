@@ -15,8 +15,10 @@
     "@testing-library/user-event": "^13.5.0",
     "@toast-ui/react-editor": "^3.2.3",
     "antd": "^5.5.1",
+    "apexcharts": "^3.44.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
+    "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "draft-js": "^0.11.7",
@@ -25,7 +27,9 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.7.4",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-media": "^1.10.0",
@@ -62,6 +66,8 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^3.1.0"
+    "@types/styled-components": "^5.1.29",
+    "prettier": "^3.1.0",
+    "typescript": "^5.1.6"
   }
 }

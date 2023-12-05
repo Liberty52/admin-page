@@ -74,7 +74,7 @@ function OrderImage({ product }) {
       <h2>배경 이미지</h2>
       <div>
         <img
-          src={product.productUrl}
+          src={product.custom ? product.productUrl : product.licenseArtUrl}
           alt={product.name}
           onClick={() => window.open(product.productUrl, '_blank')}
         />
@@ -101,24 +101,40 @@ function OrderInquiry() {
     </div>
   );
 }
+
 function OrderInquiryDetail({ order }) {
   return (
     <>
       {order.products.map((product, index) => (
-        <div key={index}>
-          <div className='Inquiry-Delivery-wrapper'>
+        <>
+          <div key={`wrapper-${index}`} className='Inquiry-Delivery-wrapper'>
             <div>{product.name}</div>
             <div>{product.price}원</div>
             <div>{order.deliveryFee}원</div>
             <div>{product.quantity}</div>
             <div>{product.price * product.quantity}원</div>
           </div>
-          <OrderImage product={product} />
-        </div>
+          <OrderOptionInquiry key={`options-${index}`} options={product.options} />
+          <OrderImage key={`image-${index}`} product={product} />
+        </>
       ))}
     </>
   );
 }
+
+function OrderOptionInquiry({ options }) {
+  return (
+    <div className='Inquiry-Option-wrapper'>
+      <h2>옵션</h2>
+      <div className='options'>
+        {options.map((option, index) => {
+          return <div key={option}>{option}</div>;
+        })}
+      </div>
+    </div>
+  );
+}
+
 function OrderInquiryDelivery({ order }) {
   return (
     <div className='Inquiry-Delivery-small-wrapper'>
@@ -197,19 +213,23 @@ function OrderDestination({ order }) {
 function OrderDelivery({ order }) {
   return (
     <>
-      <div className="grid">
+      <div className='grid'>
         <div className='Order-common'>택배사 이름</div>
         <div className='Order-common'>{order.orderDelivery?.name}</div>
       </div>
-      <div className="grid">
+      <div className='grid'>
         <div className='Order-common'>운송장번호</div>
         <div className='Order-common'>{order.orderDelivery?.trackingNumber}</div>
       </div>
-      <Button 
+      <Button
         text='배송조회'
         onClick={() => {
-          const popup = window.open("about:blank", "배송조회", "width=500,height=700,top=100,left=100");
-          fetchRealTimeDeliveryInfo(order, popup)
+          const popup = window.open(
+            'about:blank',
+            '배송조회',
+            'width=500,height=700,top=100,left=100',
+          );
+          fetchRealTimeDeliveryInfo(order, popup);
         }}
       ></Button>
     </>
@@ -354,9 +374,7 @@ export default function OrderDetail() {
           <OrderInquiryDelivery2 order={order} />
           <OrderPerson order={order} />
           <OrderDestination order={order} />
-          {order.orderDelivery !== null ? (
-            <OrderDelivery order={order} />
-          ) : (<></>)}
+          {order.orderDelivery !== null ? <OrderDelivery order={order} /> : <></>}
           <OrderPayment order={order} />
           <ReOrderDetail />
         </div>

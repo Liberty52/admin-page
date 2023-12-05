@@ -44,3 +44,10 @@
   background: white;
   color: gray;
 }
+
+.image {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  margin-top: 10px;
+}

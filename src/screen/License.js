@@ -48,7 +48,7 @@ const License = () => {
             justifyContent={'space-between'}
             alignItems={'center'}
           >
-            <ProductTitle>라이센스</ProductTitle>
+            <ProductTitle>샘플 이미지</ProductTitle>
             <ProductAddButtonWrapper>
               <ControlPointIcon
                 onClick={() => {

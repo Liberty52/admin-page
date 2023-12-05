@@ -1,6 +1,6 @@
 import { Button, Grid, Input, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
 import Checkbox from '@mui/joy/Checkbox';
-
+import { Dialog } from '@mui/material';
 import { ModalMode } from '../../constants/mode';
 import { useEffect, useState, useRef } from 'react';
 import { ProductOptionModalTitle } from './styled/Product';
@@ -218,7 +218,7 @@ export default function LicenseOptionDetailModal({
   };
 
   return (
-    <Modal
+    <Dialog
       aria-labelledby='modal-title'
       aria-describedby='modal-desc'
       open={open}
@@ -236,16 +236,6 @@ export default function LicenseOptionDetailModal({
           boxShadow: 'lg',
         }}
       >
-        <ModalClose
-          variant='outlined'
-          sx={{
-            top: 'calc(-1/4 * var(--IconButton-size))',
-            right: 'calc(-1/4 * var(--IconButton-size))',
-            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-            borderRadius: '50%',
-            bgcolor: 'background.body',
-          }}
-        />
         <ProductOptionModalTitle>
           {mode === ModalMode.ADD ? '라이선스 옵션 항목 추가' : '라이선스 옵션 항목 수정'}
         </ProductOptionModalTitle>
@@ -359,19 +349,30 @@ export default function LicenseOptionDetailModal({
               </Grid>
             </Grid>
           )}
-          <img src={imageSrc} alt='' width='35%'></img>
+
           <>
-            <Button component='label'>
-              Upload File
-              <input
-                type='file'
-                accept='image/*'
-                name='image'
-                hidden
-                ref={fileInput}
-                onChange={(e) => onHandleChangeImage(e)}
-              />
-            </Button>
+            <img
+              src={imageSrc}
+              alt=''
+              styled={{ maxWidth: '100px' }}
+              object-fit='cover'
+              resizeMode='cover'
+              className='image'
+            ></img>
+
+            <Stack direction={'row'} justifyContent={'flex-start'} spacing={1} marginTop={2}>
+              <Button component='label'>
+                Upload File
+                <input
+                  type='file'
+                  accept='image/*'
+                  name='image'
+                  hidden
+                  ref={fileInput}
+                  onChange={(e) => onHandleChangeImage(e)}
+                />
+              </Button>
+            </Stack>
           </>
         </div>
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
@@ -381,6 +382,6 @@ export default function LicenseOptionDetailModal({
           </Button>
         </Stack>
       </Sheet>
-    </Modal>
+    </Dialog>
   );
 }

@@ -70,20 +70,18 @@ export default function ProductDetail() {
             <ProductDetailName>{product.name}</ProductDetailName>
           </Stack>
           <div>
-            <CardDetailImage
-              src={product.pictureUrl}
-            />
-              <Stack>
-                <LicenseTable
-                  name={product.name}
-                  price={product.price}
-                  nOfRating={product.ratingCount}
-                  state={product.state}
-                  meanRate={product.meanRating}
-                  custom={product.custom}
-                  getProductDetail={getProductDetail}
-                />
-              </Stack>
+            <CardDetailImage src={product.pictureUrl} />
+            <Stack>
+              <LicenseTable
+                name={product.name}
+                price={product.price}
+                nOfRating={product.ratingCount}
+                state={product.state}
+                meanRate={product.meanRating}
+                custom={product.custom}
+                getProductDetail={getProductDetail}
+              />
+            </Stack>
           </div>
           {/* 사진과 옵션 사이의 공간 설정*/}
           <ProductTab
@@ -91,6 +89,7 @@ export default function ProductDetail() {
             setContent={setIntroContent}
             productCustom={product.custom}
           />
+
           <Box />
         </Stack>
       </Box>

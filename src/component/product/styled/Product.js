@@ -157,7 +157,7 @@ export const ProductLicenseOptionItemWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
-  background-color: white; 
+  background-color: white;
 `;
 export const ProductLicenseOptionTitle = styled.div`
   font-size: 20px;
@@ -165,4 +165,9 @@ export const ProductLicenseOptionTitle = styled.div`
   text-align: center;
   text-decoration: ${(props) => (props.iscustom ? 'line-through' : 'none')};
   color: ${(props) => (props.iscustom ? 'rgba(0,0,0,0.3)' : 'black')};
+`;
+export const ImageFit = styled.div`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
 `;
