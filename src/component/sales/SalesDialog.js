@@ -23,31 +23,30 @@ export default function SalesDialog({
   optionDetailId,
   propFunction,
 }) {
-  const [options, setOptions] = useState([]);
-  const [showAll, setShowAll] = useState(false);
   const { frameOption, setFrameOption } = useAppContext();
-  const [additionalPrice, setAdditionalPrice] = useState({});
   const [optionDetail, setOptionDetail] = useState({});
   const [productInfo, setProductInfo] = useState({});
   const [price, setPrice] = useState(0);
-  const [check, setCheck] = useState(false);
   const [optionId, setOptionId] = useState('');
-  const [optionName, setOptionName] = useState('');
+  const [productIdState, setProductIdState] = useState([]);
 
   const handleClose = () => {
     onClose();
   };
 
   useEffect(() => {
-    retriveProductData();
-    getOptions();
+    // retriveProductData();
   }, []);
 
   const retriveProductData = () => {
-    getProductInfo(productId).then((res) => {
-      setProductInfo(res.data);
-      setPrice(res.data.price);
-    });
+    console.log('ee');
+    console.log(productId);
+    for (const productId of productIdState) {
+      getProductInfo({ productIdState: productId }).then((res) => {
+        setProductInfo(res.data);
+        setPrice(res.data.price);
+      });
+    }
   };
 
   const onHandleChange = (e, option) => {
@@ -67,14 +66,7 @@ export default function SalesDialog({
     propFunction(optionId);
     onClose();
   };
-  const getOptions = async () => {
-    try {
-      const response = await retrieveProductOptionList(productId, !showAll);
-      setOptions(response.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
   const selectOptionDetail = (e) => {
     setOptionDetail(e.target.value);
   };

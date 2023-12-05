@@ -29,3 +29,15 @@
 .datePicker {
   width: 600px;
 }
+
+.selected {
+  width: 500px;
+  height: 60px;
+  border-radius: 5px;
+  border: solid rgb(195, 198, 201);
+  border-width: 1.2px;
+}
+
+.selectedOption {
+  color: blue;
+}

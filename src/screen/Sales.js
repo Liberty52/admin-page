@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { MainContainer } from '../component/common/MainComponent';
 import SideNav from '../component/common/side-nav/SideNav';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
@@ -11,6 +10,7 @@ import { useEffect } from 'react';
 import { getTotalSales, getSpecificSales } from '../axios/Sales';
 import { Button } from '@mui/joy';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { Stack } from '@mui/joy';
 import SalesDialog from '../component/sales/SalesDialog';
 import { retrieveProduct } from '../axios/Product';
@@ -38,71 +38,13 @@ const Sales = () => {
   const [optionDetailId, setOptionDetailId] = useState(null);
   const [defaultOptionDetailId, setDefaultOptionDetailId] = useState();
   const [showAll, setShowAll] = useState(false);
-  const [option, setOption] = useState();
   const month = useState({});
-  const [salesData, setSalesData] = useState([]);
+  const [monthlySalesTest, setMonthlySalesTest] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedId, setSelectedId] = useState();
+  const [selectedName, setSelectedName] = useState();
   const [monthSales, setMonthSales] = useState([]);
-  const [optionProps, setOptionProps] = useState({
-    id: '',
-    optionName: '',
-    require: false,
-    onSale: false,
-  });
 
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: '판매액',
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderWidth: 1,
-        hoverBackgroundColor: 'rgba(75,192,192,0.6)',
-        hoverBorderColor: 'rgba(75,192,192,1)',
-        barThickness: 30,
-        data: [],
-      },
-    ],
-  });
-  const options = {
-    scales: {
-      x: {
-        type: 'category',
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: '기간별 판매액',
-        align: 'start',
-        font: {
-          size: 23,
-        },
-      },
-    },
-  };
-
-  const updateChartData = (data) => {
-    let filteredData = data.monthlySales;
-
-    const updatedChartData = {
-      labels: ['product'],
-      datasets: [
-        {
-          ...chartData.datasets[0],
-          data: filteredData.map((month) => month.salesMoney),
-        },
-      ],
-    };
-    setChartData(updatedChartData);
-  };
-
-  const monthlySales = monthSales || [];
-  //선택한 연도에 대한 데이터 필터링
-  const defaultYearData = monthlySales;
   const salesDataByMonth = {
     '01': { salesMoney: 0, salesQuantity: 0 },
     '02': { salesMoney: 0, salesQuantity: 0 },
@@ -118,31 +60,66 @@ const Sales = () => {
     12: { salesMoney: 0, salesQuantity: 0 },
   };
 
-  if (defaultYearData === null) {
-    salesDataByMonth[month] = {
-      salesMoney: 0,
-      salesQuantity: 0,
-    };
-  } else {
-    defaultYearData.map((monthSales) => {
-      if (monthSales.length === 0) {
-        salesDataByMonth[month] = {
-          salesMoney: 0,
-          salesQuantity: 0,
-        };
-      } else {
-        const { month, salesMoney, salesQuantity } = monthSales;
+  const monthlySales = monthSales || [];
 
-        salesDataByMonth[month] = {
-          salesMoney: salesMoney,
-          salesQuantity: salesQuantity,
-        };
-      }
-    });
-  }
+  const defaultYearData = monthlySales;
+
+  defaultYearData.map((monthSales) => {
+    if (monthSales.length === 0) {
+      salesDataByMonth[month] = {
+        salesMoney: 0,
+        salesQuantity: 0,
+      };
+    } else {
+      const { month, salesMoney, salesQuantity } = monthSales;
+      salesDataByMonth[month] = {
+        salesMoney: salesMoney,
+        salesQuantity: salesQuantity,
+      };
+    }
+  });
+
+  const getTotalSalesProfit = (data) => {
+    monthSalesTotal(data);
+  };
+
+  const monthSalesTotal = (data) => {
+    const monthlySales = [
+      {
+        year: '2023',
+        month: '12',
+        salesMoney: 8000,
+        salesQuantity: 16,
+      },
+    ];
+
+    if (monthlySales === null) {
+      salesDataByMonth[month] = {
+        salesMoney: 0,
+        salesQuantity: 0,
+      };
+    } else {
+      monthlySales.map((monthSales) => {
+        if (monthSales.length === 0) {
+          salesDataByMonth[month] = {
+            salesMoney: 0,
+            salesQuantity: 0,
+          };
+        } else {
+          const { month, salesMoney, salesQuantity } = monthSales;
+
+          salesDataByMonth[month] = {
+            salesMoney: salesMoney,
+            salesQuantity: salesQuantity,
+          };
+        }
+      });
+    }
+  };
 
   useEffect(() => {
     getProduct();
+
     getTotal();
   }, [productId, showAll]);
 
@@ -150,15 +127,11 @@ const Sales = () => {
     try {
       const response = await retrieveProduct();
       setProduct(response.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const getOptions = async () => {
-    try {
-      const response = await retrieveProductOptionList(productId, !showAll);
-      setOption(response.data);
+      setProducts(response.data);
+      const selectedId = response.data.map((p) => p.id);
+      setSelectedId(selectedId);
+      const selectedName = product.map((p) => p.name);
+      setSelectedName(selectedName);
     } catch (e) {
       console.error(e);
     }
@@ -174,20 +147,20 @@ const Sales = () => {
       const prevData = res.data;
       setTotalSales(prevData.totalSalesMoney);
       setMonthSales(prevData.monthlySales);
-      updateChartData(prevData);
+
+      getTotalSalesProfit(prevData.monthlySales);
+      monthSalesTotal(prevData.monthlySales);
+      setMonthlySalesTest(prevData.monthlySales);
     });
   };
 
   const dateData = () => {
     getSpecificSales({ startDate, endDate, productName, optionDetailId }).then((res) => {
       const prevData = res.data;
-      updateChartData(prevData);
-    });
-  };
 
-  const openModal = (product) => {
-    setOpen(true);
-    setIsModalOpen(true);
+      setMonthSales(prevData.monthlySales);
+      setMonthlySalesTest(prevData.monthlySales);
+    });
   };
 
   const openDialog = () => {
@@ -197,6 +170,67 @@ const Sales = () => {
     setOpen(false);
     setIsModalOpen(false);
   };
+  const sortedMonthlySales = monthlySales.sort((a, b) => a.month.localeCompare(b.month));
+  const monthlyData = Array.from({ length: 12 }, (_, index) => {
+    const month = (index + 1).toString().padStart(2, '0');
+    const salesData = sortedMonthlySales.find((sales) => sales.month === month);
+    return salesData ? salesData.salesQuantity : 0;
+  });
+
+  const monthlyDataSales = Array.from({ length: 12 }, (_, index) => {
+    const month = (index + 1).toString().padStart(2, '0');
+    const salesData = sortedMonthlySales.find((sales) => sales.month === month);
+    return salesData ? salesData.salesMoney : 0;
+  });
+
+  const labels = Array.from({ length: 12 }, (_, index) => (index + 1).toString().padStart(2, '0'));
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: '월별 판매액',
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(75,192,192,0.6)',
+        hoverBorderColor: 'rgba(75,192,192,1)',
+        barThickness: 30,
+        data: monthlyDataSales,
+      },
+    ],
+  };
+  const chartData2 = {
+    labels: labels,
+    datasets: [
+      {
+        label: '월별 판매량',
+        backgroundColor: 'rgba(75,192,192,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: monthlyData,
+      },
+    ],
+  };
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+
+    plugins: {
+      title: {
+        display: true,
+        text: '총 상품 판매량',
+        align: 'start',
+        font: {
+          size: 23,
+        },
+      },
+    },
+  };
+
   const datePickerFormat = 'YYYY-MM-DD';
   const datePickerUtils = {
     format: datePickerFormat,
@@ -231,13 +265,12 @@ const Sales = () => {
       >
         <Container maxWidth='xl'>
           <Grid container spacing={0}>
-            <Grid xs={12} sm={6} lg={3}>
-              <OverviewTotalProfit sx={{ height: '975px' }} value={totalSales} />
+            <Grid xs={12} sm={6} lg={3} style={{ marginTop: '10px', marginRight: '30px' }}>
+              <OverviewTotalProfit sx={{ height: '810px', width: '300px' }} value={totalSales} />
             </Grid>
-
             <Grid xs={12} lg={8}>
               <div style={{ width: '800px' }}>
-                <Stack direction={'row'} style={{ marginTop: '10px' }}>
+                <Stack direction={'row'} style={{ marginTop: '10px', marginRight: '20px' }}>
                   <TextField
                     label='상품 이름'
                     value={productName}
@@ -246,7 +279,7 @@ const Sales = () => {
                   ></TextField>
 
                   <Button
-                    onClick={() => openDialog()}
+                    onClick={openDialog}
                     color={'primary'}
                     style={{
                       height: '50px',
@@ -297,54 +330,26 @@ const Sales = () => {
                   </Button>
                 </Stack>
               </div>
-              {monthSales &&
-                monthSales.map((m) => (
-                  <>
-                    <OverviewSales
-                      chartSeries={[
-                        {
-                          name: '올해 판매량',
-                          data: [
-                            salesDataByMonth['01'].salesQuantity,
-                            salesDataByMonth['02'].salesQuantity,
-                            salesDataByMonth['03'].salesQuantity,
-                            salesDataByMonth['04'].salesQuantity,
-                            salesDataByMonth['05'].salesQuantity,
-                            salesDataByMonth['06'].salesQuantity,
-                            salesDataByMonth['07'].salesQuantity,
-                            salesDataByMonth['08'].salesQuantity,
-                            salesDataByMonth['09'].salesQuantity,
-                            salesDataByMonth['10'].salesQuantity,
-                            salesDataByMonth['11'].salesQuantity,
-                            salesDataByMonth['12'].salesQuantity,
-                          ],
-                        },
-                      ]}
-                      sx={{ height: '35%' }}
-                      month={m.month}
-                      data={salesData}
-                    />
-                  </>
-                ))}
+
               <div style={{ paddingLeft: '12px', marginBottom: '50px' }}>
-                <Bar data={chartData} options={options} />
+                <Bar data={chartData2} options={chartOptions} />
+
+                <Bar data={chartData} options={chartOptions} />
               </div>
             </Grid>
             <Grid xs={12} md={6} lg={4}></Grid>
+
+            <SalesDialog
+              open={open}
+              onClose={closeDialog}
+              productId={selectedId}
+              name={selectedName}
+              products={product}
+              propFunction={highFunction}
+            ></SalesDialog>
+
             <Grid xs={12} md={6} lg={4}></Grid>
           </Grid>
-
-          {product &&
-            product.map((p) => {
-              <SalesDialog
-                // open={isModalOpen}
-                // open={open}
-                onClose={closeDialog}
-                productId={p.id}
-                name={p.name}
-                propFunction={highFunction}
-              ></SalesDialog>;
-            })}
         </Container>
       </Box>
     </MainContainer>
