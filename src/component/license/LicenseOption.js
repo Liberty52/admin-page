@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { addProduct } from '../../axios/License';
 import { ProductTitle } from '../../component/product/styled/Product';
 import { Toast } from '../../utils/Toast';
-
+import '../common/Select.css';
 const LicenseOption = ({ open, onClose, getProduct, product }) => {
   const [image, setImage] = useState();
   const [data, setData] = useState({
@@ -36,6 +36,7 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
   const stateEnglish = (value) => {
     if (value && typeof value === 'string') {
       if (value === '판매중') return 'ON_SALE';
@@ -133,15 +134,6 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
         }}
       >
         <ProductTitle>항목</ProductTitle>
-        <div className='product-change-status'>
-          <select onChange={stateChange} key={'품절'} defaultValue={'선택'} name='productState'>
-            {options.map((item) => (
-              <option value={item} key={item} name='productState'>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
         <Box open={open} onClose={onCloseAction} sx={{ display: 'flex', gap: 2 }}>
           <RadioGroup row name='row-radio-buttons-group'>
             <FormControlLabel
@@ -161,7 +153,6 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
             />
           </RadioGroup>
         </Box>
-
         <ModalClose
           variant='outlined'
           sx={{
@@ -172,6 +163,19 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
             bgcolor: 'background.body',
           }}
         />
+        <select
+          className='selected'
+          onChange={stateChange}
+          key={'품절'}
+          defaultValue={'선택'}
+          name='productState'
+        >
+          {options.map((item) => (
+            <option value={item} key={item} className='selectedOption'>
+              {item}
+            </option>
+          ))}
+        </select>
         <TextField
           autoFocus
           margin='dense'
@@ -190,7 +194,6 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
           variant='outlined'
           onChange={(e) => handleChange(e)}
         />
-
         <>
           <img
             src={imageSrc}
@@ -208,7 +211,6 @@ const LicenseOption = ({ open, onClose, getProduct, product }) => {
             </Button>
           </Stack>
         </>
-
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={1} marginTop={2}>
           <Button onClick={addLicense}>추가하기</Button>
           <Button onClick={onCloseAction} color={'danger'}>
