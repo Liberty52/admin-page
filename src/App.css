@@ -13,6 +13,12 @@ body,
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 div,
 span,
 a,
@@ -21,6 +27,15 @@ input,
 th,
 td {
   font-family: 'GmarketSansMedium' !important;
+}
+
+div,
+span,
+a,
+button,
+input,
+th,
+td {
   font-size: 13px;
 }
 
