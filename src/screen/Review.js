@@ -57,12 +57,7 @@ export default function Review() {
           <Stack spacing={3}>
             <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
-                <Typography
-                  sx={{ 'font-family': "'Gothic A1', sans-serif !important;" }}
-                  variant='h4'
-                >
-                  리뷰
-                </Typography>
+                <Typography variant='h4'>리뷰</Typography>
               </Stack>
             </Stack>
             {data?.contents && (
